@@ -14,12 +14,13 @@ This branch only works for **CakePHP3.x** - please use the [Tools plugin version
 
 
 ## What is this plugin for?
-DRY (Don't repeat yourself) AJAX handling
+Basically DRY (Don't repeat yourself) and easy AJAX handling.
 
 ### Key features
 - Auto-handling via view class mapping, write a controller action and make it available both AJAX and non-AJAX.
-- Flash message and redirect support
+- Flash message and redirect support.
 
+See [my article](http://www.dereuromark.de/2014/01/09/ajax-and-cakephp/) for details on the history of this view class and plugin code.
 
 ## Installation & Docs
 
