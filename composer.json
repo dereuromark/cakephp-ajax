@@ -1,0 +1,39 @@
+{
+	"name": "dereuromark/cakephp-ajax",
+	"type": "cakephp-plugin",
+	"description": "A CakePHP plugin that makes working with AJAX a piece of cake.",
+	"keywords": ["cakephp", "plugin", "AJAX", "asynchronous", "view"],
+	"homepage": "https://github.com/dereuromark/cakephp-ajax",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Mark Scherer",
+			"role": "Author",
+			"homepage": "http://www.dereuromark.de"
+		}
+	],
+	"require":{
+		"php": ">=5.4",
+		"cakephp/plugin-installer": "*",
+		"cakephp/cakephp": "3.0.*-dev"
+	},
+	"autoload": {
+		"psr-4": {
+			"Ajax\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Ajax\\Test\\": "tests",
+			"Cake\\Test\\": "vendor/cakephp/cakephp/tests"
+		}
+	},
+	"support":{
+		"source": "https://github.com/dereuromark/cakephp-ajax",
+		"issues": "https://github.com/dereuromark/cakephp-ajax/issues"
+	},
+	"extra": {
+		"installer-name": "Ajax"
+	},
+	"minimum-stability": "dev"
+}
