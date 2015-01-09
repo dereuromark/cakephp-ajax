@@ -1,7 +1,9 @@
 <?php
-namespace Ajax\Template;
+namespace Ajax\View;
 
-use Cake\Controller\Controller;
+use Cake\Network\Request;
+use Cake\Network\Response;
+use Cake\Event\EventManager;
 use Cake\View\View;
 
 /**
@@ -43,13 +45,22 @@ class AjaxView extends View {
 	 */
 	public $layout = false;
 
-	/**
-	 * Constructor
-	 *
-	 * @param Controller $controller
-	 */
-	public function __construct(Controller $controller = null) {
-		parent::__construct($controller);
+    /**
+     * Constructor
+     *
+     * @param \Cake\Network\Request|null $request Request instance.
+     * @param \Cake\Network\Response|null $response Response instance.
+     * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
+     * @param array $viewOptions View options. See View::$_passedVars for list of
+     *   options which get set as class properties.
+     */
+    public function __construct(
+        Request $request = null,
+        Response $response = null,
+        EventManager $eventManager = null,
+        array $viewOptions = []
+    ) {
+		parent::__construct($request, $response, $eventManager, $viewOptions);
 		// Unfortunately, layout gets overwritten via passed Controller attribute
 		if ($this->layout === 'default' || $this->layout === 'ajax') {
 			$this->layout = false;
@@ -58,8 +69,8 @@ class AjaxView extends View {
 			$this->subDir = 'ajax';
 		}
 
-		if (isset($controller->response) && $controller->response instanceof Response) {
-			$controller->response->type('json');
+		if (isset($response)) {
+			$response->type('json');
 		}
 	}
 

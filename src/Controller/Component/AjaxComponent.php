@@ -27,8 +27,6 @@ class AjaxComponent extends Component {
 
 	public $Controller;
 
-	public $components = array('Session');
-
 	public $respondAsAjax = false;
 
 	protected $_defaultConfig = array(
@@ -82,8 +80,8 @@ class AjaxComponent extends Component {
 
 		// Set flash messages to the view
 		if ($this->settings['flashKey']) {
-			$_message = $this->Session->read($this->settings['flashKey']);
-			$this->Session->delete($this->settings['flashKey']);
+			$_message = $this->request->session()->read($this->settings['flashKey']);
+			$this->request->session()->delete($this->settings['flashKey']);
 			$this->Controller->set(compact('_message'));
 		}
 	}

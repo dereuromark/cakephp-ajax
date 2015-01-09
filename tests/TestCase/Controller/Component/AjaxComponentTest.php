@@ -22,6 +22,9 @@ class AjaxComponentTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
+
+		Configure::write('App.namespace', 'TestApp');
+
 		Configure::delete('Ajax');
 
 		$this->Controller = new AjaxComponentTestController(new Request, new Response);
@@ -49,8 +52,8 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->startupProcess();
 		$this->assertTrue($this->Controller->Components->Ajax->respondAsAjax);
 
-		$this->Controller->Session->setFlash('A message', 'custom');
-		$session = $this->Controller->Session->read('Message.flash');
+		$this->Controller->request->session()->setFlash('A message', 'custom');
+		$session = $this->Controller->request->session()->read('Message.flash');
 		$expected = array(
 			'message' => 'A message',
 			'element' => 'custom',
@@ -63,7 +66,7 @@ class AjaxComponentTest extends TestCase {
 		$this->assertEquals('Ajax.Ajax', $this->Controller->viewClass);
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
-		$session = $this->Controller->Session->read('Message.flash');
+		$session = $this->Controller->request->session()->read('Message.flash');
 		$this->assertNull($session);
 
 		$this->Controller->redirect('/');
@@ -124,7 +127,7 @@ class AjaxComponentTest extends TestCase {
 		$this->assertTrue($this->Controller->Components->Ajax->respondAsAjax);
 
 		$this->Controller->Flash->message('A message', 'success');
-		$session = $this->Controller->Session->read('messages');
+		$session = $this->Controller->request->session()->read('messages');
 		$expected = array(
 			'success' => array('A message')
 		);
@@ -135,7 +138,7 @@ class AjaxComponentTest extends TestCase {
 
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
-		$session = $this->Controller->Session->read('messages');
+		$session = $this->Controller->request->session()->read('messages');
 		$this->assertNull($session);
 	}
 

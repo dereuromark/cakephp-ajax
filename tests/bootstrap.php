@@ -28,10 +28,12 @@ require ROOT . '/vendor/autoload.php';
 
 require CAKE . 'Core/ClassLoader.php';
 
+/*
 $loader = new Cake\Core\ClassLoader;
 $loader->register();
 
 $loader->addNamespace('TestApp', ROOT . DS . 'tests' . DS . 'TestApp' . DS);
+*/
 
 Cake\Core\Configure::write('App', [
 		'namespace' => 'App',
@@ -73,9 +75,12 @@ $cache = [
 	]
 ];
 
-Cake\Cache\Cache::config($cache);
+Cake\Core\Configure::write('App.paths', [
+		'templates' => dirname(__FILE__) . DS . 'TestApp' . DS . 'src' . DS . 'Template' . DS
+]);
 
-Cake\Core\Plugin::load('Feed', ['path' => ROOT . DS, 'bootstrap' => true]);
+Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);
+Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS . 'plugins' . DS . 'Tools' . DS, 'bootstrap' => true]);
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {

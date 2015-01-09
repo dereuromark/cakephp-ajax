@@ -18,7 +18,7 @@ use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\TestSuite\TestCase;
 use Ajax\View\AjaxView;
-
+use Cake\Core\Configure;
 
 /**
  * AjaxViewTest
@@ -36,11 +36,9 @@ class AjaxViewTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Ajax = new AjaxView();
+		Configure::write('App.namespace', 'TestApp');
 
-		App::build(array(
-			'View' => array(Plugin::path('Ajax') . 'Test' . DS . 'test_app' . DS . 'View' . DS)
-		), App::RESET);
+		$this->Ajax = new AjaxView();
 	}
 
 	/**
@@ -57,7 +55,7 @@ class AjaxViewTest extends TestCase {
 			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
 		);
 		$Controller->set(array('items' => $items, '_serialize' => array('items')));
-		$View = new AjaxView($Controller);
+		$View = new AjaxView($Request, $Response);
 		$result = $View->render(false);
 
 		$this->assertSame('application/json', $Response->type());
@@ -80,7 +78,7 @@ class AjaxViewTest extends TestCase {
 			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
 		);
 		$Controller->set(array('items' => $items, '_serialize' => 'items'));
-		$View = new AjaxView($Controller);
+		$View = new AjaxView($Request, $Response);
 		$View->viewPath = 'Items';
 		$result = $View->render('index');
 
@@ -104,7 +102,7 @@ class AjaxViewTest extends TestCase {
 			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
 		);
 		$Controller->set(array('error' => 'Some message', 'items' => $items, '_serialize' => array('error', 'items')));
-		$View = new AjaxView($Controller);
+		$View = new AjaxView($Request, $Response);
 		$View->viewPath = 'Items';
 		$result = $View->render('index');
 
@@ -123,7 +121,7 @@ class AjaxViewTest extends TestCase {
 		$Request = new Request();
 		$Response = new Response();
 		$Controller = new Controller($Request, $Response);
-		$View = new AjaxView($Controller);
+		$View = new AjaxView($Request, $Response);
 		$View->viewPath = 'Items';
 		$View->subDir = false;
 		$result = $View->render('index');
