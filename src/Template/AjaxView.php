@@ -1,5 +1,8 @@
 <?php
-App::uses('View', 'View');
+namespace Ajax\Template;
+
+use Cake\Controller\Controller;
+use Cake\View\View;
 
 /**
  * A view to handle AJAX requests.
@@ -55,7 +58,7 @@ class AjaxView extends View {
 			$this->subDir = 'ajax';
 		}
 
-		if (isset($controller->response) && $controller->response instanceof CakeResponse) {
+		if (isset($controller->response) && $controller->response instanceof Response) {
 			$controller->response->type('json');
 		}
 	}

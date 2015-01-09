@@ -1,6 +1,11 @@
 <?php
 
-App::uses('Component', 'Controller');
+namespace Ajax\Controller\Component;
+
+use Cake\Controller\Component;
+use Cake\Controller\Controller;
+use Cake\Core\Configure;
+use Cake\Routing\Router;
 
 /**
  * Ajax Component to respond to AJAX requests.
@@ -34,10 +39,10 @@ class AjaxComponent extends Component {
 	/**
 	 * Constructor.
 	 *
-	 * @param ComponentCollection $collection
+	 * @param ComponentRegistry $collection
 	 * @param array $config
 	 */
-	public function __construct(ComponentCollection $collection, $config = array()) {
+	public function __construct(ComponentRegistry $collection, $config = array()) {
 		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
 		$config += $defaults;
 		parent::__construct($collection, $config);

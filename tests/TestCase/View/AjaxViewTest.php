@@ -9,17 +9,22 @@
  * @author        Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
+namespace Ajax\Test\TestCase\View;
 
-App::uses('Controller', 'Controller');
-App::uses('CakeRequest', 'Network');
-App::uses('CakeResponse', 'Network');
-App::uses('AjaxView', 'Tools.View');
+use Cake\Controller\Controller;
+use Cake\Core\App;
+use Cake\Core\Plugin;
+use Cake\Network\Request;
+use Cake\Network\Response;
+use Cake\TestSuite\TestCase;
+use Tools\View\AjaxView;
+
 
 /**
  * AjaxViewTest
  *
  */
-class AjaxViewTest extends CakeTestCase {
+class AjaxViewTest extends TestCase {
 
 	public $Ajax;
 
@@ -34,7 +39,7 @@ class AjaxViewTest extends CakeTestCase {
 		$this->Ajax = new AjaxView();
 
 		App::build(array(
-			'View' => array(CakePlugin::path('Tools') . 'Test' . DS . 'test_app' . DS . 'View' . DS)
+			'View' => array(Plugin::path('Tools') . 'Test' . DS . 'test_app' . DS . 'View' . DS)
 		), App::RESET);
 	}
 
@@ -44,8 +49,8 @@ class AjaxViewTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSerialize() {
-		$Request = new CakeRequest();
-		$Response = new CakeResponse();
+		$Request = new Request();
+		$Response = new Response();
 		$Controller = new Controller($Request, $Response);
 		$items = array(
 			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
@@ -67,8 +72,8 @@ class AjaxViewTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testRenderWithSerialize() {
-		$Request = new CakeRequest();
-		$Response = new CakeResponse();
+		$Request = new Request();
+		$Response = new Response();
 		$Controller = new Controller($Request, $Response);
 		$items = array(
 			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
@@ -91,8 +96,8 @@ class AjaxViewTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testError() {
-		$Request = new CakeRequest();
-		$Response = new CakeResponse();
+		$Request = new Request();
+		$Response = new Response();
 		$Controller = new Controller($Request, $Response);
 		$items = array(
 			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
@@ -115,8 +120,8 @@ class AjaxViewTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testWithoutSubdir() {
-		$Request = new CakeRequest();
-		$Response = new CakeResponse();
+		$Request = new Request();
+		$Response = new Response();
 		$Controller = new Controller($Request, $Response);
 		$View = new AjaxView($Controller);
 		$View->viewPath = 'Items';

@@ -1,22 +1,31 @@
 <?php
 
-App::uses('AjaxComponent', 'Tools.Controller/Component');
-App::uses('Component', 'Controller');
-App::uses('Controller', 'Controller');
-App::uses('AppModel', 'Model');
+namespace Ajax\Test\TestCase\Controller\Component;
+
+use App\Model\AppModel;
+use Cake\Controller\Component;
+use Cake\Controller\Controller;
+use Cake\Core\Configure;
+use Cake\Routing\Router;
+use Cake\TestSuite\TestCase;
+use Tools\Controller\Component\AjaxComponent;
 
 /**
  */
-class AjaxComponentTest extends CakeTestCase {
+class AjaxComponentTest extends TestCase {
 
-	public $fixtures = array('core.cake_session', 'plugin.tools.tools_user', 'plugin.tools.role');
+	public $fixtures = array(
+		'core.Sessions',
+		'plugin.Ajax.Users',
+		'plugin.Ajax.Roles'
+	);
 
 	public function setUp() {
 		parent::setUp();
 		Configure::delete('Ajax');
 
-		$this->Controller = new AjaxComponentTestController(new CakeRequest, new CakeResponse);
-		$this->Controller->constructClasses();
+		$this->Controller = new AjaxComponentTestController(new Request, new Response);
+		$this->Controller->initialize();
 	}
 
 	/**
