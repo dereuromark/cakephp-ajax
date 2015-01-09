@@ -1,9 +1,12 @@
 <?php
+namespace Ajax\Test\Fixture;
+
+use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * Users Fixture
  */
-class UsersFixture extends CakeTestFixture {
+class UsersFixture extends TestFixture {
 
 	/**
 	 * Fields
@@ -11,10 +14,11 @@ class UsersFixture extends CakeTestFixture {
 	 * @var array
 	 */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false),
-		'password' => array('type' => 'string', 'null' => false),
-		'role_id' => array('type' => 'integer', 'null' => true),
+		'id' => ['type' => 'integer'],
+		'name' => ['type' => 'string', 'null' => false],
+		'password' => ['type' => 'string', 'null' => false],
+		'role_id' => ['type' => 'integer', 'null' => true],
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
 	);
 
 	/**

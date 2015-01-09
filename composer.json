@@ -17,6 +17,9 @@
 		"cakephp/plugin-installer": "*",
 		"cakephp/cakephp": "3.0.*-dev"
 	},
+	"require-dev":{
+		"dereuromark/cakephp-tools": "dev-cake3"
+	},
 	"autoload": {
 		"psr-4": {
 			"Ajax\\": "src"

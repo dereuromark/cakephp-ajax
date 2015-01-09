@@ -17,7 +17,7 @@ use Cake\Core\Plugin;
 use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\TestSuite\TestCase;
-use Tools\View\AjaxView;
+use Ajax\View\AjaxView;
 
 
 /**
@@ -39,7 +39,7 @@ class AjaxViewTest extends TestCase {
 		$this->Ajax = new AjaxView();
 
 		App::build(array(
-			'View' => array(Plugin::path('Tools') . 'Test' . DS . 'test_app' . DS . 'View' . DS)
+			'View' => array(Plugin::path('Ajax') . 'Test' . DS . 'test_app' . DS . 'View' . DS)
 		), App::RESET);
 	}
 
