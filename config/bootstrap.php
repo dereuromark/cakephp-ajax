@@ -1,4 +1,4 @@
 <?php
 use Cake\Routing\Router;
 
-Router::extensions(['rss']);
+//Router::extensions(['json']);
