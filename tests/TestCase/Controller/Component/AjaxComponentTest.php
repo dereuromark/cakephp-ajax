@@ -11,6 +11,7 @@ use Cake\TestSuite\TestCase;
 use Ajax\Controller\Component\AjaxComponent;
 use Cake\Network\Request;
 use Cake\Network\Response;
+use Cake\Event\Event;
 
 /**
  */
@@ -38,7 +39,7 @@ class AjaxComponentTest extends TestCase {
 	 */
 	public function testNonAjax() {
 		$this->Controller->startupProcess();
-		$this->assertFalse($this->Controller->Components->Ajax->respondAsAjax);
+		$this->assertFalse($this->Controller->components()->Ajax->respondAsAjax);
 	}
 
 	/**
@@ -50,7 +51,7 @@ class AjaxComponentTest extends TestCase {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
 		$this->Controller->startupProcess();
-		$this->assertTrue($this->Controller->Components->Ajax->respondAsAjax);
+		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
 
 		$this->Controller->request->session()->setFlash('A message', 'custom');
 		$session = $this->Controller->request->session()->read('Message.flash');
@@ -61,7 +62,8 @@ class AjaxComponentTest extends TestCase {
 		);
 		$this->assertEquals($expected, $session);
 
-		$this->Controller->Components->Ajax->beforeRender($this->Controller);
+		$event = new Event();
+		$this->Controller->components()->Ajax->beforeRender($event);
 
 		$this->assertEquals('Ajax.Ajax', $this->Controller->viewClass);
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
@@ -88,11 +90,11 @@ class AjaxComponentTest extends TestCase {
 	public function testAutoDetectOnFalse() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-		$this->Controller->Components->unload('Ajax');
-		$this->Controller->Components->load('Ajax.Ajax', array('autoDetect' => false));
+		$this->Controller->components()->unload('Ajax');
+		$this->Controller->components()->load('Ajax.Ajax', array('autoDetect' => false));
 
 		$this->Controller->startupProcess();
-		$this->assertFalse($this->Controller->Components->Ajax->respondAsAjax);
+		$this->assertFalse($this->Controller->components()->Ajax->respondAsAjax);
 	}
 
 	/**
@@ -104,11 +106,11 @@ class AjaxComponentTest extends TestCase {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		Configure::write('Ajax.autoDetect', false);
 
-		$this->Controller->Components->unload('Ajax');
-		$this->Controller->Components->load('Ajax.Ajax');
+		$this->Controller->components()->unload('Ajax');
+		$this->Controller->components()->load('Ajax.Ajax');
 
 		$this->Controller->startupProcess();
-		$this->assertFalse($this->Controller->Components->Ajax->respondAsAjax);
+		$this->assertFalse($this->Controller->components()->Ajax->respondAsAjax);
 	}
 
 	/**
@@ -120,11 +122,11 @@ class AjaxComponentTest extends TestCase {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		Configure::write('Ajax.flashKey', 'messages');
 
-		$this->Controller->Components->unload('Ajax');
-		$this->Controller->Components->load('Ajax.Ajax');
+		$this->Controller->components()->unload('Ajax');
+		$this->Controller->components()->load('Ajax.Ajax');
 
 		$this->Controller->startupProcess();
-		$this->assertTrue($this->Controller->Components->Ajax->respondAsAjax);
+		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
 
 		$this->Controller->Flash->message('A message', 'success');
 		$session = $this->Controller->request->session()->read('messages');
@@ -133,7 +135,8 @@ class AjaxComponentTest extends TestCase {
 		);
 		$this->assertEquals($expected, $session);
 
-		$this->Controller->Components->Ajax->beforeRender($this->Controller);
+		$event = new Event();
+		$this->Controller->components()->Ajax->beforeRender($event);
 		$this->assertEquals('Ajax.Ajax', $this->Controller->viewClass);
 
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
@@ -150,13 +153,13 @@ class AjaxComponentTest extends TestCase {
 	public function testSetVars() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-		$this->Controller->Components->unload('Ajax');
+		$this->Controller->components()->unload('Ajax');
 
 		$content = array('id' => 1, 'title' => 'title');
 		$this->Controller->set(compact('content'));
 		$this->Controller->set('_serialize', array('content'));
 
-		$this->Controller->Components->load('Ajax.Ajax');
+		$this->Controller->components()->load('Ajax.Ajax');
 		$this->assertNotEmpty($this->Controller->viewVars);
 		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
 		$this->assertEquals('content', $this->Controller->viewVars['_serialize'][0]);
@@ -198,6 +201,6 @@ class AjaxComponentTest extends TestCase {
 // Use Controller instead of AppController to avoid conflicts
 class AjaxComponentTestController extends Controller {
 
-	public $components = array('Session', 'Ajax.Ajax', 'Tools.Flash');
+	public $components = array('Ajax.Ajax', 'Tools.Flash');
 
 }

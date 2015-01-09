@@ -49,13 +49,12 @@ class AjaxViewTest extends TestCase {
 	public function testSerialize() {
 		$Request = new Request();
 		$Response = new Response();
-		$Controller = new Controller($Request, $Response);
 		$items = array(
 			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
 			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
 		);
-		$Controller->set(array('items' => $items, '_serialize' => array('items')));
 		$View = new AjaxView($Request, $Response);
+		$View->set(array('items' => $items, '_serialize' => array('items')));
 		$result = $View->render(false);
 
 		$this->assertSame('application/json', $Response->type());
@@ -72,13 +71,12 @@ class AjaxViewTest extends TestCase {
 	public function testRenderWithSerialize() {
 		$Request = new Request();
 		$Response = new Response();
-		$Controller = new Controller($Request, $Response);
 		$items = array(
 			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
 			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
 		);
-		$Controller->set(array('items' => $items, '_serialize' => 'items'));
 		$View = new AjaxView($Request, $Response);
+		$View->set(array('items' => $items, '_serialize' => 'items'));
 		$View->viewPath = 'Items';
 		$result = $View->render('index');
 
@@ -96,13 +94,12 @@ class AjaxViewTest extends TestCase {
 	public function testError() {
 		$Request = new Request();
 		$Response = new Response();
-		$Controller = new Controller($Request, $Response);
 		$items = array(
 			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
 			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
 		);
-		$Controller->set(array('error' => 'Some message', 'items' => $items, '_serialize' => array('error', 'items')));
 		$View = new AjaxView($Request, $Response);
+		$View->set(array('error' => 'Some message', 'items' => $items, '_serialize' => array('error', 'items')));
 		$View->viewPath = 'Items';
 		$result = $View->render('index');
 

@@ -7,6 +7,8 @@ use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
+use Cake\Event\Event;
+use Cake\Network\Response;
 
 /**
  * Ajax Component to respond to AJAX requests.
@@ -47,13 +49,11 @@ class AjaxComponent extends Component {
 		parent::__construct($collection, $config);
 	}
 
-	public function initialize(Controller $Controller) {
-		$this->Controller = $Controller;
-
+	public function initialize(array $config = array()) {
 		if (!$this->settings['autoDetect']) {
 			return;
 		}
-		$this->respondAsAjax = $this->Controller->request->is('ajax');
+		$this->respondAsAjax = $this->request->is('ajax');
 	}
 
 	/**
@@ -63,10 +63,11 @@ class AjaxComponent extends Component {
 	 * @param Controller $controller Controller with components to beforeRender
 	 * @return void
 	 */
-	public function beforeRender(Controller $controller) {
+	public function beforeRender(Event $event) {
 		if (!$this->respondAsAjax) {
 			return;
 		}
+		$this->Controller = $event->getSubject();
 		$this->_respondAsAjax();
 	}
 
@@ -100,33 +101,31 @@ class AjaxComponent extends Component {
 	 *
 	 * @param Controller $controller Controller with components to beforeRedirect
 	 * @param string|array $url Either the string or URL array that is being redirected to.
-	 * @param int $status The status code of the redirect
-	 * @param bool $exit Will the script exit.
-	 * @return array|void Either an array or null.
+	 * @param Response $response
+	 * @return void
 	 */
-	public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true) {
+	public function beforeRedirect(Event $event, $url, Response $response) {
 		if (!$this->respondAsAjax || !$this->settings['resolveRedirect']) {
-			return parent::beforeRedirect($controller, $url, $status, $exit);
+			return;
 		}
 
 		$url = Router::url($url, true);
 
 		if (is_string($status)) {
-			$codes = array_flip($this->response->httpCodes());
+			$codes = array_flip($response->httpCodes());
 			if (isset($codes[$status])) {
 				$status = $codes[$status];
 			}
 		}
 
-		$this->Controller->autoRender = true;
+		//$this->Controller->autoRender = true;
 		$this->Controller->set('_redirect', compact('url', 'status', 'exit'));
 		$serializeKeys = array('_redirect', '_message');
 		if (!empty($this->Controller->viewVars['_serialize'])) {
 			$serializeKeys = array_merge($serializeKeys, $this->Controller->viewVars['_serialize']);
 		}
 		$this->Controller->set('_serialize', $serializeKeys);
-
-		return false;
+		//$event->stopPropagation();
 	}
 
 }
