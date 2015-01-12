@@ -50,7 +50,7 @@ class AjaxComponentTest extends TestCase {
 	public function testDefaults() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-		$this->Controller->startupProcess();
+		$this->Controller->components()->Ajax->initialize();
 		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
 
 		$this->Controller->request->session()->setFlash('A message', 'custom');
