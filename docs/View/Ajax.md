@@ -3,14 +3,14 @@
 A CakePHP view class to make working with AJAX a bit easier.
 
 ## Configs
-First enable JSON extensions.
+First enable JSON extensions if you want to use `json` extension.
 You can either use the included bootstrap file, or add the snippet manually to your own one:
 ```
 Router::extensions(['json']);
 ```
 
 ## Usage
-Using the json extension you can then access your action through the following URL:
+Using the `json` extension you can then access your action through the following URL:
 ```
 /controller/action.json
 ```
@@ -27,7 +27,7 @@ Instead of GET we request it via AJAX:
 ```php
 public function favorites() {
 	$this->request->onlyAllow('ajax');
-	$this->viewClass = 'Ajax.Ajax';
+	$this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
 }
 ```
 
@@ -50,7 +50,7 @@ public function country_provinces_ajax() {
 		throw new NotFoundException();
 	}
 
-	$this->viewClass = 'Ajax.Ajax';
+	$this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
 
 	$countryProvinces = $this->CountryProvince->getListByCountry($id);
 	$this->set(compact('countryProvinces'));
