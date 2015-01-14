@@ -34,7 +34,7 @@ class AjaxComponent extends Component {
 	protected $_defaultConfig = array(
 		'autoDetect' => true,
 		'resolveRedirect' => true,
-		'flashKey' => 'Message.flash' // Use "messages" for Tools plugin Flash component, set to false to disable
+		'flashKey' => 'Flash.flash' // Use "messages" for Tools plugin Flash component, set to false to disable
 	);
 
 	/**
@@ -44,16 +44,18 @@ class AjaxComponent extends Component {
 	 * @param array $config
 	 */
 	public function __construct(ComponentRegistry $collection, $config = array()) {
+		$this->Controller = $collection->getController();
+
 		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
 		$config += $defaults;
 		parent::__construct($collection, $config);
 	}
 
 	public function initialize(array $config = array()) {
-		if (!$this->settings['autoDetect']) {
+		if (!$this->_config['autoDetect']) {
 			return;
 		}
-		$this->respondAsAjax = $this->request->is('ajax');
+		$this->respondAsAjax = $this->Controller->request->is('ajax');
 	}
 
 	/**
@@ -67,7 +69,7 @@ class AjaxComponent extends Component {
 		if (!$this->respondAsAjax) {
 			return;
 		}
-		$this->Controller = $event->getSubject();
+
 		$this->_respondAsAjax();
 	}
 
@@ -77,55 +79,41 @@ class AjaxComponent extends Component {
 	 * @return void
 	 */
 	protected function _respondAsAjax() {
-		$this->Controller->viewClass = 'Tools.Ajax';
+		$this->Controller->viewClass = 'Ajax.Ajax';
 
 		// Set flash messages to the view
-		if ($this->settings['flashKey']) {
-			$_message = $this->request->session()->read($this->settings['flashKey']);
-			$this->request->session()->delete($this->settings['flashKey']);
-			$this->Controller->set(compact('_message'));
+		if ($this->_config['flashKey']) {
+			$message = $this->Controller->request->session()->consume($this->_config['flashKey']);
+			$this->Controller->set('_message', $message);
 		}
 	}
 
 	/**
 	 * Called before Controller::redirect(). Allows you to replace the URL that will
-	 * be redirected to with a new URL. The return of this method can either be an array or a string.
+	 * be redirected to with a new URL.
 	 *
-	 * If the return is an array and contains a 'url' key. You may also supply the following:
-	 *
-	 * - `status` The status code for the redirect
-	 * - `exit` Whether or not the redirect should exit.
-	 *
-	 * If your response is a string or an array that does not contain a 'url' key it will
-	 * be used as the new URL to redirect to.
-	 *
-	 * @param Controller $controller Controller with components to beforeRedirect
+	 * @param Event $event Event
 	 * @param string|array $url Either the string or URL array that is being redirected to.
 	 * @param Response $response
 	 * @return void
 	 */
 	public function beforeRedirect(Event $event, $url, Response $response) {
-		if (!$this->respondAsAjax || !$this->settings['resolveRedirect']) {
+		if (!$this->respondAsAjax || !$this->_config['resolveRedirect']) {
 			return;
 		}
 
 		$url = Router::url($url, true);
 
-		if (is_string($status)) {
-			$codes = array_flip($response->httpCodes());
-			if (isset($codes[$status])) {
-				$status = $codes[$status];
-			}
-		}
+		$status = $response->statusCode();
 
-		//$this->Controller->autoRender = true;
-		$this->Controller->set('_redirect', compact('url', 'status', 'exit'));
+		$this->Controller->autoRender = true;
+		$this->Controller->set('_redirect', compact('url', 'status'));
 		$serializeKeys = array('_redirect', '_message');
 		if (!empty($this->Controller->viewVars['_serialize'])) {
 			$serializeKeys = array_merge($serializeKeys, $this->Controller->viewVars['_serialize']);
 		}
 		$this->Controller->set('_serialize', $serializeKeys);
-		//$event->stopPropagation();
+		$event->stopPropagation();
 	}
 
 }

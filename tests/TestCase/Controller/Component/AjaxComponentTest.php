@@ -26,10 +26,10 @@ class AjaxComponentTest extends TestCase {
 
 		Configure::write('App.namespace', 'TestApp');
 
-		Configure::delete('Ajax');
+		Configure::write('Ajax');
+		Configure::delete('Flash');
 
-		$this->Controller = new AjaxComponentTestController(new Request, new Response);
-		$this->Controller->initialize();
+		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
 	}
 
 	/**
@@ -50,25 +50,28 @@ class AjaxComponentTest extends TestCase {
 	public function testDefaults() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-		$this->Controller->components()->Ajax->initialize();
+		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
+		$this->Controller->components()->load('Flash');
+
 		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
 
-		$this->Controller->request->session()->setFlash('A message', 'custom');
-		$session = $this->Controller->request->session()->read('Message.flash');
+		$this->Controller->components()->Flash->custom('A message');
+		$session = $this->Controller->request->session()->read('Flash.flash');
 		$expected = array(
 			'message' => 'A message',
-			'element' => 'custom',
+			'key' => 'flash',
+			'element' => 'Flash/custom',
 			'params' => array()
 		);
 		$this->assertEquals($expected, $session);
 
-		$event = new Event();
+		$event = new Event('Controller.beforeRender');
 		$this->Controller->components()->Ajax->beforeRender($event);
 
 		$this->assertEquals('Ajax.Ajax', $this->Controller->viewClass);
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
-		$session = $this->Controller->request->session()->read('Message.flash');
+		$session = $this->Controller->request->session()->read('Flash.flash');
 		$this->assertNull($session);
 
 		$this->Controller->redirect('/');
@@ -76,8 +79,7 @@ class AjaxComponentTest extends TestCase {
 
 		$expected = array(
 			'url' => Router::url('/', true),
-			'status' => null,
-			'exit' => true
+			'status' => 200,
 		);
 		$this->assertEquals($expected, $this->Controller->viewVars['_redirect']);
 	}
@@ -89,6 +91,8 @@ class AjaxComponentTest extends TestCase {
 	 */
 	public function testAutoDetectOnFalse() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
 
 		$this->Controller->components()->unload('Ajax');
 		$this->Controller->components()->load('Ajax.Ajax', array('autoDetect' => false));
@@ -106,6 +110,8 @@ class AjaxComponentTest extends TestCase {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		Configure::write('Ajax.autoDetect', false);
 
+		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
+
 		$this->Controller->components()->unload('Ajax');
 		$this->Controller->components()->load('Ajax.Ajax');
 
@@ -120,28 +126,32 @@ class AjaxComponentTest extends TestCase {
 	 */
 	public function testToolsMultiMessages() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
-		Configure::write('Ajax.flashKey', 'messages');
+		Configure::write('Ajax.flashKey', 'FlashMessage');
+
+		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
+		$this->Controller->components()->load('Tools.Flash');
 
 		$this->Controller->components()->unload('Ajax');
 		$this->Controller->components()->load('Ajax.Ajax');
 
+
 		$this->Controller->startupProcess();
 		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
 
-		$this->Controller->Flash->message('A message', 'success');
-		$session = $this->Controller->request->session()->read('messages');
+		$this->Controller->components()->Flash->message('A message', 'success');
+		$session = $this->Controller->request->session()->read('FlashMessage');
 		$expected = array(
 			'success' => array('A message')
 		);
 		$this->assertEquals($expected, $session);
 
-		$event = new Event();
+		$event = new Event('Controller.beforeRender');
 		$this->Controller->components()->Ajax->beforeRender($event);
 		$this->assertEquals('Ajax.Ajax', $this->Controller->viewClass);
 
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
-		$session = $this->Controller->request->session()->read('messages');
+		$session = $this->Controller->request->session()->read('FlashMessage');
 		$this->assertNull($session);
 	}
 
@@ -152,6 +162,8 @@ class AjaxComponentTest extends TestCase {
 	 */
 	public function testSetVars() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
 
 		$this->Controller->components()->unload('Ajax');
 
@@ -172,19 +184,21 @@ class AjaxComponentTest extends TestCase {
 	 */
 	public function testSetVarsWithRedirect() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
 		$this->Controller->startupProcess();
 
 		$content = array('id' => 1, 'title' => 'title');
 		$this->Controller->set(compact('content'));
 		$this->Controller->set('_serialize', array('content'));
 
-		$this->Controller->redirect('/');
+		// Let's try a permanent redirect
+		$this->Controller->redirect('/', 301);
 		$this->assertSame(array(), $this->Controller->response->header());
 
 		$expected = array(
 			'url' => Router::url('/', true),
-			'status' => null,
-			'exit' => true
+			'status' => 301,
 		);
 		$this->assertEquals($expected, $this->Controller->viewVars['_redirect']);
 
@@ -201,6 +215,6 @@ class AjaxComponentTest extends TestCase {
 // Use Controller instead of AppController to avoid conflicts
 class AjaxComponentTestController extends Controller {
 
-	public $components = array('Ajax.Ajax', 'Tools.Flash');
+	public $components = array('Ajax.Ajax');
 
 }
