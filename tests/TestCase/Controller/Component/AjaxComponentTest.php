@@ -79,7 +79,7 @@ class AjaxComponentTest extends TestCase {
 
 		$expected = array(
 			'url' => Router::url('/', true),
-			'status' => 200,
+			'status' => 302,
 		);
 		$this->assertEquals($expected, $this->Controller->viewVars['_redirect']);
 	}
