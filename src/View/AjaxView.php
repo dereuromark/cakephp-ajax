@@ -102,7 +102,7 @@ class AjaxView extends View {
 			$response = $this->_serialize($response, $this->viewVars['_serialize']);
 		}
 		$result = json_encode($response);
-		if (json_last_error() != JSON_ERROR_NONE) {
+		if (json_last_error() !== JSON_ERROR_NONE) {
 			return json_encode(['error' => json_last_error_msg()]);
 		}
 		return $result;
