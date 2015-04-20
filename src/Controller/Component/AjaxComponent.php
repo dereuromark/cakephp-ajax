@@ -105,6 +105,7 @@ class AjaxComponent extends Component {
 		$url = Router::url($url, true);
 
 		$status = $response->statusCode();
+		$response->statusCode(200);
 
 		$this->Controller->autoRender = true;
 		$this->Controller->set('_redirect', compact('url', 'status'));
