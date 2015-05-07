@@ -37,5 +37,6 @@
 	},
 	"extra": {
 		"installer-name": "Ajax"
-	}
+	},
+	"minimum-stability": "dev"
 }
