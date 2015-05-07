@@ -1,5 +1,7 @@
 <?php
-define('DS', DIRECTORY_SEPARATOR);
+require dirname(__DIR__) . '/vendor/cakephp/cakephp/src/basics.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
+
 if (!defined('WINDOWS')) {
 	if (DS == '\\' || substr(PHP_OS, 0, 3) === 'WIN') {
 		define('WINDOWS', true);
@@ -22,18 +24,6 @@ define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
 define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
 
 ini_set('intl.default_locale', 'de-DE');
-
-require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
-require ROOT . '/vendor/autoload.php';
-
-require CAKE . 'Core/ClassLoader.php';
-
-/*
-$loader = new Cake\Core\ClassLoader;
-$loader->register();
-
-$loader->addNamespace('TestApp', ROOT . DS . 'tests' . DS . 'TestApp' . DS);
-*/
 
 Cake\Core\Configure::write('App', [
 		'namespace' => 'App',
@@ -81,26 +71,12 @@ Cake\Core\Configure::write('App.paths', [
 ]);
 
 Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);
-Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS . 'plugins' . DS . 'Tools' . DS, 'bootstrap' => true]);
+//Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS . 'plugins' . DS . 'Tools' . DS, 'bootstrap' => true]);
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
 	putenv('db_class=Cake\Database\Driver\Sqlite');
 	putenv('db_dsn=sqlite::memory:');
-}
-
-if (WINDOWS) {
-	Cake\Datasource\ConnectionManager::config('test', [
-		'className' => 'Cake\Database\Connection',
-		'driver' => 'Cake\Database\Driver\Mysql',
-		'database' => 'cake_test',
-		'username' => 'root',
-		'password' => '',
-		'timezone' => 'UTC',
-		'quoteIdentifiers' => true,
-		'cacheMetadata' => true,
-	]);
-	return;
 }
 
 Cake\Datasource\ConnectionManager::config('test', [

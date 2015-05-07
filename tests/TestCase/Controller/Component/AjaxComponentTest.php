@@ -57,12 +57,12 @@ class AjaxComponentTest extends TestCase {
 
 		$this->Controller->components()->Flash->custom('A message');
 		$session = $this->Controller->request->session()->read('Flash.flash');
-		$expected = array(
+		$expected = [[
 			'message' => 'A message',
 			'key' => 'flash',
 			'element' => 'Flash/custom',
 			'params' => array()
-		);
+		]];
 		$this->assertEquals($expected, $session);
 
 		$event = new Event('Controller.beforeRender');
