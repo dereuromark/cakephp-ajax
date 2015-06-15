@@ -43,7 +43,7 @@ You can add more data to the response object via `_serialize`.
 
 ### Drop down selections
 ```php
-public function country_provinces_ajax() {
+public function countryProvincesAjax() {
 	$this->request->onlyAllow('ajax');
 	$id = $this->request->query('id');
 	if (!$id) {
@@ -62,6 +62,6 @@ public function country_provinces_ajax() {
 I found the following quite useful for your jQuery AJAX code as some browsers might not properly work without it (at least for me it used to).
 ```
 beforeSend: function(xhr) {
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    },
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+},
 ```

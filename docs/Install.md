@@ -33,13 +33,13 @@ Plugin::loadAll(...);
 In case you want the Ajax bootstrap file included (recommended), you can do that in your `ROOT/config/bootstrap.php` with
 
 ```php
-Plugin::load('Ajax', array('bootstrap' => true));
+Plugin::load('Ajax', ['bootstrap' => true]);
 ```
 
 or
 
 ```php
-Plugin::loadAll(array(
-		'Ajax' => array('bootstrap' => true)
-));
+Plugin::loadAll([
+		'Ajax' => ['bootstrap' => true]
+]);
 ```
