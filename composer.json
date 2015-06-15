@@ -17,8 +17,7 @@
 		"cakephp/cakephp": "~3.0"
 	},
 	"require-dev":{
-		"dereuromark/cakephp-tools": "dev-cake3",
-		"dereuromark/cakephp-shim": "dev-master"
+		"dereuromark/cakephp-tools": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
@@ -35,8 +34,5 @@
 	"support":{
 		"source": "https://github.com/dereuromark/cakephp-ajax",
 		"issues": "https://github.com/dereuromark/cakephp-ajax/issues"
-	},
-	"extra": {
-		"installer-name": "Ajax"
 	}
 }
