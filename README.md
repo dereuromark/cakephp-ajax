@@ -26,7 +26,7 @@ You should use composer/packagist now @ https://packagist.org/packages/dereuroma
 
 ```
 "require": {
-	"dereuromark/cakephp-ajax": "dev-master"
+	"dereuromark/cakephp-ajax": "2.x-dev"
 }
 ```
 
