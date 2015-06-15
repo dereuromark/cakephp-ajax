@@ -1,9 +1,9 @@
 {
-	"name": "dereuromark/cakephp-tools",
+	"name": "dereuromark/cakephp-ajax",
 	"type": "cakephp-plugin",
-	"description": "A CakePHP plugin containing lots of useful and reusable tools",
-	"keywords": ["cakephp", "plugin", "tools", "utils", "helpers", "components", "behaviors", "datasources"],
-	"homepage": "https://github.com/dereuromark/cakephp-tools",
+	"description": "A CakePHP plugin that makes working with AJAX a piece of cake.",
+	"keywords": ["cakephp", "plugin", "AJAX", "asynchronous", "view"],
+	"homepage": "https://github.com/dereuromark/cakephp-ajax",
 	"license": "MIT",
 	"authors": [
 		{
@@ -14,16 +14,15 @@
 	],
 	"require": {
 		"php": ">=5.4",
-		"composer/installers": "*",
-		"dereuromark/cakephp-shim": "0.4.*"
+		"composer/installers": "*"
+	},
+	"require-dev": {
+		"dereuromark/cakephp-tools": "0.*"
 	},
 	"support": {
-		"source": "https://github.com/dereuromark/cakephp-tools"
+		"source": "https://github.com/dereuromark/cakephp-ajax"
 	},
 	"extra": {
-		"installer-name": "Tools"
-	},
-	"suggest": {
-		"pelago/emogrifier": "When using InlineCss lib and CSS to inline HTML transformation."
+		"installer-name": "Ajax"
 	}
 }

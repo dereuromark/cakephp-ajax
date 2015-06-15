@@ -7,8 +7,8 @@ php:
 
 env:
   global:
-    - REPO_NAME=cakephp-tools
-    - PLUGIN_NAME=Tools
+    - REPO_NAME=cakephp-ajax
+    - PLUGIN_NAME=Ajax
     - DB=mysql
   matrix:
     - DB=mysql CAKE_VERSION=2.6
@@ -30,12 +30,8 @@ before_script:
   - ln -s ~/.composer/vendor/phpunit/phpunit/PHPUnit Vendor/PHPUnit
   - echo "Configure::write('Security.salt', 'AxcG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');" >> Config/bootstrap.php
   - echo "Configure::write('Security.cipherSeed', '16659201697453542496749683615');" >> Config/bootstrap.php
-  - echo "<?php App::uses('MyModel', 'Tools.Model'); class AppModel extends MyModel {}" > Model/AppModel.php
-  - echo "<?php App::uses('MyController', 'Tools.Controller'); class AppController extends MyController {}" > Controller/AppController.php
-  - echo "<?php App::uses('BaseEmailConfig', 'Tools.Config'); class EmailConfig extends BaseEmailConfig {}" > Config/email.php
-  - echo "Configure::write('Config.adminEmail', 'example@example.org');" >> Config/bootstrap.php
   - cd ..
-  - cp ../cakephp-tools/phpunit.xml app/
+  - cp ../cakephp-ajax/phpunit.xml app/
 
 script:
   - ../travis/script.sh
