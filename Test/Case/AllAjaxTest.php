@@ -17,7 +17,7 @@ class AllAjaxTest extends PHPUnit_Framework_TestSuite {
 
 		$path = dirname(__FILE__);
 		$Suite->addTestDirectory($path . DS . 'Controller' . DS . 'Component');
-		
+
 		return $Suite;
 	}
 
