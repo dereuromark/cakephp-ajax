@@ -1,6 +1,6 @@
 <?php
 /**
- * Tools Plugin - All plugin tests
+ * Ajax Plugin - All plugin tests
  */
 class AllAjaxTest extends PHPUnit_Framework_TestSuite {
 
@@ -10,45 +10,14 @@ class AllAjaxTest extends PHPUnit_Framework_TestSuite {
 	 * @return void
 	 */
 	public static function suite() {
-		$Suite = new CakeTestSuite('All Tools tests');
-
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'Lib');
-
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'Lib' . DS . 'Utility');
-
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'Lib' . DS . 'Misc');
+		$Suite = new CakeTestSuite('All Ajax tests');
 
 		$path = dirname(__FILE__);
 		$Suite->addTestDirectory($path . DS . 'View');
 
 		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'View' . DS . 'Helper');
-
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'Model');
-
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'Model' . DS . 'Behavior');
-
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'Model' . DS . 'Datasource');
-
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'Console' . DS . 'Command');
-
-		$path = dirname(__FILE__);
 		$Suite->addTestDirectory($path . DS . 'Controller' . DS . 'Component');
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'Controller' . DS . 'Component' . DS . 'Auth');
-
-		//$path = dirname(__FILE__);
-		//$Suite->addTestDirectory($path . DS . 'Controller');
-
-		//$path = CakePlugin::path('Tools') . 'Test' . DS . 'Case' . DS;
-		//$Suite->addTestDirectoryRecursive($path);
+		
 		return $Suite;
 	}
 

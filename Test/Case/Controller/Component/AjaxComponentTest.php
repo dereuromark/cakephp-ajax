@@ -1,6 +1,6 @@
 <?php
 
-App::uses('AjaxComponent', 'Tools.Controller/Component');
+App::uses('AjaxComponent', 'Ajax.Controller/Component');
 App::uses('Controller', 'Controller');
 App::uses('AppModel', 'Model');
 App::uses('CakeRequest', 'Network');
@@ -10,7 +10,7 @@ App::uses('CakeResponse', 'Network');
  */
 class AjaxComponentTest extends CakeTestCase {
 
-	public $fixtures = ['core.cake_session', 'plugin.tools.tools_user', 'plugin.tools.role'];
+	public $fixtures = ['core.cake_session'];
 
 	public function setUp() {
 		parent::setUp();
@@ -52,7 +52,7 @@ class AjaxComponentTest extends CakeTestCase {
 
 		$this->Controller->Components->Ajax->beforeRender($this->Controller);
 
-		$this->assertEquals('Tools.Ajax', $this->Controller->viewClass);
+		$this->assertEquals('Ajax.Ajax', $this->Controller->viewClass);
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
 		$session = $this->Controller->Session->read('Message.flash');
@@ -78,7 +78,7 @@ class AjaxComponentTest extends CakeTestCase {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
 		$this->Controller->Components->unload('Ajax');
-		$this->Controller->Components->load('Tools.Ajax', ['autoDetect' => false]);
+		$this->Controller->Components->load('Ajax.Ajax', ['autoDetect' => false]);
 
 		$this->Controller->startupProcess();
 		$this->assertFalse($this->Controller->Components->Ajax->respondAsAjax);
@@ -94,7 +94,7 @@ class AjaxComponentTest extends CakeTestCase {
 		Configure::write('Ajax.autoDetect', false);
 
 		$this->Controller->Components->unload('Ajax');
-		$this->Controller->Components->load('Tools.Ajax');
+		$this->Controller->Components->load('Ajax.Ajax');
 
 		$this->Controller->startupProcess();
 		$this->assertFalse($this->Controller->Components->Ajax->respondAsAjax);
@@ -110,7 +110,7 @@ class AjaxComponentTest extends CakeTestCase {
 		Configure::write('Ajax.flashKey', 'messages');
 
 		$this->Controller->Components->unload('Ajax');
-		$this->Controller->Components->load('Tools.Ajax');
+		$this->Controller->Components->load('Ajax.Ajax');
 
 		$this->Controller->startupProcess();
 		$this->assertTrue($this->Controller->Components->Ajax->respondAsAjax);
@@ -123,7 +123,7 @@ class AjaxComponentTest extends CakeTestCase {
 		$this->assertEquals($expected, $session);
 
 		$this->Controller->Components->Ajax->beforeRender($this->Controller);
-		$this->assertEquals('Tools.Ajax', $this->Controller->viewClass);
+		$this->assertEquals('Ajax.Ajax', $this->Controller->viewClass);
 
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
@@ -145,7 +145,7 @@ class AjaxComponentTest extends CakeTestCase {
 		$this->Controller->set(compact('content'));
 		$this->Controller->set('_serialize', ['content']);
 
-		$this->Controller->Components->load('Tools.Ajax');
+		$this->Controller->Components->load('Ajax.Ajax');
 		$this->assertNotEmpty($this->Controller->viewVars);
 		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
 		$this->assertEquals('content', $this->Controller->viewVars['_serialize'][0]);
@@ -187,6 +187,6 @@ class AjaxComponentTest extends CakeTestCase {
 // Use Controller instead of AppController to avoid conflicts
 class AjaxComponentTestController extends Controller {
 
-	public $components = ['Session', 'Tools.Ajax', 'Tools.Common', 'Tools.Flash'];
+	public $components = ['Session', 'Ajax.Ajax', 'Tools.Common', 'Tools.Flash'];
 
 }

@@ -13,7 +13,7 @@
 App::uses('Controller', 'Controller');
 App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
-App::uses('AjaxView', 'Tools.View');
+App::uses('AjaxView', 'Ajax.View');
 
 /**
  * AjaxViewTest
@@ -34,7 +34,7 @@ class AjaxViewTest extends CakeTestCase {
 		$this->Ajax = new AjaxView();
 
 		App::build([
-			'View' => [CakePlugin::path('Tools') . 'Test' . DS . 'test_app' . DS . 'View' . DS]
+			'View' => [CakePlugin::path('Ajax') . 'Test' . DS . 'test_app' . DS . 'View' . DS]
 		], App::RESET);
 	}
 
