@@ -2,7 +2,7 @@
 /**
  * Tools Plugin - All plugin tests
  */
-class AllToolsTest extends PHPUnit_Framework_TestSuite {
+class AllAjaxTest extends PHPUnit_Framework_TestSuite {
 
 	/**
 	 * Suite method, defines tests for this suite.
