@@ -32,6 +32,7 @@ class AjaxComponent extends Component {
 	public $respondAsAjax = false;
 
 	protected $_defaultConfig = array(
+		'viewClass' => 'Ajax.Ajax',
 		'autoDetect' => true,
 		'resolveRedirect' => true,
 		'flashKey' => 'Flash.flash' // Use "messages" for Tools plugin Flash component, set to false to disable
@@ -79,7 +80,7 @@ class AjaxComponent extends Component {
 	 * @return void
 	 */
 	protected function _respondAsAjax() {
-		$this->Controller->viewClass = 'Ajax.Ajax';
+		$this->Controller->viewClass = $this->_config['viewClass'];
 
 		// Set flash messages to the view
 		if ($this->_config['flashKey']) {
