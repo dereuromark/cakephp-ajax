@@ -1,4 +1,4 @@
-# CakePHP Tools Plugin
+# CakePHP Ajax Plugin
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-ajax.svg?branch=2.x)](https://travis-ci.org/dereuromark/cakephp-ajax)
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-ajax/badge.png?branch=2.x)](https://coveralls.io/r/dereuromark/cakephp-ajax)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-ajax/v/stable.png)](https://packagist.org/packages/dereuromark/cakephp-ajax)
