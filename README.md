@@ -33,4 +33,4 @@ You should use composer/packagist now @ https://packagist.org/packages/dereuroma
 That's it. It should be up and running.
 
 ## Usage
-- [Documentation](docs/README.md)
+- [Documentation](Docs/README.md)
