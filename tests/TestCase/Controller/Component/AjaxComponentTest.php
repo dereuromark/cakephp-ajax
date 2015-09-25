@@ -58,17 +58,19 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->components()->Flash->custom('A message');
 		$session = $this->Controller->request->session()->read('Flash.flash');
 		$expected = [
-			'message' => 'A message',
-			'key' => 'flash',
-			'element' => 'Flash/custom',
-			'params' => array()
+			[
+				'message' => 'A message',
+				'key' => 'flash',
+				'element' => 'Flash/custom',
+				'params' => array()
+			]
 		];
 		$this->assertEquals($expected, $session);
 
 		$event = new Event('Controller.beforeRender');
 		$this->Controller->components()->Ajax->beforeRender($event);
 
-		$this->assertEquals('Ajax.Ajax', $this->Controller->viewClass);
+		$this->assertEquals('Ajax.Ajax', $this->Controller->viewBuilder()->className());
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
 		$session = $this->Controller->request->session()->read('Flash.flash');
@@ -147,7 +149,7 @@ class AjaxComponentTest extends TestCase {
 
 		$event = new Event('Controller.beforeRender');
 		$this->Controller->components()->Ajax->beforeRender($event);
-		$this->assertEquals('Ajax.Ajax', $this->Controller->viewClass);
+		$this->assertEquals('Ajax.Ajax', $this->Controller->viewBuilder()->className());
 
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 

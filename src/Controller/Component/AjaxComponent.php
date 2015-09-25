@@ -80,7 +80,7 @@ class AjaxComponent extends Component {
 	 * @return void
 	 */
 	protected function _respondAsAjax() {
-		$this->Controller->viewClass = $this->_config['viewClass'];
+		$this->Controller->viewBuilder()->className($this->_config['viewClass']);
 
 		// Set flash messages to the view
 		if ($this->_config['flashKey']) {
