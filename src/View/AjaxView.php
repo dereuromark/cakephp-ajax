@@ -27,8 +27,8 @@ class AjaxView extends View {
 	 * @var array
 	 */
 	protected $_passedVars = array(
-			'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
-			'layoutPath', 'viewPath', 'request', 'plugin', 'passedArgs', 'cacheAction', 'subDir'
+		'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
+		'layoutPath', 'plugin', 'passedArgs', 'subDir', 'template', 'templatePath'
 	);
 
 	/**
@@ -61,6 +61,7 @@ class AjaxView extends View {
         array $viewOptions = []
     ) {
 		parent::__construct($request, $response, $eventManager, $viewOptions);
+
 		// Unfortunately, layout gets overwritten via passed Controller attribute
 		if ($this->layout === 'default' || $this->layout === 'ajax') {
 			$this->layout = false;
