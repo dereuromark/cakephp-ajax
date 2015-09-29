@@ -36,7 +36,7 @@ class AjaxView extends View {
 	 *
 	 * @var string
 	 */
-	public $subDir = 'ajax';
+	public $subDir = null;
 
 	/**
 	 * Name of layout to use with this View.
@@ -62,12 +62,9 @@ class AjaxView extends View {
     ) {
 		parent::__construct($request, $response, $eventManager, $viewOptions);
 
-		// Unfortunately, layout gets overwritten via passed Controller attribute
-		if ($this->layout === 'default' || $this->layout === 'ajax') {
-			$this->layout = false;
-		}
 		if ($this->subDir === null) {
 			$this->subDir = 'ajax';
+			$this->templatePath = str_replace(DS . 'json', '', $this->templatePath);
 		}
 
 		if (isset($response)) {
