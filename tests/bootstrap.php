@@ -33,7 +33,7 @@ Cake\Core\Configure::write('debug', true);
 Cake\Core\Configure::write('Config', [
 		'adminEmail' => 'test@example.com',
 		'adminName' => 'Mark']);
-Cake\Mailer\Email::config('default', array('transport' => 'Debug'));
+Cake\Mailer\Email::config('default', ['transport' => 'Debug']);
 Cake\Mailer\Email::configTransport('Debug', [
 		'className' => 'Debug'
 ]);

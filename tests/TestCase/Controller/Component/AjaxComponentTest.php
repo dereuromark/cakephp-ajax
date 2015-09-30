@@ -17,9 +17,9 @@ use Cake\Event\Event;
  */
 class AjaxComponentTest extends TestCase {
 
-	public $fixtures = array(
+	public $fixtures = [
 		'core.Sessions'
-	);
+	];
 
 	public function setUp() {
 		parent::setUp();
@@ -62,7 +62,7 @@ class AjaxComponentTest extends TestCase {
 				'message' => 'A message',
 				'key' => 'flash',
 				'element' => 'Flash/custom',
-				'params' => array()
+				'params' => []
 			]
 		];
 		$this->assertEquals($expected, $session);
@@ -77,12 +77,12 @@ class AjaxComponentTest extends TestCase {
 		$this->assertNull($session);
 
 		$this->Controller->redirect('/');
-		$this->assertSame(array(), $this->Controller->response->header());
+		$this->assertSame([], $this->Controller->response->header());
 
-		$expected = array(
+		$expected = [
 			'url' => Router::url('/', true),
 			'status' => 302,
-		);
+		];
 		$this->assertEquals($expected, $this->Controller->viewVars['_redirect']);
 	}
 
@@ -97,7 +97,7 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
 
 		$this->Controller->components()->unload('Ajax');
-		$this->Controller->components()->load('Ajax.Ajax', array('autoDetect' => false));
+		$this->Controller->components()->load('Ajax.Ajax', ['autoDetect' => false]);
 
 		$this->Controller->startupProcess();
 		$this->assertFalse($this->Controller->components()->Ajax->respondAsAjax);
@@ -142,9 +142,9 @@ class AjaxComponentTest extends TestCase {
 
 		$this->Controller->components()->Flash->message('A message', 'success');
 		$session = $this->Controller->request->session()->read('FlashMessage');
-		$expected = array(
-			'success' => array('A message')
-		);
+		$expected = [
+			'success' => ['A message']
+		];
 		$this->assertEquals($expected, $session);
 
 		$event = new Event('Controller.beforeRender');
@@ -169,9 +169,9 @@ class AjaxComponentTest extends TestCase {
 
 		$this->Controller->components()->unload('Ajax');
 
-		$content = array('id' => 1, 'title' => 'title');
+		$content = ['id' => 1, 'title' => 'title'];
 		$this->Controller->set(compact('content'));
-		$this->Controller->set('_serialize', array('content'));
+		$this->Controller->set('_serialize', ['content']);
 
 		$this->Controller->components()->load('Ajax.Ajax');
 		$this->assertNotEmpty($this->Controller->viewVars);
@@ -190,21 +190,21 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
 		$this->Controller->startupProcess();
 
-		$content = array('id' => 1, 'title' => 'title');
+		$content = ['id' => 1, 'title' => 'title'];
 		$this->Controller->set(compact('content'));
-		$this->Controller->set('_serialize', array('content'));
+		$this->Controller->set('_serialize', ['content']);
 
 		// Let's try a permanent redirect
 		$this->Controller->redirect('/', 301);
-		$this->assertSame(array(), $this->Controller->response->header());
+		$this->assertSame([], $this->Controller->response->header());
 
-		$expected = array(
+		$expected = [
 			'url' => Router::url('/', true),
 			'status' => 301,
-		);
+		];
 		$this->assertEquals($expected, $this->Controller->viewVars['_redirect']);
 
-		$this->Controller->set(array('_message' => 'test'));
+		$this->Controller->set(['_message' => 'test']);
 		$this->Controller->redirect('/');
 		$this->assertArrayHasKey('_message', $this->Controller->viewVars);
 
@@ -212,11 +212,26 @@ class AjaxComponentTest extends TestCase {
 		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
 		$this->assertTrue(in_array('content', $this->Controller->viewVars['_serialize']));
 	}
+
+	public function testAjaxRendering() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+
+	}
 }
 
 // Use Controller instead of AppController to avoid conflicts
 class AjaxComponentTestController extends Controller {
 
-	public $components = array('Ajax.Ajax');
+	public $components = ['Ajax.Ajax'];
+
+	/**
+	 * A test action
+	 *
+	 * @return void
+	 */
+	public function myTest() {
+
+	}
 
 }

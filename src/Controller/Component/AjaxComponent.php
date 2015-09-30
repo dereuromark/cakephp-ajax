@@ -31,12 +31,12 @@ class AjaxComponent extends Component {
 
 	public $respondAsAjax = false;
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'viewClass' => 'Ajax.Ajax',
 		'autoDetect' => true,
 		'resolveRedirect' => true,
 		'flashKey' => 'Flash.flash' // Use "messages" for Tools plugin Flash component, set to false to disable
-	);
+	];
 
 	/**
 	 * Constructor.
@@ -44,7 +44,7 @@ class AjaxComponent extends Component {
 	 * @param ComponentRegistry $collection
 	 * @param array $config
 	 */
-	public function __construct(ComponentRegistry $collection, $config = array()) {
+	public function __construct(ComponentRegistry $collection, $config = []) {
 		$this->Controller = $collection->getController();
 
 		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
@@ -52,7 +52,7 @@ class AjaxComponent extends Component {
 		parent::__construct($collection, $config);
 	}
 
-	public function initialize(array $config = array()) {
+	public function initialize(array $config = []) {
 		if (!$this->_config['autoDetect']) {
 			return;
 		}
@@ -110,7 +110,7 @@ class AjaxComponent extends Component {
 
 		$this->Controller->autoRender = true;
 		$this->Controller->set('_redirect', compact('url', 'status'));
-		$serializeKeys = array('_redirect', '_message');
+		$serializeKeys = ['_redirect', '_message'];
 		if (!empty($this->Controller->viewVars['_serialize'])) {
 			$serializeKeys = array_merge($serializeKeys, $this->Controller->viewVars['_serialize']);
 		}
