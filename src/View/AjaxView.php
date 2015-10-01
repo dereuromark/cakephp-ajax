@@ -45,26 +45,27 @@ class AjaxView extends View {
 	 */
 	public $layout = false;
 
-    /**
-     * Constructor
-     *
-     * @param \Cake\Network\Request|null $request Request instance.
-     * @param \Cake\Network\Response|null $response Response instance.
-     * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
-     * @param array $viewOptions View options. See View::$_passedVars for list of
-     *   options which get set as class properties.
-     */
-    public function __construct(
-        Request $request = null,
-        Response $response = null,
-        EventManager $eventManager = null,
-        array $viewOptions = []
-    ) {
+	/**
+	 * Constructor
+	 *
+	 * @param \Cake\Network\Request|null $request Request instance.
+	 * @param \Cake\Network\Response|null $response Response instance.
+	 * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
+	 * @param array $viewOptions View options. See View::$_passedVars for list of
+	 *   options which get set as class properties.
+	 */
+	public function __construct(
+		Request $request = null,
+		Response $response = null,
+		EventManager $eventManager = null,
+		array $viewOptions = []
+	) {
 		parent::__construct($request, $response, $eventManager, $viewOptions);
 
 		if ($this->subDir === null) {
 			$this->subDir = 'ajax';
-			//$this->templatePath = str_replace(DS . 'json', '', $this->templatePath);
+			$this->templatePath = str_replace(DS . 'json', '', $this->templatePath);
+			$this->templatePath = str_replace(DS . 'ajax', '', $this->templatePath);
 		}
 
 		if (isset($response)) {

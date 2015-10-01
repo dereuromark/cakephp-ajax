@@ -87,6 +87,12 @@ class AjaxComponent extends Component {
 			$message = $this->Controller->request->session()->consume($this->_config['flashKey']);
 			$this->Controller->set('_message', $message);
 		}
+
+		$serializeKeys = ['_message'];
+		if (!empty($this->Controller->viewVars['_serialize'])) {
+			$serializeKeys = array_merge($serializeKeys, $this->Controller->viewVars['_serialize']);
+		}
+		$this->Controller->set('_serialize', $serializeKeys);
 	}
 
 	/**
@@ -110,7 +116,7 @@ class AjaxComponent extends Component {
 
 		$this->Controller->autoRender = true;
 		$this->Controller->set('_redirect', compact('url', 'status'));
-		$serializeKeys = ['_redirect', '_message'];
+		$serializeKeys = ['_redirect'];
 		if (!empty($this->Controller->viewVars['_serialize'])) {
 			$serializeKeys = array_merge($serializeKeys, $this->Controller->viewVars['_serialize']);
 		}
