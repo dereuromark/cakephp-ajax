@@ -75,7 +75,7 @@ class AjaxComponent extends Component {
 	}
 
 	/**
-	 * AjaxComponent::respondAsAjax()
+	 * AjaxComponent::_respondAsAjax()
 	 *
 	 * @return void
 	 */
@@ -88,11 +88,14 @@ class AjaxComponent extends Component {
 			$this->Controller->set('_message', $message);
 		}
 
-		$serializeKeys = ['_message'];
-		if (!empty($this->Controller->viewVars['_serialize'])) {
-			$serializeKeys = array_merge($serializeKeys, $this->Controller->viewVars['_serialize']);
+		// If _serialize is true, *all* viewVars will be serialized; no need to add _message.
+		if ($this->Controller->viewVars['_serialize'] !== true) {
+			$serializeKeys = ['_message'];
+			if (!empty($this->Controller->viewVars['_serialize'])) {
+				$serializeKeys = array_merge($serializeKeys, $this->Controller->viewVars['_serialize']);
+			}
+			$this->Controller->set('_serialize', $serializeKeys);
 		}
-		$this->Controller->set('_serialize', $serializeKeys);
 	}
 
 	/**
