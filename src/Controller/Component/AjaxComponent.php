@@ -75,7 +75,7 @@ class AjaxComponent extends Component {
 	}
 
 	/**
-	 * AjaxComponent::respondAsAjax()
+	 * AjaxComponent::_respondAsAjax()
 	 *
 	 * @return void
 	 */
@@ -86,6 +86,11 @@ class AjaxComponent extends Component {
 		if ($this->_config['flashKey']) {
 			$message = $this->Controller->request->session()->consume($this->_config['flashKey']);
 			$this->Controller->set('_message', $message);
+		}
+
+		// If _serialize is true, *all* viewVars will be serialized; no need to add _message.
+		if (!empty($this->Controller->viewVars['_serialize']) && $this->Controller->viewVars['_serialize'] === true) {
+			return;
 		}
 
 		$serializeKeys = ['_message'];
