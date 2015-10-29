@@ -89,7 +89,7 @@ class AjaxComponent extends Component {
 		}
 
 		// If _serialize is true, *all* viewVars will be serialized; no need to add _message.
-		if ($this->Controller->viewVars['_serialize'] === true) {
+		if (!empty($this->Controller->viewVars['_serialize']) && $this->Controller->viewVars['_serialize'] === true) {
 			return;
 		}
 
