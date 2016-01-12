@@ -44,7 +44,7 @@ You can add more data to the response object via `_serialize`.
 ### Drop down selections
 ```php
 public function countryProvincesAjax() {
-	$this->request->onlyAllow('ajax');
+	$this->request->allowMethod('ajax');
 	$id = $this->request->query('id');
 	if (!$id) {
 		throw new NotFoundException();
