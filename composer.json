@@ -17,7 +17,8 @@
 		"cakephp/cakephp": "~3.0"
 	},
 	"require-dev":{
-		"dereuromark/cakephp-tools": "dev-master"
+		"dereuromark/cakephp-tools": "dev-master",
+		"fig-r/psr2r-sniffer": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {

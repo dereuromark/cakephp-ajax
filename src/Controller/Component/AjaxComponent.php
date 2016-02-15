@@ -41,7 +41,7 @@ class AjaxComponent extends Component {
 	/**
 	 * Constructor.
 	 *
-	 * @param ComponentRegistry $collection
+	 * @param \Cake\Controller\ComponentRegistry $collection
 	 * @param array $config
 	 */
 	public function __construct(ComponentRegistry $collection, $config = []) {
@@ -63,7 +63,7 @@ class AjaxComponent extends Component {
 	 * Called before the Controller::beforeRender(), and before
 	 * the view class is loaded, and before Controller::render()
 	 *
-	 * @param Controller $controller Controller with components to beforeRender
+	 * @param \Cake\Controller\Controller $controller Controller with components to beforeRender
 	 * @return void
 	 */
 	public function beforeRender(Event $event) {
@@ -104,9 +104,9 @@ class AjaxComponent extends Component {
 	 * Called before Controller::redirect(). Allows you to replace the URL that will
 	 * be redirected to with a new URL.
 	 *
-	 * @param Event $event Event
+	 * @param \Cake\Event\Event $event Event
 	 * @param string|array $url Either the string or URL array that is being redirected to.
-	 * @param Response $response
+	 * @param \Cake\Network\Response $response
 	 * @return void
 	 */
 	public function beforeRedirect(Event $event, $url, Response $response) {

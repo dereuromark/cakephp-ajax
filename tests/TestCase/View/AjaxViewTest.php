@@ -22,7 +22,6 @@ use Cake\Core\Configure;
 
 /**
  * AjaxViewTest
- *
  */
 class AjaxViewTest extends TestCase {
 

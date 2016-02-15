@@ -136,7 +136,6 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->components()->unload('Ajax');
 		$this->Controller->components()->load('Ajax.Ajax');
 
-
 		$this->Controller->startupProcess();
 		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
 
@@ -216,8 +215,8 @@ class AjaxComponentTest extends TestCase {
 	public function testAjaxRendering() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-
 	}
+
 }
 
 // Use Controller instead of AppController to avoid conflicts
