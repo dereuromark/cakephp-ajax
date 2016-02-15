@@ -1,9 +1,9 @@
 # CakePHP Ajax Plugin
-[![Build Status](https://api.travis-ci.org/dereuromark/cakephp-ajax.png)](https://travis-ci.org/dereuromark/cakephp-ajax)
-[![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-ajax/badge.png)](https://coveralls.io/r/dereuromark/cakephp-ajax)
+[![Build Status](https://api.travis-ci.org/dereuromark/cakephp-ajax.svg)](https://travis-ci.org/dereuromark/cakephp-ajax)
+[![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-ajax/badge.svg)](https://coveralls.io/r/dereuromark/cakephp-ajax)
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](https://php.net/)
-[![License](https://poser.pugx.org/dereuromark/cakephp-ajax/license.png)](https://packagist.org/packages/dereuromark/cakephp-ajax)
-[![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-ajax/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-ajax)
+[![License](https://poser.pugx.org/dereuromark/cakephp-ajax/license.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
+[![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-ajax/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
 
 A CakePHP 3.x plugin that makes working with AJAX a piece of cake..
