@@ -6,9 +6,9 @@ use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Routing\Router;
 use Cake\Event\Event;
 use Cake\Network\Response;
+use Cake\Routing\Router;
 
 /**
  * Ajax Component to respond to AJAX requests.

@@ -2,16 +2,16 @@
 
 namespace Ajax\Test\TestCase\Controller\Component;
 
+use Ajax\Controller\Component\AjaxComponent;
 use App\Model\AppModel;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Routing\Router;
-use Cake\TestSuite\TestCase;
-use Ajax\Controller\Component\AjaxComponent;
+use Cake\Event\Event;
 use Cake\Network\Request;
 use Cake\Network\Response;
-use Cake\Event\Event;
+use Cake\Routing\Router;
+use Cake\TestSuite\TestCase;
 
 /**
  */

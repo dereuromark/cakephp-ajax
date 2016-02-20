@@ -11,14 +11,14 @@
  */
 namespace Ajax\Test\TestCase\View;
 
+use Ajax\View\AjaxView;
 use Cake\Controller\Controller;
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\TestSuite\TestCase;
-use Ajax\View\AjaxView;
-use Cake\Core\Configure;
 
 /**
  * AjaxViewTest

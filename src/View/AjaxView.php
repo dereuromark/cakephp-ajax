@@ -1,9 +1,9 @@
 <?php
 namespace Ajax\View;
 
+use Cake\Event\EventManager;
 use Cake\Network\Request;
 use Cake\Network\Response;
-use Cake\Event\EventManager;
 use Cake\View\View;
 
 /**
