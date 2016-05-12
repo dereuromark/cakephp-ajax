@@ -15,6 +15,9 @@ This branch only works for **CakePHP 3.x** - please use the 2.x branch for CakeP
 ## What is this plugin for?
 Basically DRY (Don't repeat yourself) and easy AJAX handling.
 
+### Demo
+See the [Sandbox app](http://sandbox3.dereuromark.de/sandbox/ajax-examples) for live demos.
+
 ### Key features
 - Auto-handling via View class mapping and making controller actions available both AJAX and non-AJAX by design.
 - Flash message and redirect (prevention) support.
