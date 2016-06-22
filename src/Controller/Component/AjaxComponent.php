@@ -27,10 +27,19 @@ use Cake\Routing\Router;
  */
 class AjaxComponent extends Component {
 
+	/**
+	 * @var \Cake\Controller\Controller
+	 */
 	public $Controller;
 
+	/**
+	 * @var bool
+	 */
 	public $respondAsAjax = false;
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'viewClass' => 'Ajax.Ajax',
 		'autoDetect' => true,
@@ -63,7 +72,7 @@ class AjaxComponent extends Component {
 	 * Called before the Controller::beforeRender(), and before
 	 * the view class is loaded, and before Controller::render()
 	 *
-	 * @param \Cake\Controller\Controller $controller Controller with components to beforeRender
+	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
 	public function beforeRender(Event $event) {

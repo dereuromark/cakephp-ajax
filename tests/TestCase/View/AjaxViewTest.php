@@ -13,9 +13,7 @@ namespace Ajax\Test\TestCase\View;
 
 use Ajax\View\AjaxView;
 use Cake\Controller\Controller;
-use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\TestSuite\TestCase;
@@ -25,6 +23,9 @@ use Cake\TestSuite\TestCase;
  */
 class AjaxViewTest extends TestCase {
 
+	/**
+	 * @var \Ajax\View\AjaxView
+	 */
 	public $Ajax;
 
 	/**
@@ -152,6 +153,9 @@ class AjaxViewTest extends TestCase {
 // Use Controller instead of AppController to avoid conflicts
 class AjaxComponentTestController extends Controller {
 
+	/**
+	 * @var array
+	 */
 	public $components = ['Ajax.Ajax'];
 
 	/**

@@ -34,14 +34,14 @@ class AjaxView extends View {
 	/**
 	 * The subdirectory. AJAX views are always in ajax.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	public $subDir = null;
 
 	/**
 	 * Name of layout to use with this View.
 	 *
-	 * @var string
+	 * @var bool
 	 */
 	public $layout = false;
 
@@ -80,8 +80,8 @@ class AjaxView extends View {
 	 *
 	 * If an error has been set, the rendering will be skipped.
 	 *
-	 * @param string $view The view being rendered.
-	 * @param string $layout The layout being rendered.
+	 * @param string|null $view The view being rendered.
+	 * @param string|null $layout The layout being rendered.
 	 * @return string The rendered view.
 	 */
 	public function render($view = null, $layout = null) {

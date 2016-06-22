@@ -2,9 +2,6 @@
 
 namespace Ajax\Test\TestCase\Controller\Component;
 
-use Ajax\Controller\Component\AjaxComponent;
-use App\Model\AppModel;
-use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
@@ -17,10 +14,16 @@ use Cake\TestSuite\TestCase;
  */
 class AjaxComponentTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'core.Sessions'
 	];
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -222,6 +225,9 @@ class AjaxComponentTest extends TestCase {
 // Use Controller instead of AppController to avoid conflicts
 class AjaxComponentTestController extends Controller {
 
+	/**
+	 * @var array
+	 */
 	public $components = ['Ajax.Ajax'];
 
 	/**
