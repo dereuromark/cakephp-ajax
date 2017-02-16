@@ -19,9 +19,6 @@ use Cake\Routing\Router;
  * It will also avoid redirects and pass those down as content
  * of the JSON response object.
  *
- * Don't forget Configure::write('Ajax.flashKey', 'messages');
- * if you want to use it with Tools.Flash component.
- *
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
@@ -44,7 +41,7 @@ class AjaxComponent extends Component {
 		'viewClass' => 'Ajax.Ajax',
 		'autoDetect' => true,
 		'resolveRedirect' => true,
-		'flashKey' => 'Flash.flash' // Use "messages" for Tools plugin Flash component, set to false to disable
+		'flashKey' => 'Flash.flash'
 	];
 
 	/**

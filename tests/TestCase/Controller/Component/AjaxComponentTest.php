@@ -80,7 +80,10 @@ class AjaxComponentTest extends TestCase {
 		$this->assertNull($session);
 
 		$this->Controller->redirect('/');
-		$this->assertSame([], $this->Controller->response->header());
+		$expected = [
+			'Content-Type' => 'text/html; charset=UTF-8'
+		];
+		$this->assertSame($expected, $this->Controller->response->header());
 
 		$expected = [
 			'url' => Router::url('/', true),
@@ -125,41 +128,6 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
-	 * AjaxComponentTest::testToolsMultiMessages()
-	 *
-	 * @return void
-	 */
-	public function testToolsMultiMessages() {
-		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
-		Configure::write('Ajax.flashKey', 'FlashMessage');
-
-		$this->Controller = new AjaxComponentTestController(new Request(), new Response());
-		$this->Controller->components()->load('Tools.Flash');
-
-		$this->Controller->components()->unload('Ajax');
-		$this->Controller->components()->load('Ajax.Ajax');
-
-		$this->Controller->startupProcess();
-		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
-
-		$this->Controller->components()->Flash->message('A message', 'success');
-		$session = $this->Controller->request->session()->read('FlashMessage');
-		$expected = [
-			'success' => ['A message']
-		];
-		$this->assertEquals($expected, $session);
-
-		$event = new Event('Controller.beforeRender');
-		$this->Controller->components()->Ajax->beforeRender($event);
-		$this->assertEquals('Ajax.Ajax', $this->Controller->viewBuilder()->className());
-
-		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
-
-		$session = $this->Controller->request->session()->read('FlashMessage');
-		$this->assertNull($session);
-	}
-
-	/**
 	 * AjaxComponentTest::testSetVars()
 	 *
 	 * @return void
@@ -198,7 +166,10 @@ class AjaxComponentTest extends TestCase {
 
 		// Let's try a permanent redirect
 		$this->Controller->redirect('/', 301);
-		$this->assertSame([], $this->Controller->response->header());
+		$expected = [
+			'Content-Type' => 'text/html; charset=UTF-8'
+		];
+		$this->assertSame($expected, $this->Controller->response->header());
 
 		$expected = [
 			'url' => Router::url('/', true),
