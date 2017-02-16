@@ -35,5 +35,9 @@
 	"support":{
 		"source": "https://github.com/dereuromark/cakephp-ajax",
 		"issues": "https://github.com/dereuromark/cakephp-ajax/issues"
+	},
+	"scripts": {
+		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-ajax/vendor/,/tmp/,/logs/ --extensions=php ./",
+		"cs-fix": "phpcbf -f --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-ajax/vendor/,/tmp/,/logs/ --extensions=php ./"
 	}
 }

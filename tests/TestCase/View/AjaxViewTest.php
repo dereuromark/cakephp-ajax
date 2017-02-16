@@ -164,7 +164,6 @@ class AjaxComponentTestController extends Controller {
 	 * @return void
 	 */
 	public function myTest() {
-
 	}
 
 }

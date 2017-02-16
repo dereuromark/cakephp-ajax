@@ -188,7 +188,6 @@ class AjaxComponentTest extends TestCase {
 
 	public function testAjaxRendering() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
-
 	}
 
 }
@@ -207,7 +206,6 @@ class AjaxComponentTestController extends Controller {
 	 * @return void
 	 */
 	public function myTest() {
-
 	}
 
 }
