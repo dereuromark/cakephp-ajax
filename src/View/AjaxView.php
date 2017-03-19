@@ -49,7 +49,7 @@ class AjaxView extends View {
 	 * Constructor
 	 *
 	 * @param \Cake\Network\Request|null $request Request instance.
-	 * @param \Cake\Network\Response|null $response Response instance.
+	 * @param \Cake\Http\Response|null $response Response instance.
 	 * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
 	 * @param array $viewOptions View options. See View::$_passedVars for list of
 	 *   options which get set as class properties.
