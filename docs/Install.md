@@ -3,21 +3,9 @@
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
-Put the files in `ROOT/plugins/Ajax`, using Packagist/Composer:
 ```
-composer require dereuromark/cakephp-ajax:dev-master
+composer require dereuromark/cakephp-ajax
 ```
-
-or manually via
-
-```
-"require": {
-	"dereuromark/cakephp-ajax": "dev-master"
-}
-```
-and
-
-	composer update
 
 Details @ https://packagist.org/packages/dereuromark/cakephp-ajax
 
