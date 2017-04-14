@@ -9,10 +9,6 @@
 
 A CakePHP 3.x plugin that makes working with AJAX a piece of cake..
 
-## Version notice
-
-This branch only works for **CakePHP 3.x** - please use the 2.x branch for CakePHP 2.x.
-
 ## What is this plugin for?
 Basically DRY (Don't repeat yourself) and easy AJAX handling.
 
