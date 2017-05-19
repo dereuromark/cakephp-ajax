@@ -10,7 +10,7 @@ follow those redirects and return the content via requestAction(). This might no
 ## Usage
 
 ```php
-$components = array('Ajax.Ajax');
+public $components = ['Ajax.Ajax'];
 ```
 
 You can pass the settings either directly inline here, or use Configure to set them globally.
@@ -31,7 +31,7 @@ are not reserved:
 
 	$content = array('id' => 1, 'title' => 'title');
 	$this->Controller->set(compact('content'));
-	$this->Controller->set('_serialize', array('content'));
+	$this->Controller->set('_serialize', ['content']);
 
 results in
 
