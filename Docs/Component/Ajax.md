@@ -7,6 +7,18 @@ Please see the View class docs for the main documentation.
 By default the CakePHP RequestHandler, when included, will prevent redirects in AJAX, **but** it will
 follow those redirects and return the content via requestAction(). This might not always be desired.
 
+This plugin prevents this internal request, and instead returns the URL and status code inside the JSON response.
+
+### Disable internal requests
+Make sure the RequestHandler component is either not loaded or is prevented from doing the deprecated requestAction() call.
+You can easily disable the `enableBeforeRedirect` option when using the Shim plugin version:
+```php
+public $components = [
+	'RequestHandler' => ['className' => 'Shim.RequestHandlerShim', 'enableBeforeRedirect' => false],
+	...
+];
+```
+
 ## Usage
 
 ```php
