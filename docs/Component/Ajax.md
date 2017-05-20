@@ -7,8 +7,16 @@ Please see the View class docs for the main documentation.
 By default the CakePHP RequestHandler, when included, will prevent redirects in AJAX, **but** it will
 follow those redirects and return the content via requestAction(). This might not always be desired.
 
+This plugin prevents this following, and instead returns the URL and status code inside the JSON response.
+
 ## Usage
 
+First of all make sure you disabled the deprecated `enableBeforeRedirect` option:
+```php
+$this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
+```
+
+Then load the AJax component:
 ```php
 public $components = ['Ajax.Ajax'];
 ```
@@ -28,11 +36,11 @@ if you want to use it with Tools.Flash component (multi/stackable messages).
 
 You can pass content along with it, as well, those JSON response keys will not be prefixed with a `_` underscore then, as they
 are not reserved:
-
-	$content = array('id' => 1, 'title' => 'title');
-	$this->Controller->set(compact('content'));
-	$this->Controller->set('_serialize', ['content']);
-
+```php
+$content = ['id' => 1, 'title' => 'title'];
+$this->Controller->set(compact('content'));
+$this->Controller->set('_serialize', ['content']);
+```
 results in
 
 	"content":{...}, ...
@@ -40,6 +48,6 @@ results in
 ## Configs
 
 - 'autoDetect' => true // Detect AJAX automatically, regardless of the extension
--	'resolveRedirect' => true // Send redirects to the view, without actually redirecting
-- 'flashKey' => 'Message.flash' // Use "FlashMessage" for Tools plugin Flash component, set to false to disable
+- 'resolveRedirect' => true // Send redirects to the view, without actually redirecting
+- 'flashKey' => 'Message.flash' // Set to false to disable
 
