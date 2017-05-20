@@ -7,16 +7,16 @@ Please see the View class docs for the main documentation.
 By default the CakePHP RequestHandler, when included, will prevent redirects in AJAX, **but** it will
 follow those redirects and return the content via requestAction(). This might not always be desired.
 
-This plugin prevents this following, and instead returns the URL and status code inside the JSON response.
+This plugin prevents this internal request, and instead returns the URL and status code inside the JSON response.
 
-## Usage
-
-First of all make sure you disabled the deprecated `enableBeforeRedirect` option:
+### Disable internal requests
+Make sure you disabled the deprecated `enableBeforeRedirect` option:
 ```php
 $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
 ```
 
-Then load the AJax component:
+## Usage
+Load the Ajax component:
 ```php
 public $components = ['Ajax.Ajax'];
 ```
