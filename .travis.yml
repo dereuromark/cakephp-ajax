@@ -9,7 +9,7 @@ php:
 
 env:
   matrix:
-    - DB=mysql db_class='Cake\Database\Driver\Mysql' db_dsn='mysql:host=0.0.0.0;dbname=cakephp_test' db_database='cakephp_test' db_username='travis' db_password=''
+    - DB=mysql db_dsn='mysql://root@127.0.0.1/cakephp_test'
     - DB=pgsql db_class='Cake\Database\Driver\Postgres' db_dsn='pgsql:host=127.0.0.1;dbname=cakephp_test' db_database="cakephp_test" db_username='postgres' db_password=''
     - DB=sqlite db_class='Cake\Database\Driver\Sqlite' db_dsn='sqlite::memory:'
   global:
@@ -32,7 +32,7 @@ matrix:
 before_script:
   - composer self-update
   - composer install --prefer-dist --no-interaction
-  
+
   - if [[ $PHPCS != 1 ]]; then composer require phpunit/phpunit:"^5.7|^6.0"; fi
 
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
