@@ -26,7 +26,7 @@ Using the AjaxComponent you can save yourself that call, as it can auto-detect A
 Instead of GET we request it via AJAX:
 ```php
 public function favorites() {
-	$this->request->onlyAllow('ajax');
+	$this->request->allowMethod('ajax');
 	$this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
 }
 ```
