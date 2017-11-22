@@ -12,11 +12,14 @@ I am looking forward to your contributions. There are several ways to help out:
 * Write patches for bugs/features, preferably with testcases included
 
 There are a few guidelines that I need contributors to follow:
-* Coding standards (see link below)
-* Passing tests (you can enable travis to assert your changes pass) for Windows and Unix
+* Coding standards (`composer cs-check` to check and `composer cs-fix` to fix)
+* Passing tests (you can enable travis to assert your changes pass) for Windows and Unix (`php phpunit.phar`)
 
-Protip: Use my [MyCakePHP](https://github.com/dereuromark/cakephp-codesniffer/tree/master/Vendor/PHP/CodeSniffer/Standards/MyCakePHP) sniffs to
-assert coding standards are met. You can either use this pre-build repo and the convenience shell command `cake CodeSniffer.CodeSniffer run -p Tools --standard=MyCakePHP` or the manual `phpcs --standard=MyCakePHP /path/to/Tools`.
+Tip: You can use the composer commands to set up everything:
+* `composer install`
+* `composer test-setup`
+
+Now you can run the tests via `composer test` and get coverage via `composer test-coverage` commands.
 
 # Additional Resources
 
