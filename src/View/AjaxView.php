@@ -106,7 +106,7 @@ class AjaxView extends View {
 			$dataToSerialize['content'] = parent::render($view, $layout);
 		}
 
-		$this->viewVars = Hash::merge($this->viewVars, $dataToSerialize);
+		$this->viewVars = Hash::merge($dataToSerialize, $this->viewVars);
 
 		if (isset($this->viewVars['_serialize'])) {
 			$dataToSerialize = $this->_dataToSerialize($this->viewVars['_serialize'], $dataToSerialize);
