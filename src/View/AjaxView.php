@@ -45,6 +45,13 @@ class AjaxView extends View {
 	 */
 	public $layout = false;
 
+    /**
+     * List of special view vars.
+     *
+     * @var array
+     */
+    protected $_specialVars = ['_serialize', '_jsonOptions', '_jsonp'];
+
 	/**
 	 * Constructor
 	 *
