@@ -156,8 +156,7 @@ class AjaxView extends View {
 				$additionalData[$alias] = $this->viewVars[$key];
 			}
 		}
-
-		return $additionalData ?: null;
+		return $additionalData;
 	}
 
 }
