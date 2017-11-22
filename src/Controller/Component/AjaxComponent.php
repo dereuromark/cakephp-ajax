@@ -133,6 +133,16 @@ class AjaxComponent extends Component {
 		}
 		$this->Controller->set('_serialize', $serializeKeys);
 		$event->stopPropagation();
+	/**
+	 * Checks to see if the Controller->viewVar labeled _serialize is set to boolean true.
+	 *
+	 * @return bool
+	 */
+	protected function _isControllerSerializeTrue() {
+		if (!empty($this->Controller->viewVars['_serialize']) && $this->Controller->viewVars['_serialize'] === true) {
+			return true;
+		}
+		return false;
 	}
 
 }
