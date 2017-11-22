@@ -139,7 +139,7 @@ class AjaxView extends View {
 	 *   render method.
 	 * @return mixed The data to serialize.
 	 */
-	protected function _dataToSerialize($serialize = true, $additionalData = []) {
+	protected function _dataToSerialize($serialize, $additionalData = []) {
 		if ($serialize === true) {
 			$data = array_diff_key(
 				$this->viewVars,
