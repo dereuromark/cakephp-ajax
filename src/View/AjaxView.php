@@ -153,20 +153,16 @@ class AjaxView extends View {
 			return $data;
 		}
 
-		if (is_array($serialize)) {
-			foreach ($serialize as $alias => $key) {
-				if (is_numeric($alias)) {
-					$alias = $key;
-				}
-				if (array_key_exists($key, $this->viewVars)) {
-					$additionalData[$alias] = $this->viewVars[$key];
-				}
+		foreach ((array)$serialize as $alias => $key) {
+			if (is_numeric($alias)) {
+				$alias = $key;
 			}
-
-			return !empty($additionalData) ? $additionalData : null;
+			if (array_key_exists($key, $this->viewVars)) {
+				$additionalData[$alias] = $this->viewVars[$key];
+			}
 		}
 
-		return isset($this->viewVars[$serialize]) ? $this->viewVars[$serialize] : null;
+		return !empty($additionalData) ? $additionalData : null;
 	}
 
 }
