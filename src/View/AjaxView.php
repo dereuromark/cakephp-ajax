@@ -145,11 +145,6 @@ class AjaxView extends View {
 				$this->viewVars,
 				array_flip($this->_specialVars)
 			);
-
-			if (empty($data)) {
-				return null;
-			}
-
 			return $data;
 		}
 
