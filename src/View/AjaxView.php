@@ -162,7 +162,7 @@ class AjaxView extends View {
 			}
 		}
 
-		return !empty($additionalData) ? $additionalData : null;
+		return $additionalData ?: null;
 	}
 
 }
