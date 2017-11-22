@@ -95,7 +95,7 @@ class AjaxComponent extends Component {
 		}
 
 		// If _serialize is true, *all* viewVars will be serialized; no need to add _message.
-		if (!empty($this->Controller->viewVars['_serialize']) && $this->Controller->viewVars['_serialize'] === true) {
+		if ($this->_isControllerSerializeTrue()) {
 			return;
 		}
 
@@ -127,12 +127,20 @@ class AjaxComponent extends Component {
 
 		$this->Controller->autoRender = true;
 		$this->Controller->set('_redirect', compact('url', 'status'));
+
+		$event->stopPropagation();
+
+		if ($this->_isControllerSerializeTrue()) {
+			return;
+		}
+
 		$serializeKeys = ['_redirect'];
 		if (!empty($this->Controller->viewVars['_serialize'])) {
-			$serializeKeys = array_merge($serializeKeys, $this->Controller->viewVars['_serialize']);
+			$serializeKeys = array_merge($serializeKeys, (array)$this->Controller->viewVars['_serialize']);
 		}
 		$this->Controller->set('_serialize', $serializeKeys);
-		$event->stopPropagation();
+	}
+
 	/**
 	 * Checks to see if the Controller->viewVar labeled _serialize is set to boolean true.
 	 *
