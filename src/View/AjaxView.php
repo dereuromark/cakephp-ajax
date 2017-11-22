@@ -92,7 +92,8 @@ class AjaxView extends View {
 	 * @return string The rendered view.
 	 */
 	public function render($view = null, $layout = null) {
-		$response = [
+
+		$dataToSerialize = [
 			'error' => null,
 			'content' => null,
 		];
@@ -102,39 +103,70 @@ class AjaxView extends View {
 		}
 
 		if ($view !== false && !isset($this->viewVars['_redirect']) && $this->_getViewFileName($view)) {
-			$response['content'] = parent::render($view, $layout);
+			$dataToSerialize['content'] = parent::render($view, $layout);
 		}
+
+		$this->viewVars = \Cake\Utility\Hash::merge($this->viewVars, $dataToSerialize);
+
 		if (isset($this->viewVars['_serialize'])) {
-			$response = $this->_serialize($response, $this->viewVars['_serialize']);
+			$dataToSerialize = $this->_dataToSerialize($this->viewVars['_serialize'], $dataToSerialize);
 		}
-		$result = json_encode($response);
+
+		return $this->_serialize($dataToSerialize);
+	}
+
+	/**
+	 * Serialize(json_encode) accumulated data from both our custom render method
+	 *   and viewVars set by the user.
+	 *
+	 * @param array Array of data that is to be serialzed.
+	 * @return array The serialized data.
+	 */
+	protected function _serialize($dataToSerialize = []) {
+		$result = json_encode($dataToSerialize);
 		if (json_last_error() !== JSON_ERROR_NONE) {
 			return json_encode(['error' => json_last_error_msg()]);
 		}
 		return $result;
 	}
 
-	/**
-	 * Serializes view vars.
-	 *
-	 * @param array $response Response data array.
-	 * @param array $serialize The viewVars that need to be serialized.
-	 * @return array The serialized data.
-	 */
-	protected function _serialize($response, $serialize) {
-		if (is_array($serialize)) {
-			foreach ($serialize as $alias => $key) {
-				if (is_numeric($alias)) {
-					$alias = $key;
-				}
-				if (array_key_exists($key, $this->viewVars)) {
-					$response[$alias] = $this->viewVars[$key];
-				}
-			}
-		} else {
-			$response[$serialize] = isset($this->viewVars[$serialize]) ? $this->viewVars[$serialize] : null;
-		}
-		return $response;
-	}
+    /**
+     * Returns data to be serialized based on the value of viewVars.
+     *
+     * @param array|string|bool $serialize The name(s) of the view variable(s) that
+     *   need(s) to be serialized. If true all available view variables will be used.
+	 * @param array $additionalData Data items that were defined internally in our own
+	 *   render method.
+     * @return mixed The data to serialize.
+     */
+    protected function _dataToSerialize($serialize = true, $additionalData = []) {
+        if ($serialize === true) {
+            $data = array_diff_key(
+                $this->viewVars,
+                array_flip($this->_specialVars)
+            );
+
+            if (empty($data)) {
+                return null;
+            }
+
+            return $data;
+        }
+
+        if (is_array($serialize)) {
+            foreach ($serialize as $alias => $key) {
+                if (is_numeric($alias)) {
+                    $alias = $key;
+                }
+                if (array_key_exists($key, $this->viewVars)) {
+                    $additionalData[$alias] = $this->viewVars[$key];
+                }
+            }
+
+            return !empty($additionalData) ? $additionalData : null;
+        }
+
+        return isset($this->viewVars[$serialize]) ? $this->viewVars[$serialize] : null;
+    }
 
 }
