@@ -2,8 +2,8 @@
 namespace Ajax\View;
 
 use Cake\Event\EventManager;
-use Cake\Network\Request;
-use Cake\Network\Response;
+use Cake\Http\ServerRequest;
+use Cake\Http\Response;
 use Cake\Utility\Hash;
 use Cake\View\View;
 
@@ -56,14 +56,14 @@ class AjaxView extends View {
 	/**
 	 * Constructor
 	 *
-	 * @param \Cake\Network\Request|null $request Request instance.
+	 * @param \Cake\Http\ServerRequest|null $request Request instance.
 	 * @param \Cake\Http\Response|null $response Response instance.
 	 * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
 	 * @param array $viewOptions View options. See View::$_passedVars for list of
 	 *   options which get set as class properties.
 	 */
 	public function __construct(
-		Request $request = null,
+		ServerRequest $request = null,
 		Response $response = null,
 		EventManager $eventManager = null,
 		array $viewOptions = []
@@ -120,7 +120,7 @@ class AjaxView extends View {
 	 *   and viewVars set by the user.
 	 *
 	 * @param array $dataToSerialize Array of data that is to be serialzed.
-	 * @return array The serialized data.
+	 * @return string The serialized data.
 	 */
 	protected function _serialize($dataToSerialize = []) {
 		$result = json_encode($dataToSerialize);
