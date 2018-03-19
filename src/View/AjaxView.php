@@ -2,8 +2,8 @@
 namespace Ajax\View;
 
 use Cake\Event\EventManager;
-use Cake\Http\ServerRequest;
 use Cake\Http\Response;
+use Cake\Http\ServerRequest;
 use Cake\Utility\Hash;
 use Cake\View\View;
 
