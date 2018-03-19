@@ -26,6 +26,9 @@ matrix:
     - php: 7.1
       env: CODECOVERAGE=1 DEFAULT=0
 
+    - php: 5.6
+      env: PREFER_LOWEST=1
+
   allow_failures:
     - env: DB=sqlite db_dsn='sqlite:///:memory:'
     - env: DB=pgsql db_dsn='postgres://postgres@127.0.0.1/cakephp_test'
