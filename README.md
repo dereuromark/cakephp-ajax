@@ -8,6 +8,8 @@
 
 A CakePHP 2.x plugin that makes working with AJAX a piece of cake.
 
+NOTE: With 4.x development already being started, **this 2.x branch is now in maintenance mode**. No active development is done anymore on it, mainly only necessary bugfixes.
+
 ## What is this plugin for?
 Basically DRY (Don't repeat yourself) and easy AJAX handling.
 See  [my article](http://www.dereuromark.de/2014/01/09/ajax-and-cakephp/) for details on the history of this view class.
