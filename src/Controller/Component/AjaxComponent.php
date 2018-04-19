@@ -86,11 +86,11 @@ class AjaxComponent extends Component {
 	 * @return void
 	 */
 	protected function _respondAsAjax() {
-		$this->Controller->viewBuilder()->className($this->_config['viewClass']);
+		$this->Controller->viewBuilder()->setClassName($this->_config['viewClass']);
 
 		// Set flash messages to the view
 		if ($this->_config['flashKey']) {
-			$message = $this->Controller->request->session()->consume($this->_config['flashKey']);
+			$message = $this->Controller->request->getSession()->consume($this->_config['flashKey']);
 			$this->Controller->set('_message', $message);
 		}
 
@@ -122,7 +122,7 @@ class AjaxComponent extends Component {
 
 		$url = Router::url($url, true);
 
-		$status = $response->statusCode();
+		$status = $response->getStatusCode();
 		$response->statusCode(200);
 
 		$this->Controller->autoRender = true;

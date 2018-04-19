@@ -7,7 +7,9 @@
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-ajax/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
 
-A CakePHP 3.x plugin that makes working with AJAX a piece of cake..
+A CakePHP plugin that makes working with AJAX a piece of cake..
+
+This branch is for **CakePHP 3.5+**.
 
 ## What is this plugin for?
 Basically DRY (Don't repeat yourself) and easy AJAX handling.
@@ -24,8 +26,6 @@ See [my article](http://www.dereuromark.de/2014/01/09/ajax-and-cakephp/) for det
 ## Installation & Docs
 
 - [Documentation](docs/README.md)
-
-Note: For 7.2 compatibility this now requires CakePHP 3.5+.
 
 ### Possible TODOs
 

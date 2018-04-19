@@ -33,8 +33,8 @@ Cake\Core\Configure::write('debug', true);
 Cake\Core\Configure::write('Config', [
 		'adminEmail' => 'test@example.com',
 		'adminName' => 'Mark']);
-Cake\Mailer\Email::config('default', ['transport' => 'Debug']);
-Cake\Mailer\Email::configTransport('Debug', [
+Cake\Mailer\Email::setConfig('default', ['transport' => 'Debug']);
+Cake\Mailer\Email::setConfigTransport('Debug', [
 		'className' => 'Debug'
 ]);
 
@@ -79,7 +79,7 @@ if (!getenv('db_class')) {
 	putenv('db_dsn=sqlite::memory:');
 }
 
-Cake\Datasource\ConnectionManager::config('test', [
+Cake\Datasource\ConnectionManager::setConfig('test', [
 	'className' => 'Cake\Database\Connection',
 	'driver' => getenv('db_class'),
 	'dsn' => getenv('db_dsn'),

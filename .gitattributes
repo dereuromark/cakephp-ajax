@@ -9,3 +9,4 @@ phpunit.xml.dist export-ignore
 .gitignore export-ignore
 .gitattributes export-ignore
 .editorconfig export-ignore
+tests/TestApp export-ignore
