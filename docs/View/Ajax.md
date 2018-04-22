@@ -47,7 +47,7 @@ You can add more data to the response object via `_serialize`.
 
 ### Drop down selections
 ```php
-public function countryProvincesAjax() {
+public function statesAjax() {
 	$this->request->allowMethod('ajax');
 	$id = $this->request->query('id');
 	if (!$id) {
@@ -56,8 +56,8 @@ public function countryProvincesAjax() {
 
 	$this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
 
-	$countryProvinces = $this->CountryProvince->getListByCountry($id);
-	$this->set(compact('countryProvinces'));
+	$states = $this->States->getListByCountry($id);
+	$this->set(compact('states'));
 }
 ```
 
