@@ -77,7 +77,7 @@ class AjaxView extends View {
 		}
 
 		if (isset($response)) {
-			$response->type('json');
+			$response->withType('json');
 		}
 	}
 
