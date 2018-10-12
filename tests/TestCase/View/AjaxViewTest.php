@@ -70,18 +70,17 @@ class AjaxViewTest extends TestCase {
 	 */
 	public function testRenderWithSerialize() {
 		$Request = new Request();
-		$Response = new Response();
+		$Response = new Responses);
 		$items = [
 			['title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'],
 			['title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'],
 		];
 		$View = new AjaxView($Request, $Response);
 		$View->set(['items' => $items, '_serialize' => 'items']);
-		$View->viewPath = 'Items';
-		$result = $View->render('index');
+		$result = $View->render(false);
 
 		$this->assertSame('application/json', $Response->type());
-		$expected = ['error' => null, 'content' => 'My Index Test ctp', 'items' => $items];
+		$expected = ['error' => null, 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
