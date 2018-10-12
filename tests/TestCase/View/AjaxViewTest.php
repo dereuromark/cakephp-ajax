@@ -77,11 +77,10 @@ class AjaxViewTest extends TestCase {
 		];
 		$View = new AjaxView($Request, $Response);
 		$View->set(['items' => $items, '_serialize' => 'items']);
-		$View->viewPath = 'Items';
-		$result = $View->render('index');
+		$result = $View->render(false);
 
 		$this->assertSame('application/json', $Response->type());
-		$expected = ['error' => null, 'content' => 'My Index Test ctp', 'items' => $items];
+		$expected = ['error' => null, 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}

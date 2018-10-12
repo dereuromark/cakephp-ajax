@@ -98,6 +98,10 @@ class AjaxView extends View {
 			'content' => null,
 		];
 
+		if (isset($this->viewVars['_serialize'])) {
+			$view = false;
+		}
+
 		if (!empty($this->viewVars['error'])) {
 			$view = false;
 		}
