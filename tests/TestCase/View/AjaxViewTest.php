@@ -70,7 +70,7 @@ class AjaxViewTest extends TestCase {
 	 */
 	public function testRenderWithSerialize() {
 		$Request = new Request();
-		$Response = new Responses);
+		$Response = new Response();
 		$items = [
 			['title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'],
 			['title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'],
