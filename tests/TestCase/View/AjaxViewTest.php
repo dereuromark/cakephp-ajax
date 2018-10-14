@@ -85,6 +85,7 @@ class AjaxViewTest extends TestCase {
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
+	
 
 	/**
 	 * AjaxViewTest::testSerializeSetTrue()
@@ -170,6 +171,26 @@ class AjaxViewTest extends TestCase {
 
 		$this->assertSame('application/json', $Response->type());
 		$expected = ['error' => null, 'content' => 'My Index Test ctp'];
+		$expected = json_encode($expected);
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * AjaxViewTest::testRenderAViewThatDoNotExist()
+	 *
+	 * Test the case where a view do not exist for action
+	 *
+	 * @return void
+	 */
+	public function testRenderAViewThatDoNotExist() {
+		$Request = new Request();
+		$Response = new Response();
+		$View = new AjaxView($Request, $Response);
+		$View->viewPath = 'Items';
+		$result = $View->render('no_existing_view');
+
+		$this->assertSame('application/json', $Response->type());
+		$expected = ['error' => null, 'content' => null];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}

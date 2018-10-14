@@ -159,4 +159,35 @@ class AjaxView extends View {
 		return $additionalData;
 	}
 
+	/**
+	 * This is an overriding of _getViewFileName() from View class which is throwing MissingTemplateException when filename do not exist
+     * Returns filename of given action's template file (.ctp) as a string.
+     * CamelCased action names will be under_scored by default.
+     * This means that you can have LongActionNames that refer to
+     * long_action_names.ctp views. You can change the inflection rule by
+     * overriding _inflectViewFileName.
+     *
+     * @param string|null $name Controller action to find template filename for
+     * @return string|null Template filename or null if template filename do not exist
+     */
+    protected function _getViewFileName($name = null)
+    {
+        $templatePath = $this->templatePath . DIRECTORY_SEPARATOR;
+        $subDir = $this->subDir . DIRECTORY_SEPARATOR;
+
+        list($plugin, $name) = $this->pluginSplit($name);
+        $name = str_replace('/', DIRECTORY_SEPARATOR, $name);
+
+        if (strpos($name, DIRECTORY_SEPARATOR) === false && $name !== '' && $name[0] !== '.') {
+            $name = $templatePath . $subDir . $this->_inflectViewFileName($name);
+        }
+
+        foreach ($this->_paths($plugin) as $path) {
+            if (file_exists($path . $name . $this->_ext)) {
+                return $this->_checkFilePath($path . $name . $this->_ext, $path);
+            }
+        }
+        return null;
+    }
+
 }
