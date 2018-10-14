@@ -28,6 +28,6 @@ or
 
 ```php
 Plugin::loadAll([
-		'Ajax' => ['bootstrap' => true]
+	'Ajax' => ['bootstrap' => true]
 ]);
 ```
