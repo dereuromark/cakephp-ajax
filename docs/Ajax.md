@@ -26,3 +26,45 @@ It can also on top ship the flash messages that are generated in the process.
 
 With JsonView your actions might sometimes return a bit inconsistent responses, missing some keys or alike. 
 The AjaxView is designed to make the response more consistent.
+
+You either get a 200 status code and your defined response structure:
+```json
+{
+    "content": "[Result of our rendered template.ctp]",
+    "_redirect": null
+}
+```
+
+Or you get a non-200 code with the typical error structure:
+```json
+{
+    "code": 404,
+    "message": "Not Found",
+    "url": "..."
+}
+```
+
+A typical JS (e.g. jQuery) code can then easily use that to distinguish those two cases:
+```js
+$(function() {
+	$('#countries').change(function() {
+		var selectedValue = $(this).val();
+		var targetUrl = $(this).attr('rel') + '?id=' + selectedValue;
+		$.ajax({
+			type: 'get',
+			url: targetUrl,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			},
+			success: function(response) {
+				if (response.content) {
+					$('#provinces').html(response.content);
+				}
+			},
+			error: function(e) {
+				alert("An error occurred: " + e.responseText.message);
+			}
+		});
+	});
+});
+```
