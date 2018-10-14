@@ -71,7 +71,6 @@ Cake\Core\Configure::write('App.paths', [
 ]);
 
 Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);
-//Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS . 'plugins' . DS . 'Tools' . DS, 'bootstrap' => true]);
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {

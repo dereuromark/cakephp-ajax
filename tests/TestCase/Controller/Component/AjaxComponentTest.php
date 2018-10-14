@@ -64,7 +64,7 @@ class AjaxComponentTest extends TestCase {
 		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
 
 		$this->Controller->components()->Flash->custom('A message');
-		$session = $this->Controller->request->session()->read('Flash.flash');
+		$session = $this->Controller->request->getSession()->read('Flash.flash');
 		$expected = [
 			[
 				'message' => 'A message',
@@ -78,17 +78,19 @@ class AjaxComponentTest extends TestCase {
 		$event = new Event('Controller.beforeRender');
 		$this->Controller->components()->Ajax->beforeRender($event);
 
-		$this->assertEquals('Ajax.Ajax', $this->Controller->viewBuilder()->className());
+		$this->assertEquals('Ajax.Ajax', $this->Controller->viewBuilder()->getClassName());
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
-		$session = $this->Controller->request->session()->read('Flash.flash');
+		$session = $this->Controller->request->getSession()->read('Flash.flash');
 		$this->assertNull($session);
 
 		$this->Controller->redirect('/');
 		$expected = [
-			'Content-Type' => 'application/json; charset=UTF-8'
+			'Content-Type' => [
+				'application/json; charset=UTF-8',
+			],
 		];
-		$this->assertSame($expected, $this->Controller->response->header());
+		$this->assertSame($expected, $this->Controller->response->getHeaders());
 
 		$expected = [
 			'url' => Router::url('/', true),
@@ -202,9 +204,11 @@ class AjaxComponentTest extends TestCase {
 		// Let's try a permanent redirect
 		$this->Controller->redirect('/', 301);
 		$expected = [
-			'Content-Type' => 'application/json; charset=UTF-8'
+			'Content-Type' => [
+				'application/json; charset=UTF-8',
+			],
 		];
-		$this->assertSame($expected, $this->Controller->response->header());
+		$this->assertSame($expected, $this->Controller->response->getHeaders());
 
 		$expected = [
 			'url' => Router::url('/', true),

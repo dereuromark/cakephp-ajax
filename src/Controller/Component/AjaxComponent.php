@@ -45,8 +45,6 @@ class AjaxComponent extends Component {
 	];
 
 	/**
-	 * Constructor.
-	 *
 	 * @param \Cake\Controller\ComponentRegistry $collection
 	 * @param array $config
 	 */
@@ -58,6 +56,10 @@ class AjaxComponent extends Component {
 		parent::__construct($collection, $config);
 	}
 
+	/**
+	 * @param array $config
+	 * @return void
+	 */
 	public function initialize(array $config = []) {
 		if (!$this->_config['autoDetect'] || !$this->_isActionEnabled()) {
 			return;
@@ -81,8 +83,6 @@ class AjaxComponent extends Component {
 	}
 
 	/**
-	 * AjaxComponent::_respondAsAjax()
-	 *
 	 * @return void
 	 */
 	protected function _respondAsAjax() {
