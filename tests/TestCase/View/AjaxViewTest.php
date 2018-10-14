@@ -29,8 +29,6 @@ class AjaxViewTest extends TestCase {
 	public $Ajax;
 
 	/**
-	 * AjaxViewTest::setUp()
-	 *
 	 * @return void
 	 */
 	public function setUp() {
@@ -42,8 +40,6 @@ class AjaxViewTest extends TestCase {
 	}
 
 	/**
-	 * AjaxViewTest::testSerialize()
-	 *
 	 * @return void
 	 */
 	public function testSerialize() {
@@ -57,15 +53,13 @@ class AjaxViewTest extends TestCase {
 		$View->set(['items' => $items, '_serialize' => ['items']]);
 		$result = $View->render(false);
 
-		$this->assertSame('application/json', $Response->type());
+		$this->assertSame('application/json', $Response->getType());
 		$expected = ['error' => null, 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
 
 	/**
-	 * AjaxViewTest::testSerialize()
-	 *
 	 * @return void
 	 */
 	public function testRenderWithSerialize() {
@@ -80,7 +74,7 @@ class AjaxViewTest extends TestCase {
 		$View->viewPath = 'Items';
 		$result = $View->render('index');
 
-		$this->assertSame('application/json', $Response->type());
+		$this->assertSame('application/json', $Response->getType());
 		$expected = ['error' => null, 'content' => 'My Index Test ctp', 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
@@ -106,15 +100,13 @@ class AjaxViewTest extends TestCase {
 		$View->set(['items' => $items, 'multiple' => $multiple, '_serialize' => true]);
 		$result = $View->render(false);
 
-		$this->assertSame('application/json', $Response->type());
+		$this->assertSame('application/json', $Response->getType());
 		$expected = ['error' => null, 'content' => null, 'items' => $items, 'multiple' => $multiple];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
 
 	/**
-	 * AjaxViewTest::testError()
-	 *
 	 * @return void
 	 */
 	public function testError() {
@@ -129,7 +121,7 @@ class AjaxViewTest extends TestCase {
 		$View->viewPath = 'Items';
 		$result = $View->render('index');
 
-		$this->assertSame('application/json', $Response->type());
+		$this->assertSame('application/json', $Response->getType());
 		$expected = ['error' => 'Some message', 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
@@ -149,26 +141,29 @@ class AjaxViewTest extends TestCase {
 		$View->subDir = false;
 		$result = $View->render('index');
 
-		$this->assertSame('application/json', $Response->type());
+		$this->assertSame('application/json', $Response->getType());
 		$expected = ['error' => null, 'content' => 'My Index Test ctp'];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function _testRender() {
 		$Request = new Request();
 		$Response = new Response();
 		$Controller = new AjaxComponentTestController($Request, $Response);
 
-		$Controller->viewBuilder()->className('Ajax.Ajax');
-		$Controller->viewBuilder()->template('myTest');
-		$Controller->viewBuilder()->templatePath('AjaxComponentTest');
+		$Controller->viewBuilder()->setClassName('Ajax.Ajax');
+		$Controller->viewBuilder()->setTemplate('myTest');
+		$Controller->viewBuilder()->setTemplatePath('AjaxComponentTest');
 		$Controller->myTest();
 
 		//$Controller->subDir = false;
 		$result = $Controller->render();
 
-		$this->assertSame('application/json', $Response->type());
+		$this->assertSame('application/json', $Response->getType());
 		$expected = ['error' => null, 'content' => 'My Index Test ctp'];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
