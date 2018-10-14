@@ -145,7 +145,7 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->startupProcess();
 		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
 	}
-	
+
 	/**
 	 * @return void
 	 */

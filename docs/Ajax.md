@@ -2,6 +2,8 @@
 
 AJAX = Asynchronous JavaScript and XML (or in this case PHP+JSON)
 
+Basically: The X in the acronym is actually a variable. Common values of X are: XML, JSON, HTML Fragments, Plain Text.
+
 ## Main concept
 
 The main concept of this plugin is to make working with AJAX in CakePHP easier and more streamlined.

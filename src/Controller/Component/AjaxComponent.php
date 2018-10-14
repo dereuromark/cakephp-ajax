@@ -163,8 +163,7 @@ class AjaxComponent extends Component {
 	 *
 	 * @return bool
 	 */
-	protected function _isActionEnabled()
-	{
+	protected function _isActionEnabled() {
 		$actions = $this->getConfig('actions');
 		if (!$actions) {
 			return true;
