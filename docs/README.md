@@ -7,6 +7,7 @@
 * [Upgrade guide from 2.x to 3.x](Upgrade.md)
 
 ## Documentation
+* [Ajax plugin](Ajax.md)
 * [View/Ajax](View/Ajax.md)
 * [Component/Ajax](Component/Ajax.md)
 

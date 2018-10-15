@@ -4,10 +4,9 @@ namespace Ajax\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
-use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Network\Response;
+use Cake\Http\Response;
 use Cake\Routing\Router;
 
 /**
@@ -41,12 +40,11 @@ class AjaxComponent extends Component {
 		'viewClass' => 'Ajax.Ajax',
 		'autoDetect' => true,
 		'resolveRedirect' => true,
-		'flashKey' => 'Flash.flash'
+		'flashKey' => 'Flash.flash',
+		'actions' => [],
 	];
 
 	/**
-	 * Constructor.
-	 *
 	 * @param \Cake\Controller\ComponentRegistry $collection
 	 * @param array $config
 	 */
@@ -58,8 +56,12 @@ class AjaxComponent extends Component {
 		parent::__construct($collection, $config);
 	}
 
+	/**
+	 * @param array $config
+	 * @return void
+	 */
 	public function initialize(array $config = []) {
-		if (!$this->_config['autoDetect']) {
+		if (!$this->_config['autoDetect'] || !$this->_isActionEnabled()) {
 			return;
 		}
 		$this->respondAsAjax = $this->Controller->request->is('ajax');
@@ -81,8 +83,6 @@ class AjaxComponent extends Component {
 	}
 
 	/**
-	 * AjaxComponent::_respondAsAjax()
-	 *
 	 * @return void
 	 */
 	protected function _respondAsAjax() {
@@ -117,21 +117,22 @@ class AjaxComponent extends Component {
 	 */
 	public function beforeRedirect(Event $event, $url, Response $response) {
 		if (!$this->respondAsAjax || !$this->_config['resolveRedirect']) {
-			return;
+			return null;
 		}
 
 		$url = Router::url($url, true);
 
 		$status = $response->getStatusCode();
-		$response->statusCode(200);
+		$response = $response->withStatus(200);
+		$this->Controller->setResponse($response);
 
-		$this->Controller->autoRender = true;
+		$this->Controller->enableAutoRender();
 		$this->Controller->set('_redirect', compact('url', 'status'));
 
 		$event->stopPropagation();
 
 		if ($this->_isControllerSerializeTrue()) {
-			return;
+			return null;
 		}
 
 		$serializeKeys = ['_redirect'];
@@ -155,6 +156,20 @@ class AjaxComponent extends Component {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Checks if we are using action whitelisting and if so checks if this action is whitelisted.
+	 *
+	 * @return bool
+	 */
+	protected function _isActionEnabled() {
+		$actions = $this->getConfig('actions');
+		if (!$actions) {
+			return true;
+		}
+
+		return in_array($this->getController()->getRequest()->getParam('action'), $actions, true);
 	}
 
 }
