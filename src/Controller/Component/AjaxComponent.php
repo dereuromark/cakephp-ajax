@@ -123,7 +123,7 @@ class AjaxComponent extends Component {
 		$url = Router::url($url, true);
 
 		$status = $response->getStatusCode();
-		$response = $response->withStatus(200);
+		$response = $response->withStatus(200)->withoutHeader('Location');
 		$this->Controller->setResponse($response);
 
 		$this->Controller->enableAutoRender();
