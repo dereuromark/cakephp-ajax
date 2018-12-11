@@ -22,7 +22,7 @@ class AjaxComponentTest extends TestCase {
 	];
 
 	/**
-	 * @var \Ajax\Test\TestCase\View\AjaxComponentTestController
+	 * @var \Ajax\Test\TestCase\Controller\Component\AjaxComponentTestController
 	 */
 	protected $Controller;
 
