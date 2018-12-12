@@ -77,7 +77,7 @@ class AjaxViewTest extends TestCase {
 
 		$response = $View->response;
 		$this->assertSame('application/json', $response->getType());
-		$expected = ['error' => null, 'content' => 'My Index Test ctp', 'items' => $items];
+		$expected = ['error' => null, 'content' => 'My Ajax Index Test ctp', 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -169,7 +169,7 @@ class AjaxViewTest extends TestCase {
 		$result = $Controller->render();
 
 		$this->assertSame('application/json', $Response->getType());
-		$expected = ['error' => null, 'content' => 'My Index Test ctp'];
+		$expected = ['error' => null, 'content' => 'My Ajax Index Test ctp'];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}

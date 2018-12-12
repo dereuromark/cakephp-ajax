@@ -1,1 +1,1 @@
-My Index Test ctp
+My Ajax Index Test ctp
