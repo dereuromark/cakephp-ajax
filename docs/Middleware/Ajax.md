@@ -8,13 +8,13 @@ Refer to [Component documentation](../Component/Ajax.md) for those details.
 ## Usage
 Load the Ajax middleware:
 ```php
-$middlewareQueue->->add(AjaxMiddleware::class);
+$middlewareQueue->->add(\Ajax\Middleware\AjaxMiddleware::class);
 ```
 
 As with the component, you can pass the settings either directly inline here, or use Configure to set them globally.
 
 ```php
-$middlewareQueue->->add(new AjaxMiddleware(['viewClass' => 'App.Ajax']))
+$middlewareQueue->->add(new AjaxMiddleware(['viewClass' => 'MyAjax']))
 ```
 
 If you're converting from the component, remember to it from your controller initialization.
