@@ -81,6 +81,13 @@ class AjaxMiddleware {
 		return $response;
 	}
 
+	/**
+	 * Generate a JSON response encoding the redirect
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request The request.
+	 * @param \Psr\Http\Message\ResponseInterface $response The response.
+	 * @return \Psr\Http\Message\ResponseInterface A response.
+	 */
 	protected function _redirect(ServerRequestInterface $request, ResponseInterface $response) {
 		$message = $request->getSession()->consume($this->_config['flashKey']);
 		$url = $response->getHeader('Location')[0];
@@ -116,6 +123,7 @@ class AjaxMiddleware {
 	/**
 	 * Checks if we are using action whitelisting and if so checks if this action is whitelisted.
 	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request The request.
 	 * @return bool
 	 */
 	protected function _isActionEnabled(ServerRequestInterface $request) {
