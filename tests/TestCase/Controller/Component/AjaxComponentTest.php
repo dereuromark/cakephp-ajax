@@ -22,7 +22,7 @@ class AjaxComponentTest extends TestCase {
 	];
 
 	/**
-	 * @var \Ajax\Test\TestCase\View\AjaxComponentTestController
+	 * @var \Ajax\Test\TestCase\Controller\Component\AjaxComponentTestController
 	 */
 	protected $Controller;
 
@@ -31,6 +31,8 @@ class AjaxComponentTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
+		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
 
 		Configure::write('App.namespace', 'TestApp');
 
