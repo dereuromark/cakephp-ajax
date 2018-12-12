@@ -32,6 +32,8 @@ class AjaxComponentTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
+
 		Configure::write('App.namespace', 'TestApp');
 
 		Configure::write('Ajax');
