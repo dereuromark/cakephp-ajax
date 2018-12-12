@@ -10,6 +10,7 @@
 * [Ajax plugin](Ajax.md)
 * [View/Ajax](View/Ajax.md)
 * [Component/Ajax](Component/Ajax.md)
+* [Middleware/Ajax](Middleware/Ajax.md)
 
 ## Contributing
 Your help is greatly appreciated.
