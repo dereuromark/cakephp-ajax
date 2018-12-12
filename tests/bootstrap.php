@@ -30,9 +30,6 @@ Cake\Core\Configure::write('App', [
 		'encoding' => 'UTF-8']);
 Cake\Core\Configure::write('debug', true);
 
-// Disable deprecation warnings, to prevent errors from email setup.
-error_reporting(E_ALL & ~E_USER_DEPRECATED);
-
 Cake\Core\Configure::write('Config', [
 		'adminEmail' => 'test@example.com',
 		'adminName' => 'Mark']);
