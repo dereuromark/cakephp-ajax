@@ -2,13 +2,14 @@
 
 namespace Ajax\Middleware;
 
+use Ajax\View\AjaxView;
+use Ajax\View\JsonEncoder;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
-use RuntimeException;
 
 /**
  * Ajax Middleware to respond to AJAX requests.
@@ -42,7 +43,7 @@ class AjaxMiddleware {
 		'resolveRedirect' => true,
 		'flashKey' => 'Flash.flash',
 		'actions' => [],
-		'jsonOptions' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_PARTIAL_OUTPUT_ON_ERROR,
+		'jsonOptions' => AjaxView::JSON_OPTIONS,
 	];
 
 	/**
@@ -93,7 +94,7 @@ class AjaxMiddleware {
 		$url = $response->getHeader('Location')[0];
 		$status = $response->getStatusCode();
 
-		$json = json_encode([
+		$json = JsonEncoder::encode([
 			// Error and content are here to make the output the same as previously
 			// with the component, so existing unit tests don't break.
 			'error' => null,
@@ -101,9 +102,6 @@ class AjaxMiddleware {
 			'_message' => $message,
 			'_redirect' => compact('url', 'status'),
 		], $this->_config['jsonOptions']);
-		if ($json === false) {
-			throw new RuntimeException('JSON encoding failed');
-		}
 
 		$response = $response->withStatus(200)
 			->withoutHeader('Location')

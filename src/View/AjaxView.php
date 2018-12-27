@@ -6,7 +6,6 @@ use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\Utility\Hash;
 use Cake\View\View;
-use RuntimeException;
 
 /**
  * A view to handle AJAX requests.
@@ -22,6 +21,8 @@ use RuntimeException;
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class AjaxView extends View {
+
+	const JSON_OPTIONS = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_PARTIAL_OUTPUT_ON_ERROR;
 
 	/**
 	 * List of variables to collect from the associated controller.
@@ -123,19 +124,9 @@ class AjaxView extends View {
 	 *
 	 * @param array $dataToSerialize Array of data that is to be serialzed.
 	 * @return string The serialized data.
-	 * @throws \RuntimeException
 	 */
 	protected function _serialize(array $dataToSerialize = []) {
-		$result = json_encode($dataToSerialize);
-		if (json_last_error() !== JSON_ERROR_NONE) {
-			$result = json_encode(['error' => json_last_error_msg()]);
-		}
-
-		if ($result === false) {
-			throw new RuntimeException('JSON encoding failed');
-		}
-
-		return $result;
+		return JsonEncoder::encode($dataToSerialize);
 	}
 
 	/**
