@@ -113,7 +113,7 @@ class AjaxComponent extends Component {
 	 * @param \Cake\Event\Event $event Event
 	 * @param string|array $url Either the string or URL array that is being redirected to.
 	 * @param \Cake\Http\Response $response
-	 * @return \Cake\Network\Response|null
+	 * @return \Cake\Http\Response|null
 	 */
 	public function beforeRedirect(Event $event, $url, Response $response) {
 		if (!$this->respondAsAjax || !$this->_config['resolveRedirect']) {

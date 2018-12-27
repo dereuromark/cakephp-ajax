@@ -14,8 +14,8 @@ namespace Ajax\Test\TestCase\View;
 use Ajax\View\AjaxView;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Network\Request;
-use Cake\Network\Response;
+use Cake\Http\Response;
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -43,7 +43,7 @@ class AjaxViewTest extends TestCase {
 	 * @return void
 	 */
 	public function testSerialize() {
-		$Request = new Request();
+		$Request = new ServerRequest();
 		$Response = new Response();
 		$items = [
 			['title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'],
@@ -64,7 +64,7 @@ class AjaxViewTest extends TestCase {
 	 * @return void
 	 */
 	public function testRenderWithSerialize() {
-		$Request = new Request();
+		$Request = new ServerRequest();
 		$Response = new Response();
 		$items = [
 			['title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'],
@@ -91,7 +91,7 @@ class AjaxViewTest extends TestCase {
 	 * @return void
 	 */
 	public function testSerializeSetTrue() {
-		$Request = new Request();
+		$Request = new ServerRequest();
 		$Response = new Response();
 		$items = [
 			['title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'],
@@ -113,7 +113,7 @@ class AjaxViewTest extends TestCase {
 	 * @return void
 	 */
 	public function testError() {
-		$Request = new Request();
+		$Request = new ServerRequest();
 		$Response = new Response();
 		$items = [
 			['title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'],
@@ -137,7 +137,7 @@ class AjaxViewTest extends TestCase {
 	 * @return void
 	 */
 	public function testWithoutSubdir() {
-		$Request = new Request();
+		$Request = new ServerRequest();
 		$Response = new Response();
 		$Controller = new Controller($Request, $Response);
 		$View = new AjaxView($Request, $Response);
@@ -156,7 +156,7 @@ class AjaxViewTest extends TestCase {
 	 * @return void
 	 */
 	public function _testRender() {
-		$Request = new Request();
+		$Request = new ServerRequest();
 		$Response = new Response();
 		$Controller = new AjaxComponentTestController($Request, $Response);
 

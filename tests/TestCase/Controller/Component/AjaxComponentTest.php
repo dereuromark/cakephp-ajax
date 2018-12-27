@@ -10,8 +10,6 @@ use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 
-/**
- */
 class AjaxComponentTest extends TestCase {
 
 	/**

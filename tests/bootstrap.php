@@ -30,14 +30,6 @@ Cake\Core\Configure::write('App', [
 		'encoding' => 'UTF-8']);
 Cake\Core\Configure::write('debug', true);
 
-Cake\Core\Configure::write('Config', [
-		'adminEmail' => 'test@example.com',
-		'adminName' => 'Mark']);
-Cake\Mailer\Email::setConfig('default', ['transport' => 'Debug']);
-Cake\Mailer\Email::setConfigTransport('Debug', [
-		'className' => 'Debug'
-]);
-
 mb_internal_encoding('UTF-8');
 
 $Tmp = new Cake\Filesystem\Folder(TMP);
@@ -67,7 +59,7 @@ $cache = [
 ];
 
 Cake\Core\Configure::write('App.paths', [
-		'templates' => dirname(__FILE__) . DS . 'TestApp' . DS . 'src' . DS . 'Template' . DS
+		'templates' => __DIR__ . DS . 'TestApp' . DS . 'src' . DS . 'Template' . DS
 ]);
 
 Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);

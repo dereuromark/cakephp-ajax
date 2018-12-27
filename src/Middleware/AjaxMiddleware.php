@@ -6,8 +6,9 @@ use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Cake\Http\Response;
+use Cake\Http\ServerRequest;
+use RuntimeException;
 
 /**
  * Ajax Middleware to respond to AJAX requests.
@@ -45,11 +46,9 @@ class AjaxMiddleware {
 	];
 
 	/**
-	 * Constructor
-	 *
-	 * @param array|string $config Array of configuration settings or string with authentication service provider name.
+	 * @param array $config Array of configuration settings
 	 */
-	public function __construct($config = []) {
+	public function __construct(array $config = []) {
 		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
 		$config += $defaults;
 		$this->setConfig($config);
@@ -58,12 +57,12 @@ class AjaxMiddleware {
 	/**
 	 * Callable implementation for the middleware stack.
 	 *
-	 * @param \Psr\Http\Message\ServerRequestInterface $request The request.
-	 * @param \Psr\Http\Message\ResponseInterface $response The response.
+	 * @param \Cake\Http\ServerRequest $request The request.
+	 * @param \Cake\Http\Response $response The response.
 	 * @param callable $next The next middleware to call.
-	 * @return \Psr\Http\Message\ResponseInterface A response.
+	 * @return \Cake\Http\Response A response.
 	 */
-	public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next) {
+	public function __invoke(ServerRequest $request, Response $response, $next) {
 		$respondAsAjax = $this->_config['autoDetect'] && $this->_isActionEnabled($request) && $request->is('ajax');
 		if ($respondAsAjax) {
 			EventManager::instance()->on('Controller.beforeRender', [$this, 'beforeRender']);
@@ -84,26 +83,32 @@ class AjaxMiddleware {
 	/**
 	 * Generate a JSON response encoding the redirect
 	 *
-	 * @param \Psr\Http\Message\ServerRequestInterface $request The request.
-	 * @param \Psr\Http\Message\ResponseInterface $response The response.
-	 * @return \Psr\Http\Message\ResponseInterface A response.
+	 * @param \Cake\Http\ServerRequest $request The request.
+	 * @param \Cake\Http\Response $response The response.
+	 * @return \Cake\Http\Response A response.
+	 * @throws \RuntimeException
 	 */
-	protected function _redirect(ServerRequestInterface $request, ResponseInterface $response) {
+	protected function _redirect(ServerRequest $request, Response $response) {
 		$message = $request->getSession()->consume($this->_config['flashKey']);
 		$url = $response->getHeader('Location')[0];
 		$status = $response->getStatusCode();
 
+		$json = json_encode([
+			// Error and content are here to make the output the same as previously
+			// with the component, so existing unit tests don't break.
+			'error' => null,
+			'content' => null,
+			'_message' => $message,
+			'_redirect' => compact('url', 'status'),
+		], $this->_config['jsonOptions']);
+		if ($json === false) {
+			throw new RuntimeException('JSON encoding failed');
+		}
+
 		$response = $response->withStatus(200)
 			->withoutHeader('Location')
-			->withHeader('Content-Type', 'application/json; charset=' . $response->charset())
-			->withStringBody(json_encode([
-				// Error and content are here to make the output the same as previously
-				// with the component, so existing unit tests don't break.
-				'error' => null,
-				'content' => null,
-				'_message' => $message,
-				'_redirect' => compact('url', 'status'),
-			], $this->_config['jsonOptions']));
+			->withHeader('Content-Type', 'application/json; charset=' . $response->getCharset())
+			->withStringBody($json);
 
 		return $response;
 	}
@@ -111,10 +116,11 @@ class AjaxMiddleware {
 	/**
 	 * Checks to see if the Controller->viewVar labeled _serialize is set to boolean true.
 	 *
+	 * @param \Cake\Controller\Controller $controller
 	 * @return bool
 	 */
-	protected function _isControllerSerializeTrue() {
-		if (!empty($this->Controller->viewVars['_serialize']) && $this->Controller->viewVars['_serialize'] === true) {
+	protected function _isSerializeTrue($controller) {
+		if (!empty($controller->viewVars['_serialize']) && $controller->viewVars['_serialize'] === true) {
 			return true;
 		}
 		return false;
@@ -123,10 +129,10 @@ class AjaxMiddleware {
 	/**
 	 * Checks if we are using action whitelisting and if so checks if this action is whitelisted.
 	 *
-	 * @param \Psr\Http\Message\ServerRequestInterface $request The request.
+	 * @param \Cake\Http\ServerRequest $request The request.
 	 * @return bool
 	 */
-	protected function _isActionEnabled(ServerRequestInterface $request) {
+	protected function _isActionEnabled(ServerRequest $request) {
 		$actions = $this->getConfig('actions');
 		if (!$actions) {
 			return true;
@@ -143,27 +149,28 @@ class AjaxMiddleware {
 	 * @return void
 	 */
 	public function beforeRender(Event $event) {
-		$this->Controller = $event->getSubject();
-		$this->Controller->viewBuilder()->setClassName($this->_config['viewClass']);
+		/** @var \Cake\Controller\Controller $controller */
+		$controller = $event->getSubject();
+		$controller->viewBuilder()->setClassName($this->_config['viewClass']);
 
 		// Set flash messages to the view
 		if ($this->_config['flashKey']) {
-			$message = $this->Controller->request->getSession()->consume($this->_config['flashKey']);
-			if ($message || !array_key_exists('_message', $this->Controller->viewVars)) {
-				$this->Controller->set('_message', $message);
+			$message = $controller->getRequest()->getSession()->consume($this->_config['flashKey']);
+			if ($message || !array_key_exists('_message', $controller->viewVars)) {
+				$controller->set('_message', $message);
 			}
 		}
 
 		// If _serialize is true, *all* viewVars will be serialized; no need to add _message.
-		if ($this->_isControllerSerializeTrue()) {
+		if ($this->_isSerializeTrue($controller)) {
 			return;
 		}
 
 		$serializeKeys = ['_message'];
-		if (!empty($this->Controller->viewVars['_serialize'])) {
-			$serializeKeys = array_merge((array)$this->Controller->viewVars['_serialize'], $serializeKeys);
+		if (!empty($controller->viewVars['_serialize'])) {
+			$serializeKeys = array_merge((array)$controller->viewVars['_serialize'], $serializeKeys);
 		}
-		$this->Controller->set('_serialize', $serializeKeys);
+		$controller->set('_serialize', $serializeKeys);
 	}
 
 }

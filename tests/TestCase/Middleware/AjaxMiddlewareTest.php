@@ -12,8 +12,6 @@ use Cake\TestSuite\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- */
 class AjaxMiddlewareTest extends TestCase {
 
 	/**
@@ -47,8 +45,6 @@ class AjaxMiddlewareTest extends TestCase {
 	}
 
 	/**
-	 * AjaxMiddlewareTest::testNonAjax()
-	 *
 	 * @return void
 	 */
 	public function testNonAjax() {
@@ -73,8 +69,6 @@ class AjaxMiddlewareTest extends TestCase {
 	}
 
 	/**
-	 * AjaxComponentTest::testDefaultsRender()
-	 *
 	 * @return void
 	 */
 	public function testDefaultsRender() {
@@ -126,8 +120,6 @@ class AjaxMiddlewareTest extends TestCase {
 	}
 
 	/**
-	 * AjaxComponentTest::testDefaultsRedirect()
-	 *
 	 * @return void
 	 */
 	public function testDefaultsRedirect() {
@@ -163,8 +155,6 @@ class AjaxMiddlewareTest extends TestCase {
 	}
 
 	/**
-	 * AjaxComponentTest::testAutoDetectOnFalse()
-	 *
 	 * @return void
 	 */
 	public function testAutoDetectOnFalse() {
@@ -274,8 +264,6 @@ class AjaxMiddlewareTest extends TestCase {
 	}
 
 	/**
-	 * AjaxComponentTest::testSetVars()
-	 *
 	 * @return void
 	 */
 	public function testSetVars() {
@@ -317,12 +305,10 @@ class AjaxMiddlewareTest extends TestCase {
 
 }
 
-// Use Controller instead of AppController to avoid conflicts
+// Use test Controller instead of AppController to avoid conflicts
 class AjaxMiddlewareTestController extends Controller {
 
 	/**
-	 * A test action
-	 *
 	 * @return void
 	 */
 	public function myTest() {
