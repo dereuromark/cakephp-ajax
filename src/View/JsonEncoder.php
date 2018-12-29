@@ -2,8 +2,6 @@
 
 namespace Ajax\View;
 
-use Cake\Core\Configure;
-use Cake\Log\Log;
 use RuntimeException;
 
 class JsonEncoder {
