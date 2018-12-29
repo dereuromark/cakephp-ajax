@@ -17,17 +17,14 @@ class JsonEncoder {
 	 */
 	public static function encode(array $dataToSerialize, $options = 0) {
 		$result = json_encode($dataToSerialize, $options);
+
+		$error = null;
 		if (json_last_error() !== JSON_ERROR_NONE) {
-			$error = json_last_error_msg();
-			if (!Configure::read('debug')) {
-				Log::write('debug', $error);
-				$error = 'JSON encoding failed';
-			}
-			$result = json_encode(['error' => $error], $options);
+			$error = 'JSON encoding failed: ' . json_last_error_msg();
 		}
 
-		if ($result === false) {
-			throw new RuntimeException('JSON encoding failed');
+		if ($result === false || $error) {
+			throw new RuntimeException($error ?: 'JSON encoding failed');
 		}
 
 		return $result;
