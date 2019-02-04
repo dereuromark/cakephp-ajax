@@ -17,6 +17,6 @@ As with the component, you can pass the settings either directly inline here, or
 $middlewareQueue->add(new AjaxMiddleware(['viewClass' => 'MyAjax']))
 ```
 
-If you're converting from the component, remember to it from your controller initialization.
+If you're converting from the component, remember to remove it from your controller initialization.
 
 That should be it! All your existing functionality and unit tests should just work.
