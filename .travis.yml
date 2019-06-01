@@ -50,5 +50,9 @@ script:
   - if [[ $CODECOVERAGE == 1 ]]; then wget -O codecov.sh https://codecov.io/bash; fi
   - if [[ $CODECOVERAGE == 1 ]]; then bash codecov.sh; fi
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 notifications:
   email: false
