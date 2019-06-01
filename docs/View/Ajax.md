@@ -30,16 +30,16 @@ Using the AjaxComponent you can save yourself that call, as it can auto-detect A
 Instead of GET we request it via AJAX:
 ```php
 public function favorites() {
-	$this->request->allowMethod('ajax');
-	$this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
+    $this->request->allowMethod('ajax');
+    $this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
 }
 ```
 
 The result can be this, for example:
 ```
 {
-	"content": [Result of our rendered favorites.ctp as HTML string],
-	"error": ''
+    "content": [Result of our rendered favorites.ctp as HTML string],
+    "error": ''
 }
 ```
 You can add more data to the response object via `_serialize`.
@@ -48,16 +48,16 @@ You can add more data to the response object via `_serialize`.
 ### Drop down selections
 ```php
 public function statesAjax() {
-	$this->request->allowMethod('ajax');
-	$id = $this->request->query('id');
-	if (!$id) {
-		throw new NotFoundException();
-	}
+    $this->request->allowMethod('ajax');
+    $id = $this->request->query('id');
+    if (!$id) {
+        throw new NotFoundException();
+    }
 
-	$this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
+    $this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
 
-	$states = $this->States->getListByCountry($id);
-	$this->set(compact('states'));
+    $states = $this->States->getListByCountry($id);
+    $this->set(compact('states'));
 }
 ```
 
@@ -66,6 +66,6 @@ public function statesAjax() {
 I found the following quite useful for your jQuery AJAX code as some browsers might not properly work without it (at least for me it used to).
 ```
 beforeSend: function(xhr) {
-	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 },
 ```

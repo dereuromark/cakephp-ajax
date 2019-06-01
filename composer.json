@@ -12,11 +12,12 @@
 			"homepage": "https://www.dereuromark.de"
 		}
 	],
-	"require":{
+	"require": {
 		"php": ">=5.6",
-		"cakephp/cakephp": "^3.6"
+		"cakephp/cakephp": "^3.7"
 	},
-	"require-dev":{
+	"require-dev": {
+		"cakephp/cakephp": "^3.7.8",
 		"dereuromark/cakephp-tools": "^1.4",
 		"fig-r/psr2r-sniffer": "dev-master"
 	},
@@ -32,7 +33,7 @@
 			"TestApp\\": "tests/TestApp/src/"
 		}
 	},
-	"support":{
+	"support": {
 		"source": "https://github.com/dereuromark/cakephp-ajax",
 		"issues": "https://github.com/dereuromark/cakephp-ajax/issues"
 	},

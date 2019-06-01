@@ -49,24 +49,24 @@ Or you get a non-200 code with the typical error structure:
 A typical JS (e.g. jQuery) code can then easily use that to distinguish those two cases:
 ```js
 $(function() {
-	$('#countries').change(function() {
-		var selectedValue = $(this).val();
-		var targetUrl = $(this).attr('rel') + '?id=' + selectedValue;
-		$.ajax({
-			type: 'get',
-			url: targetUrl,
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-			},
-			success: function(response) {
-				if (response.content) {
-					$('#provinces').html(response.content);
-				}
-			},
-			error: function(e) {
-				alert("An error occurred: " + e.responseText.message);
-			}
-		});
-	});
+    $('#countries').change(function() {
+        var selectedValue = $(this).val();
+        var targetUrl = $(this).attr('rel') + '?id=' + selectedValue;
+        $.ajax({
+            type: 'get',
+            url: targetUrl,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            },
+            success: function(response) {
+                if (response.content) {
+                    $('#provinces').html(response.content);
+                }
+            },
+            error: function(e) {
+                alert("An error occurred: " + e.responseText.message);
+            }
+        });
+    });
 });
 ```

@@ -25,11 +25,11 @@ You can pass the settings either directly inline here, or use Configure to set t
 
 This component will avoid those redirects completely and pass those down as part of the content of the JSON response object:
 
-	"_redirect":{"url":"http://controller/action","status":200}, ...
+    "_redirect":{"url":"http://controller/action","status":200}, ...
 
 Flash messages are also caught and passed down as part of the response:
 
-	"_message":{"success":["Yeah, that was a normal POST and redirect (PRG)."]}, ...
+    "_message":{"success":["Yeah, that was a normal POST and redirect (PRG)."]}, ...
 
 Don't forget `Configure::write('Ajax.flashKey', 'FlashMessage');`
 if you want to use it with Tools.Flash component (multi/stackable messages).
@@ -43,7 +43,7 @@ $this->Controller->set('_serialize', ['content']);
 ```
 results in
 
-	"content":{...}, ...
+    "content":{...}, ...
 
 ## Configs
 
