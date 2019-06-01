@@ -106,7 +106,7 @@ class AjaxMiddlewareTest extends TestCase {
 
 		$expectedHeaders = [
 			'Content-Type' => [
-				'application/json; charset=UTF-8',
+				'application/json',
 			],
 		];
 		$this->assertSame($expectedHeaders, $result->getHeaders());
@@ -137,7 +137,7 @@ class AjaxMiddlewareTest extends TestCase {
 
 		$expectedHeaders = [
 			'Content-Type' => [
-				'application/json; charset=UTF-8',
+				'application/json',
 			],
 		];
 		$this->assertSame($expectedHeaders, $result->getHeaders());
@@ -230,7 +230,7 @@ class AjaxMiddlewareTest extends TestCase {
 
 		$expectedHeaders = [
 			'Content-Type' => [
-				'application/json; charset=UTF-8',
+				'application/json',
 			],
 		];
 		$this->assertSame($expectedHeaders, $result->getHeaders());
@@ -288,7 +288,7 @@ class AjaxMiddlewareTest extends TestCase {
 
 		$expectedHeaders = [
 			'Content-Type' => [
-				'application/json; charset=UTF-8',
+				'application/json',
 			],
 		];
 		$this->assertSame($expectedHeaders, $result->getHeaders());

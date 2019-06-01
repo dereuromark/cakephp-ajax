@@ -87,7 +87,7 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->redirect('/');
 		$expected = [
 			'Content-Type' => [
-				'application/json; charset=UTF-8',
+				'application/json',
 			],
 		];
 		$this->assertSame($expected, $this->Controller->response->getHeaders());
@@ -205,7 +205,7 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->redirect('/', 301);
 		$expected = [
 			'Content-Type' => [
-				'application/json; charset=UTF-8',
+				'application/json',
 			],
 		];
 		$this->assertSame($expected, $this->Controller->response->getHeaders());

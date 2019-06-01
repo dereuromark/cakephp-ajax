@@ -105,7 +105,7 @@ class AjaxMiddleware {
 
 		$response = $response->withStatus(200)
 			->withoutHeader('Location')
-			->withHeader('Content-Type', 'application/json; charset=' . $response->getCharset())
+			->withHeader('Content-Type', 'application/json')
 			->withStringBody($json);
 
 		return $response;
