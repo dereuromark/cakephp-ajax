@@ -77,7 +77,7 @@ public function delete($id = null) {
 
 The nice bonus is the auto-fallback: The controller and all deleting works normally for those that have JS disabled.
 
-A live example can be found in the [Sanbox](https://sandbox.dereuromark.de/sandbox/ajax-examples/table).
+A live example can be found in the [Sandbox](https://sandbox.dereuromark.de/sandbox/ajax-examples/table).
 
 ## Configs
 
