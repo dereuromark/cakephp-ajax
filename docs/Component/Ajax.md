@@ -53,6 +53,21 @@ All you need to do here is
 - Add some custom JS to catch the "post link JS"
 - Make sure the AjaxComponent is loaded for this action
 
+The default bake action usually already works perfectly:
+
+```php
+public function delete($id = null) {
+    $this->request->allowMethod(['post', 'delete']);
+    $group = $this->Groups->get($id);
+
+    $this->Groups->delete($group);
+    $this->Flash->success(__('The group has been deleted.'));
+
+    return $this->redirect(['action' => 'index']);
+}
+```
+
+If you have some custom "fail" logic, though, you need to do a small adjustment.
 Then just modify your delete action to pass down the error to the view for cases where this is needed:
 ```php
 public function delete($id = null) {
