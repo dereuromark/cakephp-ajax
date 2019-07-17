@@ -102,6 +102,7 @@ class AjaxView extends View {
 		];
 
 		if (!empty($this->viewVars['error'])) {
+			$dataToSerialize['error'] = $this->viewVars['error'];
 			$view = false;
 		}
 
@@ -110,7 +111,6 @@ class AjaxView extends View {
 		}
 
 		$this->viewVars = Hash::merge($dataToSerialize, $this->viewVars);
-
 		if (isset($this->viewVars['_serialize'])) {
 			$dataToSerialize = $this->_dataToSerialize($this->viewVars['_serialize'], $dataToSerialize);
 		}

@@ -44,6 +44,40 @@ $this->Controller->set('_serialize', ['content']);
 results in
 
     "content":{...}, ...
+    
+### AJAX Delete
+
+For usability reasons you might want to delete a row in a paginated table, without the need to refresh the whole page.
+All you need to do here is
+- Add a specific class to the "post link"
+- Add some custom JS to catch the "post link JS"
+- Make sure the AjaxComponent is loaded for this action
+
+Then just modify your delete action to pass down the error to the view for cases where this is needed:
+```php
+public function delete($id = null) {
+    $this->request->allowMethod(['post', 'delete']);
+    $group = $this->Groups->get($id);
+
+    if ($group->status === $group::STATUS_PUBLIC) {
+        $error = 'Already public, deleting not possible in that state.';
+        $this->Flash->error($error);
+        $this->set(compact('error'));
+
+        // Since we are not deleting, referer redirect is safe to use here
+        return $this->redirect($this->referer(['action' => 'index'], true));
+    }
+
+    $this->Groups->delete($group);
+    $this->Flash->success(__('The group has been deleted.'));
+
+    return $this->redirect(['action' => 'index']);
+}
+```
+
+The nice bonus is the auto-fallback: The controller and all deleting works normally for those that have JS disabled.
+
+A live example can be found in the [Sanbox](https://sandbox.dereuromark.de/sandbox/ajax-examples/table).
 
 ## Configs
 
