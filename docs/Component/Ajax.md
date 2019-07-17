@@ -66,6 +66,15 @@ public function delete($id = null) {
     return $this->redirect(['action' => 'index']);
 }
 ```
+The JSON response even contains the flash message and redirect URL in case you want to use that in your JS response handling:
+```
+{
+    "error":null,
+    "content":null,
+    "_message":[{"message":"The group has been deleted.","key":"flash","element":"Flash\/success","params":[]}],
+    "_redirect":{"url":"http:\/\/app.local\/groups","status":302}
+}
+```
 
 If you have some custom "fail" logic, though, you need to do a small adjustment.
 Then just modify your delete action to pass down the error to the view for cases where this is needed:
