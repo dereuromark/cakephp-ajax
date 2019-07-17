@@ -75,6 +75,9 @@ public function delete($id = null) {
 }
 ```
 
+If you don't pass the error to the view, you would need to read/parse the passed flash messages (key=error), which could be a bit more difficult to do.
+But the adjustment above is still minimal (1-2 lines difference from the baked default action for delete case).
+
 The nice bonus is the auto-fallback: The controller and all deleting works normally for those that have JS disabled.
 
 A live example can be found in the [Sandbox](https://sandbox.dereuromark.de/sandbox/ajax-examples/table).
