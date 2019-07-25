@@ -38,8 +38,8 @@ You can pass content along with it, as well, those JSON response keys will not b
 are not reserved:
 ```php
 $content = ['id' => 1, 'title' => 'title'];
-$this->Controller->set(compact('content'));
-$this->Controller->set('_serialize', ['content']);
+$this->set(compact('content'));
+$this->set('_serialize', ['content']);
 ```
 results in
 
