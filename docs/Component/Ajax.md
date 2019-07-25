@@ -106,6 +106,34 @@ The nice bonus is the auto-fallback: The controller and all deleting works norma
 
 A live example can be found in the [Sandbox](https://sandbox.dereuromark.de/sandbox/ajax-examples/table).
 
+### Simple boolean response
+
+In cases like "edit in place" you often just need a basic AJAX response as boolean YES/NO, maybe with an error message on top.
+Since we ideally always return a 200 OK response, we need a different way of signaling the frontend if the operation was successful.
+
+Here you can simplify it using the special "error"/"success" keys that auto-format the reponse as JSON:
+```php
+$this->request->allowMethod('post');
+
+$value = $this->request->getData('value');
+if (!$this->process($value)) {
+    $error = 'Didnt work out!';
+    $this->set(compact('error'));
+} else {
+    $success = true; // Or a text like 'You did it!'
+    $this->set(compact('success'));
+}
+```
+
+In the case of x-editable as "edit in place" JS all you need is to check for the error message:
+```js
+success: function(response, newValue) {
+    if (response.error) {
+        return response.error;  //msg will be shown in editable form
+    }
+}
+```
+
 ## Configs
 
 - 'autoDetect' => true // Detect AJAX automatically, regardless of the extension

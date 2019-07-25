@@ -89,7 +89,7 @@ class AjaxView extends View {
 	 * The rendered content will be part of the JSON response object and
 	 * can be accessed via response.content in JavaScript.
 	 *
-	 * If an error has been set, the rendering will be skipped.
+	 * If an error or success has been set, the rendering will be skipped.
 	 *
 	 * @param string|null $view The view being rendered.
 	 * @param string|null $layout The layout being rendered.
@@ -98,11 +98,16 @@ class AjaxView extends View {
 	public function render($view = null, $layout = null) {
 		$dataToSerialize = [
 			'error' => null,
+			'success' => null,
 			'content' => null,
 		];
 
-		if (!empty($this->viewVars['error'])) {
+		if (isset($this->viewVars['error'])) {
 			$dataToSerialize['error'] = $this->viewVars['error'];
+			$view = false;
+		}
+		if (isset($this->viewVars['success'])) {
+			$dataToSerialize['success'] = $this->viewVars['success'];
 			$view = false;
 		}
 

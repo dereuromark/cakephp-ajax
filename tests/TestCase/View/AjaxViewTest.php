@@ -55,7 +55,7 @@ class AjaxViewTest extends TestCase {
 
 		$response = $View->response;
 		$this->assertSame('application/json', $response->getType());
-		$expected = ['error' => null, 'content' => null, 'items' => $items];
+		$expected = ['error' => null, 'success' => null, 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -77,7 +77,7 @@ class AjaxViewTest extends TestCase {
 
 		$response = $View->response;
 		$this->assertSame('application/json', $response->getType());
-		$expected = ['error' => null, 'content' => 'My Ajax Index Test ctp', 'items' => $items];
+		$expected = ['error' => null, 'success' => null, 'content' => 'My Ajax Index Test ctp', 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -104,7 +104,7 @@ class AjaxViewTest extends TestCase {
 
 		$response = $View->response;
 		$this->assertSame('application/json', $response->getType());
-		$expected = ['error' => null, 'content' => null, 'items' => $items, 'multiple' => $multiple];
+		$expected = ['error' => null, 'success' => null, 'content' => null, 'items' => $items, 'multiple' => $multiple];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -126,7 +126,7 @@ class AjaxViewTest extends TestCase {
 
 		$response = $View->response;
 		$this->assertSame('application/json', $response->getType());
-		$expected = ['error' => 'Some message', 'content' => null, 'items' => $items];
+		$expected = ['error' => 'Some message', 'success' => null, 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -147,7 +147,7 @@ class AjaxViewTest extends TestCase {
 
 		$response = $View->response;
 		$this->assertSame('application/json', $response->getType());
-		$expected = ['error' => null, 'content' => 'My Index Test ctp'];
+		$expected = ['error' => null, 'success' => null, 'content' => 'My Index Test ctp'];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}

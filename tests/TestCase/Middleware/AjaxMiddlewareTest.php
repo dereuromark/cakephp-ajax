@@ -113,6 +113,7 @@ class AjaxMiddlewareTest extends TestCase {
 
 		$expected = [
 			'error' => null,
+			'success' => null,
 			'content' => 'My Ajax Index Test ctp',
 			'_message' => $expected,
 		];
@@ -237,6 +238,7 @@ class AjaxMiddlewareTest extends TestCase {
 
 		$expected = [
 			'error' => null,
+			'success' => null,
 			'content' => 'My Ajax Index Test ctp',
 			'_message' => null,
 		];
@@ -297,6 +299,7 @@ class AjaxMiddlewareTest extends TestCase {
 
 		$expected = [
 			'error' => null,
+			'success' => null,
 			'content' => $this->Controller->viewVars['content'],
 			'_message' => null,
 		];
