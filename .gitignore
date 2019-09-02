@@ -1,4 +1,5 @@
 /phpunit.phar
+.phpunit.result.cache
 /composer.lock
 /vendor/
 /plugins/
