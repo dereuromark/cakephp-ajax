@@ -1,7 +1,5 @@
 <?php
 /**
- * PHP 5
- *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
@@ -17,6 +15,7 @@ use Cake\Core\Configure;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
+use TestApp\Controller\AjaxTestController;
 
 /**
  * AjaxViewTest
@@ -158,7 +157,7 @@ class AjaxViewTest extends TestCase {
 	public function _testRender() {
 		$Request = new ServerRequest();
 		$Response = new Response();
-		$Controller = new AjaxComponentTestController($Request, $Response);
+		$Controller = new AjaxTestController($Request, $Response);
 
 		$Controller->viewBuilder()->setClassName('Ajax.Ajax');
 		$Controller->viewBuilder()->setTemplate('myTest');
@@ -172,24 +171,6 @@ class AjaxViewTest extends TestCase {
 		$expected = ['error' => null, 'content' => 'My Ajax Index Test ctp'];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
-	}
-
-}
-
-// Use Controller instead of AppController to avoid conflicts
-class AjaxComponentTestController extends Controller {
-
-	/**
-	 * @var array
-	 */
-	public $components = ['Ajax.Ajax'];
-
-	/**
-	 * A test action
-	 *
-	 * @return void
-	 */
-	public function myTest() {
 	}
 
 }

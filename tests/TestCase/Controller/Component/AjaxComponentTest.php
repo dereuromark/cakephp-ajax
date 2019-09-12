@@ -9,6 +9,7 @@ use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
+use TestApp\Controller\AjaxTestController;
 
 class AjaxComponentTest extends TestCase {
 
@@ -20,7 +21,7 @@ class AjaxComponentTest extends TestCase {
 	];
 
 	/**
-	 * @var \Ajax\Test\TestCase\Controller\Component\AjaxComponentTestController
+	 * @var \TestApp\Controller\AjaxTestController
 	 */
 	protected $Controller;
 
@@ -37,12 +38,10 @@ class AjaxComponentTest extends TestCase {
 		Configure::write('Ajax');
 		Configure::delete('Flash');
 
-		$this->Controller = new AjaxComponentTestController(new ServerRequest(), new Response());
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
 	}
 
 	/**
-	 * AjaxComponentTest::testNonAjax()
-	 *
 	 * @return void
 	 */
 	public function testNonAjax() {
@@ -51,14 +50,12 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
-	 * AjaxComponentTest::testDefaults()
-	 *
 	 * @return void
 	 */
 	public function testDefaults() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-		$this->Controller = new AjaxComponentTestController(new ServerRequest(), new Response());
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
 		$this->Controller->components()->load('Flash');
 
 		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
@@ -100,14 +97,12 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
-	 * AjaxComponentTest::testAutoDetectOnFalse()
-	 *
 	 * @return void
 	 */
 	public function testAutoDetectOnFalse() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-		$this->Controller = new AjaxComponentTestController(new ServerRequest(), new Response());
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
 
 		$this->Controller->components()->unload('Ajax');
 		$this->Controller->components()->load('Ajax.Ajax', ['autoDetect' => false]);
@@ -123,7 +118,7 @@ class AjaxComponentTest extends TestCase {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		Configure::write('Ajax.actions', ['foo']);
 
-		$this->Controller = new AjaxComponentTestController(new ServerRequest(), new Response());
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
 
 		$this->Controller->components()->unload('Ajax');
 		$this->Controller->components()->load('Ajax.Ajax');
@@ -139,7 +134,7 @@ class AjaxComponentTest extends TestCase {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		Configure::write('Ajax.actions', ['foo']);
 
-		$this->Controller = new AjaxComponentTestController(new ServerRequest(['params' => ['action' => 'foo']]), new Response());
+		$this->Controller = new AjaxTestController(new ServerRequest(['params' => ['action' => 'foo']]), new Response());
 
 		$this->Controller->components()->unload('Ajax');
 		$this->Controller->components()->load('Ajax.Ajax');
@@ -155,7 +150,7 @@ class AjaxComponentTest extends TestCase {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		Configure::write('Ajax.autoDetect', false);
 
-		$this->Controller = new AjaxComponentTestController(new ServerRequest(), new Response());
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
 
 		$this->Controller->components()->unload('Ajax');
 		$this->Controller->components()->load('Ajax.Ajax');
@@ -165,14 +160,12 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
-	 * AjaxComponentTest::testSetVars()
-	 *
 	 * @return void
 	 */
 	public function testSetVars() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-		$this->Controller = new AjaxComponentTestController(new ServerRequest(), new Response());
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
 
 		$this->Controller->components()->unload('Ajax');
 
@@ -187,14 +180,12 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
-	 * AjaxComponentTest::testSetVarsWithRedirect()
-	 *
 	 * @return void
 	 */
 	public function testSetVarsWithRedirect() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-		$this->Controller = new AjaxComponentTestController(new ServerRequest(), new Response());
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
 		$this->Controller->startupProcess();
 
 		$content = ['id' => 1, 'title' => 'title'];
@@ -223,31 +214,6 @@ class AjaxComponentTest extends TestCase {
 		$this->assertNotEmpty($this->Controller->viewVars);
 		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
 		$this->assertTrue(in_array('content', $this->Controller->viewVars['_serialize']));
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testAjaxRendering() {
-		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
-	}
-
-}
-
-// Use Controller instead of AppController to avoid conflicts
-class AjaxComponentTestController extends Controller {
-
-	/**
-	 * @var array
-	 */
-	public $components = ['Ajax.Ajax'];
-
-	/**
-	 * A test action
-	 *
-	 * @return void
-	 */
-	public function myTest() {
 	}
 
 }

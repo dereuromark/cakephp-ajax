@@ -11,6 +11,7 @@ use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use TestApp\Controller\AjaxTestController;
 
 class AjaxMiddlewareTest extends TestCase {
 
@@ -22,7 +23,7 @@ class AjaxMiddlewareTest extends TestCase {
 	];
 
 	/**
-	 * @var \Ajax\Test\TestCase\Middleware\AjaxMiddlewareTestController
+	 * @var \TestApp\Controller\AjaxTestController
 	 */
 	protected $Controller;
 
@@ -41,7 +42,7 @@ class AjaxMiddlewareTest extends TestCase {
 
 		$request = new ServerRequest();
 		$response = new Response();
-		$this->Controller = new AjaxMiddlewareTestController($request, $response, 'Items');
+		$this->Controller = new Controller($request, $response, 'Items');
 	}
 
 	/**
@@ -217,7 +218,7 @@ class AjaxMiddlewareTest extends TestCase {
 
 		$request = new ServerRequest(['params' => ['action' => 'foo']]);
 		$response = new Response();
-		$this->Controller = new AjaxMiddlewareTestController($request, $response, 'Items');
+		$this->Controller = new AjaxTestController($request, $response, 'Items');
 
 		$next = function (RequestInterface $request, ResponseInterface $response) {
 			return $this->Controller->render('index');
@@ -304,17 +305,6 @@ class AjaxMiddlewareTest extends TestCase {
 			'_message' => null,
 		];
 		$this->assertEquals(json_encode($expected), (string)$result->getBody());
-	}
-
-}
-
-// Use test Controller instead of AppController to avoid conflicts
-class AjaxMiddlewareTestController extends Controller {
-
-	/**
-	 * @return void
-	 */
-	public function myTest() {
 	}
 
 }
