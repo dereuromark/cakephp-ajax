@@ -15,14 +15,32 @@ Make sure you disabled the deprecated `enableBeforeRedirect` option:
 $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
 ```
 
-## Usage
-Load the Ajax component:
+## Setup
+Load the Ajax component inside `Controller::initialize()`:
 ```php
-public $components = ['Ajax.Ajax'];
+$this->loadComponent('Ajax.Ajax');
 ```
 
 You can pass the settings either directly inline here, or use Configure to set them globally.
 
+If you want to enable it only for certain actions, use the `actions` config key to whitelist certain actions.
+You could also do a blacklist programmatically:
+```php
+/**
+ * @return void
+ */
+public function initialize() {
+    parent::initialize();
+    ...
+
+    if (!in_array($this->request->getParam('action'), ['customAction'], true)) {
+        $this->loadComponent('Ajax.Ajax');
+    }
+}
+```
+But in general, a whitelist setup is usually recommended.
+
+## Usage
 This component will avoid those redirects completely and pass those down as part of the content of the JSON response object:
 
     "_redirect":{"url":"http://controller/action","status":200}, ...
