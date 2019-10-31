@@ -6,6 +6,7 @@ use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\Utility\Hash;
 use Cake\View\View;
+use App\View\AjaxView as AppAjaxView;
 
 /**
  * A view to handle AJAX requests.
@@ -20,7 +21,7 @@ use Cake\View\View;
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
-class AjaxView extends View {
+class AjaxView extends AppAjaxView {
 
 	const JSON_OPTIONS = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_PARTIAL_OUTPUT_ON_ERROR;
 
