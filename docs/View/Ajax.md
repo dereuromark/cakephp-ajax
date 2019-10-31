@@ -62,11 +62,10 @@ public function statesAjax() {
 ```
 
 ## Custom Plugin helpers
-If your view classes need plugin helpers, and you are not using the controller way anymore to load/define helpers, then you might need to extend the view class to project level and add them there:
+If your view classes needs additional plugin helpers, and you are not using the controller way anymore to load/define helpers, then you might need to extend the view class to project level and add them there:
 ```php
 namespace App\View;
 
-use Cake\View\View;
 use Ajax\View\AjaxView as PluginAjaxView;
 
 class AjaxView extends PluginAjaxView {
@@ -75,6 +74,7 @@ class AjaxView extends PluginAjaxView {
      * @return void
      */
     public function initialize() {
+        parent::initialize();
         $this->loadHelper('...);
         ...
     }
@@ -82,7 +82,7 @@ class AjaxView extends PluginAjaxView {
 }
 ```
 Then make sure you load the app `Ajax` view class instead of the `Ajax.Ajax` one.
-If you are using the component, you can set Configure key `'Ajax.viewClass'` to your `App\View\AjaxView` here.
+If you are using the component, you can set Configure key `'Ajax.viewClass'` to your `'Ajax'` here.
 
 ## Tips
 I found the following quite useful for your jQuery AJAX code as some browsers might not properly work without it (at least for me it used to).
