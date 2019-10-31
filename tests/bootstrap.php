@@ -64,6 +64,8 @@ Cake\Core\Configure::write('App.paths', [
 
 Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);
 
+class_alias(\TestApp\View\AppView::class, 'App\View\AppView');
+
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
 	putenv('db_class=Cake\Database\Driver\Sqlite');
