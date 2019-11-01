@@ -9,7 +9,7 @@
 
 A CakePHP plugin that makes working with AJAX a piece of cake..
 
-This branch is for **CakePHP 3.7+**.
+This branch is for **CakePHP 3.7+**. For details see [version map](https://github.com/dereuromark/cakephp-ajax/wiki#cakephp-version-map).
 
 ## What is this plugin for?
 Basically DRY (Don't repeat yourself) and easy AJAX handling.
