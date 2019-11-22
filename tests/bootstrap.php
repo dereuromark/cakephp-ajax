@@ -40,26 +40,26 @@ $Tmp->create(TMP . 'cache/views', 0770);
 $cache = [
 	'default' => [
 		'engine' => 'File',
-		'path' => CACHE
+		'path' => CACHE,
 	],
 	'_cake_core_' => [
 		'className' => 'File',
 		'prefix' => 'crud_myapp_cake_core_',
 		'path' => CACHE . 'persistent/',
 		'serialize' => true,
-		'duration' => '+10 seconds'
+		'duration' => '+10 seconds',
 	],
 	'_cake_model_' => [
 		'className' => 'File',
 		'prefix' => 'crud_my_app_cake_model_',
 		'path' => CACHE . 'models/',
 		'serialize' => 'File',
-		'duration' => '+10 seconds'
-	]
+		'duration' => '+10 seconds',
+	],
 ];
 
 Cake\Core\Configure::write('App.paths', [
-		'templates' => __DIR__ . DS . 'TestApp' . DS . 'src' . DS . 'Template' . DS
+		'templates' => __DIR__ . DS . 'TestApp' . DS . 'src' . DS . 'Template' . DS,
 ]);
 
 Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);

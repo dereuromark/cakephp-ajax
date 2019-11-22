@@ -19,7 +19,7 @@ class AjaxMiddlewareTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'core.Sessions'
+		'core.Sessions',
 	];
 
 	/**
@@ -84,8 +84,8 @@ class AjaxMiddlewareTest extends TestCase {
 				'message' => 'A message',
 				'key' => 'flash',
 				'element' => 'Flash/custom',
-				'params' => []
-			]
+				'params' => [],
+			],
 		];
 		$this->assertEquals($expected, $session);
 

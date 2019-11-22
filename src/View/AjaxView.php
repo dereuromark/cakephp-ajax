@@ -31,7 +31,7 @@ class AjaxView extends AppView {
 	 */
 	protected $_passedVars = [
 		'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
-		'layoutPath', 'plugin', 'passedArgs', 'subDir', 'template', 'templatePath'
+		'layoutPath', 'plugin', 'passedArgs', 'subDir', 'template', 'templatePath',
 	];
 
 	/**
