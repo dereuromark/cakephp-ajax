@@ -18,7 +18,7 @@ Using the `json` extension you can then access your action through the following
 You can enable the AjaxView class it in your actions like so:
 ```php
 // new
-$this->viewBuilder->setClassName('Ajax.Ajax');
+$this->viewBuilder()->setClassName('Ajax.Ajax');
 
 // old
 $this->viewClass = 'Ajax.Ajax';
