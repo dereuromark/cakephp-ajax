@@ -1,4 +1,5 @@
 <?php
+
 namespace Ajax\View;
 
 use App\View\AppView;

@@ -7,6 +7,7 @@
  * @author        Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
+
 namespace Ajax\Test\TestCase\View;
 
 use Ajax\View\AjaxView;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Ajax\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
