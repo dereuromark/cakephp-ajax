@@ -2,8 +2,7 @@ language: php
 
 php:
   - 5.6
-  - 7.3
-  - 7.4snapshot
+  - 7.4
 
 env:
   matrix:
@@ -18,10 +17,10 @@ matrix:
     - php: 5.6
       env: PREFER_LOWEST=1
 
-    - php: 7.2
+    - php: 7.3
       env: CHECKS=1 DEFAULT=0
 
-    - php: 7.2
+    - php: 7.3
       env: CODECOVERAGE=1 DEFAULT=0
 
 before_script:
