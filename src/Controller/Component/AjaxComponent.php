@@ -8,6 +8,7 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\Routing\Router;
+use RuntimeException;
 
 /**
  * Ajax Component to respond to AJAX requests.
@@ -47,9 +48,14 @@ class AjaxComponent extends Component {
 	/**
 	 * @param \Cake\Controller\ComponentRegistry $collection
 	 * @param array $config
+	 * @throws \RuntimeException
 	 */
 	public function __construct(ComponentRegistry $collection, $config = []) {
-		$this->Controller = $collection->getController();
+		$controller = $collection->getController();
+		if (!$controller) {
+			throw new RuntimeException('Controller not given.');
+		}
+		$this->Controller = $controller;
 
 		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
 		$config += $defaults;
