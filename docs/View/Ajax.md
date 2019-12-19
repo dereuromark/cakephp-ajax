@@ -49,7 +49,7 @@ You can add more data to the response object via `_serialize`.
 ```php
 public function statesAjax() {
     $this->request->allowMethod('ajax');
-    $id = $this->request->query('id');
+    $id = $this->request->getQuery('id');
     if (!$id) {
         throw new NotFoundException();
     }
