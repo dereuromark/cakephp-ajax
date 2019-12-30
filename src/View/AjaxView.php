@@ -38,16 +38,16 @@ class AjaxView extends AppView {
 	/**
 	 * The subdirectory. AJAX views are always in ajax.
 	 *
-	 * @var string|null
+	 * @var string
 	 */
-	public $subDir = null;
+	protected $subDir = '';
 
 	/**
 	 * Name of layout to use with this View.
 	 *
-	 * @var bool
+	 * @var string
 	 */
-	public $layout = false;
+	protected $layout = '';
 
 	/**
 	 * List of special view vars.
@@ -73,7 +73,7 @@ class AjaxView extends AppView {
 	) {
 		parent::__construct($request, $response, $eventManager, $viewOptions);
 
-		if ($this->subDir === null) {
+		if ($this->subDir === '') {
 			$this->subDir = 'ajax';
 			$this->templatePath = str_replace(DS . 'json', '', $this->templatePath);
 			$this->templatePath = str_replace(DS . 'ajax', '', $this->templatePath);
@@ -96,7 +96,7 @@ class AjaxView extends AppView {
 	 * @param string|null $layout The layout being rendered.
 	 * @return string The rendered view.
 	 */
-	public function render($view = null, $layout = null) {
+	public function render(?string $view = null, $layout = null): string {
 		$dataToSerialize = [
 			'error' => null,
 			'success' => null,
@@ -112,7 +112,7 @@ class AjaxView extends AppView {
 			$view = false;
 		}
 
-		if ($view !== false && !isset($this->viewVars['_redirect']) && $this->_getViewFileName($view)) {
+		if ($view !== false && !isset($this->viewVars['_redirect']) && $this->_getTemplateFileName($view)) {
 			$dataToSerialize['content'] = parent::render($view, $layout);
 		}
 

@@ -30,7 +30,7 @@ class AjaxMiddlewareTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
@@ -54,7 +54,7 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->request, $this->Controller->response, $next);
+		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
 		$this->assertInstanceOf(ResponseInterface::class, $result);
 		$this->assertEquals(200, $result->getStatusCode());
@@ -66,7 +66,7 @@ class AjaxMiddlewareTest extends TestCase {
 		];
 		$this->assertSame($expectedHeaders, $result->getHeaders());
 
-		$this->assertEquals('My Index Test ctp', $result->getBody());
+		$this->assertTextContains('My Index Test ctp', $result->getBody());
 	}
 
 	/**
@@ -78,12 +78,12 @@ class AjaxMiddlewareTest extends TestCase {
 		$this->Controller->components()->load('Flash');
 
 		$this->Controller->components()->Flash->custom('A message');
-		$session = $this->Controller->request->getSession()->read('Flash.flash');
+		$session = $this->Controller->getRequest()->getSession()->read('Flash.flash');
 		$expected = [
 			[
 				'message' => 'A message',
 				'key' => 'flash',
-				'element' => 'Flash/custom',
+				'element' => 'flash/custom',
 				'params' => [],
 			],
 		];
@@ -94,7 +94,7 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->request, $this->Controller->response, $next);
+		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
 		$this->assertInstanceOf(ResponseInterface::class, $result);
 		$this->assertEquals(200, $result->getStatusCode());
@@ -102,7 +102,7 @@ class AjaxMiddlewareTest extends TestCase {
 		$this->assertEquals('Ajax.Ajax', $this->Controller->viewBuilder()->getClassName());
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
-		$session = $this->Controller->request->getSession()->read('Flash.flash');
+		$session = $this->Controller->getRequest()->getSession()->read('Flash.flash');
 		$this->assertNull($session);
 
 		$expectedHeaders = [
@@ -132,7 +132,7 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->request, $this->Controller->response, $next);
+		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
 		$this->assertInstanceOf(ResponseInterface::class, $result);
 		$this->assertEquals(200, $result->getStatusCode());
@@ -167,7 +167,7 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware(['autoDetect' => false]);
-		$result = $middleware($this->Controller->request, $this->Controller->response, $next);
+		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
 		$this->assertInstanceOf(ResponseInterface::class, $result);
 		$this->assertEquals(200, $result->getStatusCode());
@@ -179,7 +179,7 @@ class AjaxMiddlewareTest extends TestCase {
 		];
 		$this->assertSame($expectedHeaders, $result->getHeaders());
 
-		$this->assertEquals('My Index Test ctp', $result->getBody());
+		$this->assertTextContains('My Index Test ctp', $result->getBody());
 	}
 
 	/**
@@ -194,7 +194,7 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->request, $this->Controller->response, $next);
+		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
 		$this->assertInstanceOf(ResponseInterface::class, $result);
 		$this->assertEquals(200, $result->getStatusCode());
@@ -206,7 +206,7 @@ class AjaxMiddlewareTest extends TestCase {
 		];
 		$this->assertSame($expectedHeaders, $result->getHeaders());
 
-		$this->assertEquals('My Index Test ctp', $result->getBody());
+		$this->assertTextContains('My Index Test ctp', $result->getBody());
 	}
 
 	/**
@@ -225,7 +225,7 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->request, $this->Controller->response, $next);
+		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
 		$this->assertInstanceOf(ResponseInterface::class, $result);
 		$this->assertEquals(200, $result->getStatusCode());
@@ -258,12 +258,12 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->request, $this->Controller->response, $next);
+		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
 		$this->assertInstanceOf(ResponseInterface::class, $result);
 		$this->assertEquals(200, $result->getStatusCode());
 
-		$this->assertEquals('My Index Test ctp', $result->getBody());
+		$this->assertTextContains('My Index Test ctp', $result->getBody());
 	}
 
 	/**
@@ -281,7 +281,7 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->request, $this->Controller->response, $next);
+		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
 		$this->assertNotEmpty($this->Controller->viewVars);
 		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);

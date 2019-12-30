@@ -58,13 +58,15 @@ $cache = [
 	],
 ];
 
+Cake\Cache\Cache::setConfig($cache);
+
 Cake\Core\Configure::write('App.paths', [
-		'templates' => __DIR__ . DS . 'TestApp' . DS . 'src' . DS . 'Template' . DS,
+		'templates' => __DIR__ . DS . 'TestApp' . DS . 'templates' . DS,
 ]);
 
-Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);
+//Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);
 
-class_alias(\TestApp\View\AppView::class, 'App\View\AppView');
+class_alias(TestApp\View\AppView::class, 'App\View\AppView');
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
@@ -74,11 +76,8 @@ if (!getenv('db_class')) {
 
 Cake\Datasource\ConnectionManager::setConfig('test', [
 	'className' => 'Cake\Database\Connection',
-	'driver' => getenv('db_class'),
-	'dsn' => getenv('db_dsn'),
-	'database' => getenv('db_database'),
-	'username' => getenv('db_username'),
-	'password' => getenv('db_password'),
+	'driver' => getenv('db_class') ?: null,
+	'dsn' => getenv('db_dsn') ?: null,
 	'timezone' => 'UTC',
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,

@@ -2,7 +2,6 @@
 
 namespace Ajax\Test\TestCase\Controller\Component;
 
-use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Response;
@@ -28,7 +27,7 @@ class AjaxComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
@@ -61,12 +60,12 @@ class AjaxComponentTest extends TestCase {
 		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
 
 		$this->Controller->components()->Flash->custom('A message');
-		$session = $this->Controller->request->getSession()->read('Flash.flash');
+		$session = $this->Controller->getRequest()->getSession()->read('Flash.flash');
 		$expected = [
 			[
 				'message' => 'A message',
 				'key' => 'flash',
-				'element' => 'Flash/custom',
+				'element' => 'flash/custom',
 				'params' => [],
 			],
 		];
@@ -76,9 +75,9 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->components()->Ajax->beforeRender($event);
 
 		$this->assertEquals('Ajax.Ajax', $this->Controller->viewBuilder()->getClassName());
-		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
+		$this->assertEquals($expected, $this->Controller->viewBuilder()->getVar('_message'));
 
-		$session = $this->Controller->request->getSession()->read('Flash.flash');
+		$session = $this->Controller->getRequest()->getSession()->read('Flash.flash');
 		$this->assertNull($session);
 
 		$this->Controller->redirect('/');
@@ -87,13 +86,13 @@ class AjaxComponentTest extends TestCase {
 				'application/json',
 			],
 		];
-		$this->assertSame($expected, $this->Controller->response->getHeaders());
+		$this->assertSame($expected, $this->Controller->getResponse()->getHeaders());
 
 		$expected = [
 			'url' => Router::url('/', true),
 			'status' => 302,
 		];
-		$this->assertEquals($expected, $this->Controller->viewVars['_redirect']);
+		$this->assertEquals($expected, $this->Controller->viewBuilder()->getVar('_redirect'));
 	}
 
 	/**
@@ -174,9 +173,9 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->set('_serialize', ['content']);
 
 		$this->Controller->components()->load('Ajax.Ajax');
-		$this->assertNotEmpty($this->Controller->viewVars);
-		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
-		$this->assertEquals('content', $this->Controller->viewVars['_serialize'][0]);
+		$this->assertNotEmpty($this->Controller->viewBuilder()->getVars());
+		$this->assertNotEmpty($this->Controller->viewBuilder()->getVar('_serialize'));
+		$this->assertEquals('content', $this->Controller->viewBuilder()->getVar('_serialize')[0]);
 	}
 
 	/**
@@ -199,21 +198,21 @@ class AjaxComponentTest extends TestCase {
 				'application/json',
 			],
 		];
-		$this->assertSame($expected, $this->Controller->response->getHeaders());
+		$this->assertSame($expected, $this->Controller->getResponse()->getHeaders());
 
 		$expected = [
 			'url' => Router::url('/', true),
 			'status' => 301,
 		];
-		$this->assertEquals($expected, $this->Controller->viewVars['_redirect']);
+		$this->assertEquals($expected, $this->Controller->viewBuilder()->getVar('_redirect'));
 
 		$this->Controller->set(['_message' => 'test']);
 		$this->Controller->redirect('/');
-		$this->assertArrayHasKey('_message', $this->Controller->viewVars);
+		$this->assertArrayHasKey('_message', $this->Controller->viewBuilder()->getVars());
 
-		$this->assertNotEmpty($this->Controller->viewVars);
-		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
-		$this->assertTrue(in_array('content', $this->Controller->viewVars['_serialize']));
+		$this->assertNotEmpty($this->Controller->viewBuilder()->getVars());
+		$this->assertNotEmpty($this->Controller->viewBuilder()->getVar('_serialize'));
+		$this->assertTrue(in_array('content', $this->Controller->viewBuilder()->getVar('_serialize')));
 	}
 
 }

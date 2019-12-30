@@ -7,9 +7,13 @@ use Cake\Controller\Controller;
 class AjaxTestController extends Controller {
 
 	/**
-	 * @var array
+	 * @return void
 	 */
-	public $components = ['Ajax.Ajax'];
+	public function initialize(): void {
+		parent::initialize();
+
+		$this->loadComponent('Ajax.Ajax');
+	}
 
 	/**
 	 * A test action

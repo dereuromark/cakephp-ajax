@@ -6,7 +6,7 @@ use Ajax\View\AjaxView;
 use Ajax\View\JsonEncoder;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
@@ -118,7 +118,7 @@ class AjaxMiddleware {
 	 * @return bool
 	 */
 	protected function _isSerializeTrue($controller) {
-		if (!empty($controller->viewVars['_serialize']) && $controller->viewVars['_serialize'] === true) {
+		if ($controller->viewBuilder()->getVar('_serialize') && $controller->viewBuilder()->getVar('_serialize') === true) {
 			return true;
 		}
 		return false;
@@ -143,10 +143,10 @@ class AjaxMiddleware {
 	 * Called before the Controller::beforeRender(), and before
 	 * the view class is loaded, and before Controller::render()
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function beforeRender(Event $event) {
+	public function beforeRender(EventInterface $event): void {
 		/** @var \Cake\Controller\Controller $controller */
 		$controller = $event->getSubject();
 		$controller->viewBuilder()->setClassName($this->_config['viewClass']);
@@ -154,7 +154,7 @@ class AjaxMiddleware {
 		// Set flash messages to the view
 		if ($this->_config['flashKey']) {
 			$message = $controller->getRequest()->getSession()->consume($this->_config['flashKey']);
-			if ($message || !array_key_exists('_message', $controller->viewVars)) {
+			if ($message || !array_key_exists('_message', $controller->viewBuilder()->getVars())) {
 				$controller->set('_message', $message);
 			}
 		}
@@ -165,8 +165,8 @@ class AjaxMiddleware {
 		}
 
 		$serializeKeys = ['_message'];
-		if (!empty($controller->viewVars['_serialize'])) {
-			$serializeKeys = array_merge((array)$controller->viewVars['_serialize'], $serializeKeys);
+		if ($controller->viewBuilder()->getVar('_serialize')) {
+			$serializeKeys = array_merge((array)$controller->viewBuilder()->getVar('_serialize'), $serializeKeys);
 		}
 		$controller->set('_serialize', $serializeKeys);
 	}

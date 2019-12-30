@@ -13,12 +13,11 @@
 		}
 	],
 	"require": {
-		"php": ">=5.6",
-		"cakephp/cakephp": "^3.7"
+		"php": ">=7.2",
+		"cakephp/cakephp": "^4.0.0"
 	},
 	"require-dev": {
-		"cakephp/cakephp": "^3.7.8",
-		"dereuromark/cakephp-tools": "^1.4",
+		"dereuromark/cakephp-tools": "dev-cake4",
 		"fig-r/psr2r-sniffer": "dev-master"
 	},
 	"autoload": {
@@ -37,9 +36,11 @@
 		"source": "https://github.com/dereuromark/cakephp-ajax",
 		"issues": "https://github.com/dereuromark/cakephp-ajax/issues"
 	},
+	"prefer-stable": true,
+	"minimum-stability": "beta",
 	"scripts": {
 		"test": "php phpunit.phar",
-		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-6.5.13.phar && mv phpunit-6.5.13.phar phpunit.phar || true",
+		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-8.4.3.phar && mv phpunit-8.4.3.phar phpunit.phar || true",
 		"test-coverage": "php phpunit.phar --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
 		"phpstan": "phpstan analyse -c tests/phpstan.neon -l 7 src/",
 		"phpstan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^0.12 && mv composer.backup composer.json",

@@ -26,12 +26,12 @@ class AjaxViewTest extends TestCase {
 	/**
 	 * @var \Ajax\View\AjaxView
 	 */
-	public $Ajax;
+	protected $Ajax;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		Configure::write('App.namespace', 'TestApp');
@@ -53,7 +53,7 @@ class AjaxViewTest extends TestCase {
 		$View->set(['items' => $items, '_serialize' => ['items']]);
 		$result = $View->render(false);
 
-		$response = $View->response;
+		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
 		$expected = ['error' => null, 'success' => null, 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
@@ -75,7 +75,7 @@ class AjaxViewTest extends TestCase {
 		$View->setTemplatePath('Items');
 		$result = $View->render('index');
 
-		$response = $View->response;
+		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
 		$expected = ['error' => null, 'success' => null, 'content' => 'My Ajax Index Test ctp', 'items' => $items];
 		$expected = json_encode($expected);
@@ -102,7 +102,7 @@ class AjaxViewTest extends TestCase {
 		$View->set(['items' => $items, 'multiple' => $multiple, '_serialize' => true]);
 		$result = $View->render(false);
 
-		$response = $View->response;
+		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
 		$expected = ['error' => null, 'success' => null, 'content' => null, 'items' => $items, 'multiple' => $multiple];
 		$expected = json_encode($expected);
@@ -124,7 +124,7 @@ class AjaxViewTest extends TestCase {
 		$View->setTemplatePath('Items');
 		$result = $View->render('index');
 
-		$response = $View->response;
+		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
 		$expected = ['error' => 'Some message', 'success' => null, 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
@@ -145,7 +145,7 @@ class AjaxViewTest extends TestCase {
 		$View->subDir = false;
 		$result = $View->render('index');
 
-		$response = $View->response;
+		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
 		$expected = ['error' => null, 'success' => null, 'content' => 'My Index Test ctp'];
 		$expected = json_encode($expected);

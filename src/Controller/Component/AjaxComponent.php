@@ -5,10 +5,9 @@ namespace Ajax\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
 use Cake\Core\Configure;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Http\Response;
 use Cake\Routing\Router;
-use RuntimeException;
 
 /**
  * Ajax Component to respond to AJAX requests.
@@ -25,14 +24,9 @@ use RuntimeException;
 class AjaxComponent extends Component {
 
 	/**
-	 * @var \Cake\Controller\Controller
-	 */
-	public $Controller;
-
-	/**
 	 * @var bool
 	 */
-	public $respondAsAjax = false;
+	protected $respondAsAjax = false;
 
 	/**
 	 * @var array
@@ -51,12 +45,6 @@ class AjaxComponent extends Component {
 	 * @throws \RuntimeException
 	 */
 	public function __construct(ComponentRegistry $collection, $config = []) {
-		$controller = $collection->getController();
-		if (!$controller) {
-			throw new RuntimeException('Controller not given.');
-		}
-		$this->Controller = $controller;
-
 		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
 		$config += $defaults;
 		parent::__construct($collection, $config);
@@ -66,21 +54,21 @@ class AjaxComponent extends Component {
 	 * @param array $config
 	 * @return void
 	 */
-	public function initialize(array $config = []) {
+	public function initialize(array $config): void {
 		if (!$this->_config['autoDetect'] || !$this->_isActionEnabled()) {
 			return;
 		}
-		$this->respondAsAjax = $this->Controller->request->is('ajax');
+		$this->respondAsAjax = $this->getController()->getRequest()->is('ajax');
 	}
 
 	/**
 	 * Called before the Controller::beforeRender(), and before
 	 * the view class is loaded, and before Controller::render()
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function beforeRender(Event $event) {
+	public function beforeRender(EventInterface $event): void {
 		if (!$this->respondAsAjax) {
 			return;
 		}
@@ -92,12 +80,12 @@ class AjaxComponent extends Component {
 	 * @return void
 	 */
 	protected function _respondAsAjax() {
-		$this->Controller->viewBuilder()->setClassName($this->_config['viewClass']);
+		$this->getController()->viewBuilder()->setClassName($this->_config['viewClass']);
 
 		// Set flash messages to the view
 		if ($this->_config['flashKey']) {
-			$message = $this->Controller->request->getSession()->consume($this->_config['flashKey']);
-			$this->Controller->set('_message', $message);
+			$message = $this->getController()->getRequest()->getSession()->consume($this->_config['flashKey']);
+			$this->getController()->set('_message', $message);
 		}
 
 		// If _serialize is true, *all* viewVars will be serialized; no need to add _message.
@@ -106,22 +94,22 @@ class AjaxComponent extends Component {
 		}
 
 		$serializeKeys = ['_message'];
-		if (!empty($this->Controller->viewVars['_serialize'])) {
-			$serializeKeys = array_merge($serializeKeys, (array)$this->Controller->viewVars['_serialize']);
+		if (!empty($this->getController()->viewBuilder()->getVar('_serialize'))) {
+			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('_serialize'));
 		}
-		$this->Controller->set('_serialize', $serializeKeys);
+		$this->getController()->set('_serialize', $serializeKeys);
 	}
 
 	/**
 	 * Called before Controller::redirect(). Allows you to replace the URL that will
 	 * be redirected to with a new URL.
 	 *
-	 * @param \Cake\Event\Event $event Event
+	 * @param \Cake\Event\EventInterface $event Event
 	 * @param string|array $url Either the string or URL array that is being redirected to.
 	 * @param \Cake\Http\Response $response
 	 * @return \Cake\Http\Response|null
 	 */
-	public function beforeRedirect(Event $event, $url, Response $response) {
+	public function beforeRedirect(EventInterface $event, $url, Response $response): ?Response {
 		if (!$this->respondAsAjax || !$this->_config['resolveRedirect']) {
 			return null;
 		}
@@ -130,10 +118,10 @@ class AjaxComponent extends Component {
 
 		$status = $response->getStatusCode();
 		$response = $response->withStatus(200)->withoutHeader('Location');
-		$this->Controller->setResponse($response);
+		$this->getController()->setResponse($response);
 
-		$this->Controller->enableAutoRender();
-		$this->Controller->set('_redirect', compact('url', 'status'));
+		$this->getController()->enableAutoRender();
+		$this->getController()->set('_redirect', compact('url', 'status'));
 
 		$event->stopPropagation();
 
@@ -142,12 +130,12 @@ class AjaxComponent extends Component {
 		}
 
 		$serializeKeys = ['_redirect'];
-		if (!empty($this->Controller->viewVars['_serialize'])) {
-			$serializeKeys = array_merge($serializeKeys, (array)$this->Controller->viewVars['_serialize']);
+		if ($this->getController()->viewBuilder()->getVar('_serialize')) {
+			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('_serialize'));
 		}
-		$this->Controller->set('_serialize', $serializeKeys);
+		$this->getController()->set('_serialize', $serializeKeys);
 		// Further changes will be required here when the change to immutable response objects is completed
-		$response = $this->Controller->render();
+		$response = $this->getController()->render();
 
 		return $response;
 	}
@@ -158,7 +146,7 @@ class AjaxComponent extends Component {
 	 * @return bool
 	 */
 	protected function _isControllerSerializeTrue() {
-		if (!empty($this->Controller->viewVars['_serialize']) && $this->Controller->viewVars['_serialize'] === true) {
+		if ($this->getController()->viewBuilder()->getVar('_serialize') && $this->getController()->viewBuilder()->getVar('_serialize') === true) {
 			return true;
 		}
 		return false;
