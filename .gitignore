@@ -1,6 +1,6 @@
-/phpunit.phar
+phpunit.phar
 .phpunit.result.cache
-/composer.lock
-/vendor/
-/plugins/
-/.idea/
+composer.lock
+vendor/
+plugins/
+.idea/
