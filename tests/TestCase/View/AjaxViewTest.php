@@ -142,7 +142,7 @@ class AjaxViewTest extends TestCase {
 		$Controller = new Controller($Request, $Response);
 		$View = new AjaxView($Request, $Response);
 		$View->setTemplatePath('Items');
-		$View->subDir = false;
+		$View->setSubDir('');
 		$result = $View->render('index');
 
 		$response = $View->getResponse();
