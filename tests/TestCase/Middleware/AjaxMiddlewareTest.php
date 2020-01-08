@@ -100,7 +100,7 @@ class AjaxMiddlewareTest extends TestCase {
 		$this->assertEquals(200, $result->getStatusCode());
 
 		$this->assertEquals('Ajax.Ajax', $this->Controller->viewBuilder()->getClassName());
-		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
+		$this->assertEquals($expected, $this->Controller->viewBuilder()->getVar('_message'));
 
 		$session = $this->Controller->getRequest()->getSession()->read('Flash.flash');
 		$this->assertNull($session);
@@ -115,7 +115,7 @@ class AjaxMiddlewareTest extends TestCase {
 		$expected = [
 			'error' => null,
 			'success' => null,
-			'content' => 'My Ajax Index Test ctp',
+			'content' => 'My Ajax Index Test ctp' . PHP_EOL,
 			'_message' => $expected,
 		];
 		$this->assertEquals(json_encode($expected), (string)$result->getBody());
@@ -240,7 +240,7 @@ class AjaxMiddlewareTest extends TestCase {
 		$expected = [
 			'error' => null,
 			'success' => null,
-			'content' => 'My Ajax Index Test ctp',
+			'content' => 'My Ajax Index Test ctp' . PHP_EOL,
 			'_message' => null,
 		];
 		$this->assertEquals(json_encode($expected), (string)$result->getBody());
@@ -283,8 +283,8 @@ class AjaxMiddlewareTest extends TestCase {
 		$middleware = new AjaxMiddleware();
 		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
-		$this->assertNotEmpty($this->Controller->viewVars);
-		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
+		$this->assertNotEmpty($this->Controller->viewBuilder()->getVars());
+		$this->assertNotEmpty($this->Controller->viewBuilder()->getVar('_serialize'));
 
 		$this->assertInstanceOf(ResponseInterface::class, $result);
 		$this->assertEquals(200, $result->getStatusCode());
@@ -296,12 +296,12 @@ class AjaxMiddlewareTest extends TestCase {
 		];
 		$this->assertSame($expectedHeaders, $result->getHeaders());
 
-		$this->assertEquals('content', $this->Controller->viewVars['_serialize'][0]);
+		$this->assertEquals('content', $this->Controller->viewBuilder()->getVar('_serialize')[0]);
 
 		$expected = [
 			'error' => null,
 			'success' => null,
-			'content' => $this->Controller->viewVars['content'],
+			'content' => $this->Controller->viewBuilder()->getVar('content'),
 			'_message' => null,
 		];
 		$this->assertEquals(json_encode($expected), (string)$result->getBody());

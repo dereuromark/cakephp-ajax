@@ -51,7 +51,7 @@ class AjaxViewTest extends TestCase {
 		];
 		$View = new AjaxView($Request, $Response);
 		$View->set(['items' => $items, '_serialize' => ['items']]);
-		$result = $View->render(false);
+		$result = $View->render(null);
 
 		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
@@ -77,7 +77,7 @@ class AjaxViewTest extends TestCase {
 
 		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
-		$expected = ['error' => null, 'success' => null, 'content' => 'My Ajax Index Test ctp', 'items' => $items];
+		$expected = ['error' => null, 'success' => null, 'content' => 'My Ajax Index Test ctp' . PHP_EOL, 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -100,7 +100,7 @@ class AjaxViewTest extends TestCase {
 		$multiple = 'items';
 		$View = new AjaxView($Request, $Response);
 		$View->set(['items' => $items, 'multiple' => $multiple, '_serialize' => true]);
-		$result = $View->render(false);
+		$result = $View->render();
 
 		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
@@ -139,7 +139,7 @@ class AjaxViewTest extends TestCase {
 	public function testWithoutSubdir() {
 		$Request = new ServerRequest();
 		$Response = new Response();
-		$Controller = new Controller($Request, $Response);
+		//$Controller = new Controller($Request, $Response);
 		$View = new AjaxView($Request, $Response);
 		$View->setTemplatePath('Items');
 		$View->setSubDir('');
@@ -147,7 +147,7 @@ class AjaxViewTest extends TestCase {
 
 		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
-		$expected = ['error' => null, 'success' => null, 'content' => 'My Index Test ctp'];
+		$expected = ['error' => null, 'success' => null, 'content' => 'My Index Test ctp' . PHP_EOL];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -169,7 +169,7 @@ class AjaxViewTest extends TestCase {
 		$result = $Controller->render();
 
 		$this->assertSame('application/json', $Response->getType());
-		$expected = ['error' => null, 'content' => 'My Ajax Index Test ctp'];
+		$expected = ['error' => null, 'content' => 'My Ajax Index Test ctp' . PHP_EOL];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}

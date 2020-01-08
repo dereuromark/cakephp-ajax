@@ -43,13 +43,6 @@ class AjaxView extends AppView {
 	protected $subDir = '';
 
 	/**
-	 * Name of layout to use with this View.
-	 *
-	 * @var string
-	 */
-	protected $layout = '';
-
-	/**
 	 * List of special view vars.
 	 *
 	 * @var array
@@ -72,6 +65,8 @@ class AjaxView extends AppView {
 		array $viewOptions = []
 	) {
 		parent::__construct($request, $response, $eventManager, $viewOptions);
+
+		$this->disableAutoLayout();
 
 		if ($this->subDir === '') {
 			$this->subDir = 'ajax';
@@ -105,14 +100,14 @@ class AjaxView extends AppView {
 
 		if (isset($this->viewVars['error'])) {
 			$dataToSerialize['error'] = $this->viewVars['error'];
-			$view = false;
+			$view = null;
 		}
 		if (isset($this->viewVars['success'])) {
 			$dataToSerialize['success'] = $this->viewVars['success'];
-			$view = false;
+			$view = null;
 		}
 
-		if ($view !== false && !isset($this->viewVars['_redirect']) && $this->_getTemplateFileName($view)) {
+		if ($view !== null && !isset($this->viewVars['_redirect']) && $this->_getTemplateFileName($view)) {
 			$dataToSerialize['content'] = parent::render($view, $layout);
 		}
 
@@ -161,6 +156,7 @@ class AjaxView extends AppView {
 				$additionalData[$alias] = $this->viewVars[$key];
 			}
 		}
+
 		return $additionalData;
 	}
 
