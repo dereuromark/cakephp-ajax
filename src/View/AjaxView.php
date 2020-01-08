@@ -98,6 +98,13 @@ class AjaxView extends AppView {
 			'content' => null,
 		];
 
+		if ($view === null) {
+			$view = $this->template;
+		}
+		if ($view === '') {
+			$view = null;
+		}
+
 		if (isset($this->viewVars['error'])) {
 			$dataToSerialize['error'] = $this->viewVars['error'];
 			$view = null;

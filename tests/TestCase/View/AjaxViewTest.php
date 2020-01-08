@@ -51,7 +51,7 @@ class AjaxViewTest extends TestCase {
 		];
 		$View = new AjaxView($Request, $Response);
 		$View->set(['items' => $items, '_serialize' => ['items']]);
-		$result = $View->render(null);
+		$result = $View->render('');
 
 		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
@@ -83,8 +83,6 @@ class AjaxViewTest extends TestCase {
 	}
 
 	/**
-	 * AjaxViewTest::testSerializeSetTrue()
-	 *
 	 * Test the case where the _serialize viewVar is set to true signaling that all viewVars
 	 *   should be serialized.
 	 *
@@ -100,7 +98,7 @@ class AjaxViewTest extends TestCase {
 		$multiple = 'items';
 		$View = new AjaxView($Request, $Response);
 		$View->set(['items' => $items, 'multiple' => $multiple, '_serialize' => true]);
-		$result = $View->render();
+		$result = $View->render('');
 
 		$response = $View->getResponse();
 		$this->assertSame('application/json', $response->getType());
