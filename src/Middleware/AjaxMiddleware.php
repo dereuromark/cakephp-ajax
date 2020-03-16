@@ -10,6 +10,10 @@ use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Ajax Middleware to respond to AJAX requests.
@@ -25,7 +29,7 @@ use Cake\Http\ServerRequest;
  * @author Greg Schmidt, with much code copied from the AjaxComponent class by Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
-class AjaxMiddleware {
+class AjaxMiddleware implements MiddlewareInterface {
 
 	use InstanceConfigTrait;
 
@@ -56,20 +60,19 @@ class AjaxMiddleware {
 	}
 
 	/**
-	 * Callable implementation for the middleware stack.
+	 * @param \Cake\Http\ServerRequest $request
+	 * @param \Psr\Http\Server\RequestHandlerInterface $handler
 	 *
-	 * @param \Cake\Http\ServerRequest $request The request.
-	 * @param \Cake\Http\Response $response The response.
-	 * @param callable $next The next middleware to call.
-	 * @return \Cake\Http\Response A response.
+	 * @return \Psr\Http\Message\ResponseInterface
 	 */
-	public function __invoke(ServerRequest $request, Response $response, $next) {
+	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 		$respondAsAjax = $this->_config['autoDetect'] && $this->_isActionEnabled($request) && $request->is('ajax');
 		if ($respondAsAjax) {
 			EventManager::instance()->on('Controller.beforeRender', [$this, 'beforeRender']);
 		}
 
-		$response = $next($request, $response);
+		/** @var \Cake\Http\Response $response */
+		$response = $handler->handle($request);
 
 		if ($respondAsAjax) {
 			EventManager::instance()->off('Controller.beforeRender', [$this, 'beforeRender']);

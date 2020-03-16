@@ -12,6 +12,7 @@ use Cake\TestSuite\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use TestApp\Controller\AjaxTestController;
+use TestApp\Http\TestRequestHandler;
 
 class AjaxMiddlewareTest extends TestCase {
 
@@ -54,19 +55,23 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
-		$this->assertInstanceOf(ResponseInterface::class, $result);
-		$this->assertEquals(200, $result->getStatusCode());
+		$request = $this->Controller->getRequest();
+		$response = $this->Controller->getResponse();
+		$handler = new TestRequestHandler(null, $response);
+		$newResponse = $middleware->process($request, $handler);
+
+		$this->assertInstanceOf(ResponseInterface::class, $newResponse);
+		$this->assertEquals(200, $newResponse->getStatusCode());
 
 		$expectedHeaders = [
 			'Content-Type' => [
 				'text/html; charset=UTF-8',
 			],
 		];
-		$this->assertSame($expectedHeaders, $result->getHeaders());
+		$this->assertSame($expectedHeaders, $newResponse->getHeaders());
 
-		$this->assertTextContains('My Index Test ctp', $result->getBody());
+		$this->assertTextContains('My Index Test ctp', $newResponse->getBody());
 	}
 
 	/**
@@ -94,10 +99,14 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
 
-		$this->assertInstanceOf(ResponseInterface::class, $result);
-		$this->assertEquals(200, $result->getStatusCode());
+		$request = $this->Controller->getRequest();
+		$response = $this->Controller->getResponse();
+		$handler = new TestRequestHandler(null, $response);
+		$newResponse = $middleware->process($request, $handler);
+
+		$this->assertInstanceOf(ResponseInterface::class, $newResponse);
+		$this->assertEquals(200, $newResponse->getStatusCode());
 
 		$this->assertEquals('Ajax.Ajax', $this->Controller->viewBuilder()->getClassName());
 		$this->assertEquals($expected, $this->Controller->viewBuilder()->getVar('_message'));
@@ -110,7 +119,7 @@ class AjaxMiddlewareTest extends TestCase {
 				'application/json',
 			],
 		];
-		$this->assertSame($expectedHeaders, $result->getHeaders());
+		$this->assertSame($expectedHeaders, $newResponse->getHeaders());
 
 		$expected = [
 			'error' => null,
@@ -118,7 +127,7 @@ class AjaxMiddlewareTest extends TestCase {
 			'content' => 'My Ajax Index Test ctp' . PHP_EOL,
 			'_message' => $expected,
 		];
-		$this->assertEquals(json_encode($expected), (string)$result->getBody());
+		$this->assertEquals(json_encode($expected), (string)$newResponse->getBody());
 	}
 
 	/**
@@ -132,17 +141,20 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
+		$request = $this->Controller->getRequest();
+		$response = $this->Controller->getResponse();
+		$handler = new TestRequestHandler(null, $response);
+		$newResponse = $middleware->process($request, $handler);
 
-		$this->assertInstanceOf(ResponseInterface::class, $result);
-		$this->assertEquals(200, $result->getStatusCode());
+		$this->assertInstanceOf(ResponseInterface::class, $newResponse);
+		$this->assertEquals(200, $newResponse->getStatusCode());
 
 		$expectedHeaders = [
 			'Content-Type' => [
 				'application/json',
 			],
 		];
-		$this->assertSame($expectedHeaders, $result->getHeaders());
+		$this->assertSame($expectedHeaders, $newResponse->getHeaders());
 
 		$expected = [
 			'error' => null,
@@ -153,7 +165,7 @@ class AjaxMiddlewareTest extends TestCase {
 				'status' => 302,
 			],
 		];
-		$this->assertEquals(json_encode($expected), (string)$result->getBody());
+		$this->assertEquals(json_encode($expected), (string)$newResponse->getBody());
 	}
 
 	/**
@@ -167,19 +179,22 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware(['autoDetect' => false]);
-		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
+		$request = $this->Controller->getRequest();
+		$response = $this->Controller->getResponse();
+		$handler = new TestRequestHandler(null, $response);
+		$newResponse = $middleware->process($request, $handler);
 
-		$this->assertInstanceOf(ResponseInterface::class, $result);
-		$this->assertEquals(200, $result->getStatusCode());
+		$this->assertInstanceOf(ResponseInterface::class, $newResponse);
+		$this->assertEquals(200, $newResponse->getStatusCode());
 
 		$expectedHeaders = [
 			'Content-Type' => [
 				'text/html; charset=UTF-8',
 			],
 		];
-		$this->assertSame($expectedHeaders, $result->getHeaders());
+		$this->assertSame($expectedHeaders, $newResponse->getHeaders());
 
-		$this->assertTextContains('My Index Test ctp', $result->getBody());
+		$this->assertTextContains('My Index Test ctp', $newResponse->getBody());
 	}
 
 	/**
@@ -194,19 +209,22 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
+		$request = $this->Controller->getRequest();
+		$response = $this->Controller->getResponse();
+		$handler = new TestRequestHandler(null, $response);
+		$newResponse = $middleware->process($request, $handler);
 
-		$this->assertInstanceOf(ResponseInterface::class, $result);
-		$this->assertEquals(200, $result->getStatusCode());
+		$this->assertInstanceOf(ResponseInterface::class, $newResponse);
+		$this->assertEquals(200, $newResponse->getStatusCode());
 
 		$expectedHeaders = [
 			'Content-Type' => [
 				'text/html; charset=UTF-8',
 			],
 		];
-		$this->assertSame($expectedHeaders, $result->getHeaders());
+		$this->assertSame($expectedHeaders, $newResponse->getHeaders());
 
-		$this->assertTextContains('My Index Test ctp', $result->getBody());
+		$this->assertTextContains('My Index Test ctp', $newResponse->getBody());
 	}
 
 	/**
@@ -225,17 +243,20 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
+		$request = $this->Controller->getRequest();
+		$response = $this->Controller->getResponse();
+		$handler = new TestRequestHandler(null, $response);
+		$newResponse = $middleware->process($request, $handler);
 
-		$this->assertInstanceOf(ResponseInterface::class, $result);
-		$this->assertEquals(200, $result->getStatusCode());
+		$this->assertInstanceOf(ResponseInterface::class, $newResponse);
+		$this->assertEquals(200, $newResponse->getStatusCode());
 
 		$expectedHeaders = [
 			'Content-Type' => [
 				'application/json',
 			],
 		];
-		$this->assertSame($expectedHeaders, $result->getHeaders());
+		$this->assertSame($expectedHeaders, $newResponse->getHeaders());
 
 		$expected = [
 			'error' => null,
@@ -243,7 +264,7 @@ class AjaxMiddlewareTest extends TestCase {
 			'content' => 'My Ajax Index Test ctp' . PHP_EOL,
 			'_message' => null,
 		];
-		$this->assertEquals(json_encode($expected), (string)$result->getBody());
+		$this->assertEquals(json_encode($expected), (string)$newResponse->getBody());
 	}
 
 	/**
@@ -258,12 +279,15 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
+		$request = $this->Controller->getRequest();
+		$response = $this->Controller->getResponse();
+		$handler = new TestRequestHandler(null, $response);
+		$newResponse = $middleware->process($request, $handler);
 
-		$this->assertInstanceOf(ResponseInterface::class, $result);
-		$this->assertEquals(200, $result->getStatusCode());
+		$this->assertInstanceOf(ResponseInterface::class, $newResponse);
+		$this->assertEquals(200, $newResponse->getStatusCode());
 
-		$this->assertTextContains('My Index Test ctp', $result->getBody());
+		$this->assertTextContains('My Index Test ctp', $newResponse->getBody());
 	}
 
 	/**
@@ -281,20 +305,23 @@ class AjaxMiddlewareTest extends TestCase {
 		};
 
 		$middleware = new AjaxMiddleware();
-		$result = $middleware($this->Controller->getRequest(), $this->Controller->getResponse(), $next);
+		$request = $this->Controller->getRequest();
+		$response = $this->Controller->getResponse();
+		$handler = new TestRequestHandler(null, $response);
+		$newResponse = $middleware->process($request, $handler);
 
 		$this->assertNotEmpty($this->Controller->viewBuilder()->getVars());
 		$this->assertNotEmpty($this->Controller->viewBuilder()->getVar('_serialize'));
 
-		$this->assertInstanceOf(ResponseInterface::class, $result);
-		$this->assertEquals(200, $result->getStatusCode());
+		$this->assertInstanceOf(ResponseInterface::class, $newResponse);
+		$this->assertEquals(200, $newResponse->getStatusCode());
 
 		$expectedHeaders = [
 			'Content-Type' => [
 				'application/json',
 			],
 		];
-		$this->assertSame($expectedHeaders, $result->getHeaders());
+		$this->assertSame($expectedHeaders, $newResponse->getHeaders());
 
 		$this->assertEquals('content', $this->Controller->viewBuilder()->getVar('_serialize')[0]);
 
@@ -304,7 +331,7 @@ class AjaxMiddlewareTest extends TestCase {
 			'content' => $this->Controller->viewBuilder()->getVar('content'),
 			'_message' => null,
 		];
-		$this->assertEquals(json_encode($expected), (string)$result->getBody());
+		$this->assertEquals(json_encode($expected), (string)$newResponse->getBody());
 	}
 
 }
