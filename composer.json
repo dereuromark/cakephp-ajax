@@ -37,7 +37,6 @@
 		"issues": "https://github.com/dereuromark/cakephp-ajax/issues"
 	},
 	"prefer-stable": true,
-	"minimum-stability": "beta",
 	"scripts": {
 		"test": "php phpunit.phar",
 		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-8.5.1.phar && mv phpunit-8.5.1.phar phpunit.phar || true",
