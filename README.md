@@ -15,7 +15,7 @@ This branch is for **CakePHP 4.0+**. For details see [version map](https://githu
 Basically DRY (Don't repeat yourself) and easy AJAX handling.
 
 ### Demo
-See the [Sandbox app](https://sandbox3.dereuromark.de/sandbox/ajax-examples) for live demos.
+See the [Sandbox app](https://sandbox.dereuromark.de/sandbox/ajax-examples) for live demos.
 
 ### Key features
 - Auto-handling via View class mapping and making controller actions available both AJAX and non-AJAX by design.
