@@ -4,7 +4,7 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @author        Mark Scherer
+ * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
 

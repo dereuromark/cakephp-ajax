@@ -23,7 +23,7 @@ use Cake\Utility\Hash;
  */
 class AjaxView extends AppView {
 
-	const JSON_OPTIONS = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_PARTIAL_OUTPUT_ON_ERROR;
+	public const JSON_OPTIONS = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_PARTIAL_OUTPUT_ON_ERROR;
 
 	/**
 	 * List of variables to collect from the associated controller.
@@ -59,9 +59,9 @@ class AjaxView extends AppView {
 	 *   options which get set as class properties.
 	 */
 	public function __construct(
-		ServerRequest $request = null,
-		Response $response = null,
-		EventManager $eventManager = null,
+		?ServerRequest $request = null,
+		?Response $response = null,
+		?EventManager $eventManager = null,
 		array $viewOptions = []
 	) {
 		parent::__construct($request, $response, $eventManager, $viewOptions);
@@ -152,6 +152,7 @@ class AjaxView extends AppView {
 				$this->viewVars,
 				array_flip($this->_specialVars)
 			);
+
 			return $data;
 		}
 

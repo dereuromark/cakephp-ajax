@@ -10,8 +10,8 @@ class JsonEncoder {
 	 * @param array $dataToSerialize
 	 * @param int $options
 	 *
-	 * @return string
 	 * @throws \RuntimeException
+	 * @return string
 	 */
 	public static function encode(array $dataToSerialize, $options = 0) {
 		$result = json_encode($dataToSerialize, $options);

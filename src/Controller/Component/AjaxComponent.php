@@ -149,6 +149,7 @@ class AjaxComponent extends Component {
 		if ($this->getController()->viewBuilder()->getVar('_serialize') && $this->getController()->viewBuilder()->getVar('_serialize') === true) {
 			return true;
 		}
+
 		return false;
 	}
 
