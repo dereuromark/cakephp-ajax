@@ -2,14 +2,14 @@
 [![CI](https://github.com/dereuromark/cakephp-ajax/workflows/CI/badge.svg?branch=master)](https://github.com/dereuromark/cakephp-ajax/actions?query=workflow%3ACI+branch%3Amaster)
 [![Coverage Status](https://codecov.io/gh/dereuromark/cakephp-ajax/branch/master/graph/badge.svg)](https://codecov.io/gh/dereuromark/cakephp-ajax)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-ajax/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-ajax/license.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-ajax/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
 
 A CakePHP plugin that makes working with AJAX a piece of cake..
 
-This branch is for **CakePHP 4.0+**. For details see [version map](https://github.com/dereuromark/cakephp-ajax/wiki#cakephp-version-map).
+This branch is for **CakePHP 4.2+**. For details see [version map](https://github.com/dereuromark/cakephp-ajax/wiki#cakephp-version-map).
 
 ## What is this plugin for?
 Basically DRY (Don't repeat yourself) and easy AJAX handling.

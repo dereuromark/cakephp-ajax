@@ -7,10 +7,11 @@ use RuntimeException;
 class JsonEncoder {
 
 	/**
-	 * @param array $dataToSerialize
+	 * @param array<mixed> $dataToSerialize
 	 * @param int $options
 	 *
 	 * @throws \RuntimeException
+	 *
 	 * @return string
 	 */
 	public static function encode(array $dataToSerialize, $options = 0) {

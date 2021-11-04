@@ -28,7 +28,7 @@ class AjaxView extends AppView {
 	/**
 	 * List of variables to collect from the associated controller.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $_passedVars = [
 		'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
@@ -45,7 +45,7 @@ class AjaxView extends AppView {
 	/**
 	 * List of special view vars.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $_specialVars = ['_serialize', '_jsonOptions', '_jsonp'];
 
@@ -55,7 +55,7 @@ class AjaxView extends AppView {
 	 * @param \Cake\Http\ServerRequest|null $request Request instance.
 	 * @param \Cake\Http\Response|null $response Response instance.
 	 * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
-	 * @param array $viewOptions View options. See View::$_passedVars for list of
+	 * @param array<string, mixed> $viewOptions View options. See View::$_passedVars for list of
 	 *   options which get set as class properties.
 	 */
 	public function __construct(
@@ -130,7 +130,7 @@ class AjaxView extends AppView {
 	 * Serialize(json_encode) accumulated data from both our custom render method
 	 *   and viewVars set by the user.
 	 *
-	 * @param array $dataToSerialize Array of data that is to be serialzed.
+	 * @param array<mixed> $dataToSerialize Array of data that is to be serialzed.
 	 * @return string The serialized data.
 	 */
 	protected function _serialize(array $dataToSerialize = []) {
@@ -140,17 +140,17 @@ class AjaxView extends AppView {
 	/**
 	 * Returns data to be serialized based on the value of viewVars.
 	 *
-	 * @param array|string|bool $serialize The name(s) of the view variable(s) that
+	 * @param array<mixed>|string|bool $serialize The name(s) of the view variable(s) that
 	 *   need(s) to be serialized. If true all available view variables will be used.
-	 * @param array $additionalData Data items that were defined internally in our own
+	 * @param array<mixed> $additionalData Data items that were defined internally in our own
 	 *   render method.
-	 * @return mixed The data to serialize.
+	 * @return array<mixed> The data to serialize.
 	 */
 	protected function _dataToSerialize($serialize, $additionalData = []) {
 		if ($serialize === true) {
 			$data = array_diff_key(
 				$this->viewVars,
-				array_flip($this->_specialVars)
+				array_flip($this->_specialVars),
 			);
 
 			return $data;

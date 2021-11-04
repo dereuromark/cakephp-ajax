@@ -29,7 +29,7 @@ class AjaxComponent extends Component {
 	protected $respondAsAjax = false;
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'viewClass' => 'Ajax.Ajax',
@@ -41,8 +41,7 @@ class AjaxComponent extends Component {
 
 	/**
 	 * @param \Cake\Controller\ComponentRegistry $collection
-	 * @param array $config
-	 * @throws \RuntimeException
+	 * @param array<string, mixed> $config
 	 */
 	public function __construct(ComponentRegistry $collection, $config = []) {
 		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
@@ -51,7 +50,7 @@ class AjaxComponent extends Component {
 	}
 
 	/**
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 * @return void
 	 */
 	public function initialize(array $config): void {
@@ -105,7 +104,7 @@ class AjaxComponent extends Component {
 	 * be redirected to with a new URL.
 	 *
 	 * @param \Cake\Event\EventInterface $event Event
-	 * @param string|array $url Either the string or URL array that is being redirected to.
+	 * @param array<mixed>|string $url Either the string or URL array that is being redirected to.
 	 * @param \Cake\Http\Response $response
 	 * @return \Cake\Http\Response|null
 	 */
@@ -146,7 +145,7 @@ class AjaxComponent extends Component {
 	 * @return bool
 	 */
 	protected function _isControllerSerializeTrue() {
-		if ($this->getController()->viewBuilder()->getVar('_serialize') && $this->getController()->viewBuilder()->getVar('_serialize') === true) {
+		if ($this->getController()->viewBuilder()->getVar('_serialize') === true) {
 			return true;
 		}
 
