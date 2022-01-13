@@ -2,7 +2,13 @@
 	"name": "dereuromark/cakephp-ajax",
 	"type": "cakephp-plugin",
 	"description": "A CakePHP plugin that makes working with AJAX a piece of cake.",
-	"keywords": ["cakephp", "plugin", "AJAX", "asynchronous", "view"],
+	"keywords": [
+		"cakephp",
+		"plugin",
+		"AJAX",
+		"asynchronous",
+		"view"
+	],
 	"homepage": "https://github.com/dereuromark/cakephp-ajax",
 	"license": "MIT",
 	"authors": [
@@ -45,5 +51,10 @@
 		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^1.0.0 && mv composer.backup composer.json",
 		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --extensions=php src/ tests/ config/",
 		"cs-fix": "phpcbf --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --extensions=php src/ tests/ config/"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
 	}
 }
