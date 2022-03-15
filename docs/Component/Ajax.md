@@ -33,12 +33,18 @@ public function initialize() {
     parent::initialize();
     ...
 
+    // Option A
     if (!in_array($this->request->getParam('action'), ['customAction'], true)) {
         $this->loadComponent('Ajax.Ajax');
     }
+
+    // Option B (preferred)
+    $this->loadComponent('Ajax.Ajax', [
+        'actions' => ['customAction'],
+    ]);
 }
 ```
-But in general, a whitelist setup is usually recommended.
+In general, a whitelist setup is usually recommended.
 
 ## Usage
 This component will avoid those redirects completely and pass those down as part of the content of the JSON response object:
