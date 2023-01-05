@@ -6,6 +6,6 @@
     <file>config</file>
     <file>src</file>
     <file>tests</file>
-    <exclude-pattern/>
+
     <rule ref="PSR2R"/>
 </ruleset>
