@@ -15,8 +15,8 @@ class AjaxComponentTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
-		'core.Sessions',
+	protected array $fixtures = [
+		//'core.Sessions',
 	];
 
 	/**

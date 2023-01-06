@@ -31,7 +31,7 @@ class AjaxComponent extends Component {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'viewClass' => 'Ajax.Ajax',
 		'autoDetect' => true,
 		'resolveRedirect' => true,

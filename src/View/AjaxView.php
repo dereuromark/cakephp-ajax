@@ -30,7 +30,7 @@ class AjaxView extends AppView {
 	 *
 	 * @var array<string>
 	 */
-	protected $_passedVars = [
+	protected array $_passedVars = [
 		'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
 		'layoutPath', 'plugin', 'passedArgs', 'subDir', 'template', 'templatePath',
 	];
@@ -40,14 +40,14 @@ class AjaxView extends AppView {
 	 *
 	 * @var string
 	 */
-	protected $subDir = '';
+	protected string $subDir = '';
 
 	/**
 	 * List of special view vars.
 	 *
 	 * @var array<string>
 	 */
-	protected $_specialVars = ['_serialize', '_jsonOptions', '_jsonp'];
+	protected array $_specialVars = ['_serialize', '_jsonOptions', '_jsonp'];
 
 	/**
 	 * Constructor
@@ -62,7 +62,7 @@ class AjaxView extends AppView {
 		?ServerRequest $request = null,
 		?Response $response = null,
 		?EventManager $eventManager = null,
-		array $viewOptions = []
+		array $viewOptions = [],
 	) {
 		parent::__construct($request, $response, $eventManager, $viewOptions);
 
@@ -140,13 +140,13 @@ class AjaxView extends AppView {
 	/**
 	 * Returns data to be serialized based on the value of viewVars.
 	 *
-	 * @param array<mixed>|string|bool $serialize The name(s) of the view variable(s) that
+	 * @param array<mixed>|string|true $serialize The name(s) of the view variable(s) that
 	 *   need(s) to be serialized. If true all available view variables will be used.
 	 * @param array<mixed> $additionalData Data items that were defined internally in our own
 	 *   render method.
 	 * @return array<mixed> The data to serialize.
 	 */
-	protected function _dataToSerialize($serialize, $additionalData = []) {
+	protected function _dataToSerialize($serialize, array $additionalData = []): array {
 		if ($serialize === true) {
 			$data = array_diff_key(
 				$this->viewVars,

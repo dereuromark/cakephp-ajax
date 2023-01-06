@@ -26,13 +26,14 @@ define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
 ini_set('intl.default_locale', 'de-DE');
 
 Cake\Core\Configure::write('App', [
-		'namespace' => 'App',
-		'encoding' => 'UTF-8']);
+	'namespace' => 'App',
+	'encoding' => 'UTF-8',
+]);
 Cake\Core\Configure::write('debug', true);
 
 mb_internal_encoding('UTF-8');
 
-$Tmp = new Cake\Filesystem\Folder(TMP);
+$Tmp = new Shim\Filesystem\Folder(TMP);
 $Tmp->create(TMP . 'cache/models', 0770);
 $Tmp->create(TMP . 'cache/persistent', 0770);
 $Tmp->create(TMP . 'cache/views', 0770);
@@ -82,3 +83,8 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,
 ]);
+
+if (env('FIXTURE_SCHEMA_METADATA')) {
+	$loader = new Cake\TestSuite\Fixture\SchemaLoader();
+	$loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'));
+}

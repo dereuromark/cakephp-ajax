@@ -9,12 +9,6 @@ follow those redirects and return the content via requestAction(). This might no
 
 This plugin prevents this internal request, and instead returns the URL and status code inside the JSON response.
 
-### Disable internal requests
-Make sure you disabled the deprecated `enableBeforeRedirect` option:
-```php
-$this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
-```
-
 ## Setup
 Load the Ajax component inside `Controller::initialize()`:
 ```php
@@ -68,7 +62,7 @@ $this->set('_serialize', ['content']);
 results in
 
     "content":{...}, ...
-    
+
 ### AJAX Delete
 
 For usability reasons you might want to delete a row in a paginated table, without the need to refresh the whole page.
@@ -84,7 +78,7 @@ public function delete($id = null) {
     $this->request->allowMethod(['post', 'delete']);
     $group = $this->Groups->get($id);
 
-    $this->Groups->delete($group);
+    $this->Groups->deleteOrFail($group);
     $this->Flash->success(__('The group has been deleted.'));
 
     return $this->redirect(['action' => 'index']);
@@ -116,7 +110,7 @@ public function delete($id = null) {
         return $this->redirect($this->referer(['action' => 'index'], true));
     }
 
-    $this->Groups->delete($group);
+    $this->Groups->deleteOrFail($group);
     $this->Flash->success(__('The group has been deleted.'));
 
     return $this->redirect(['action' => 'index']);

@@ -9,16 +9,16 @@ class Plugin extends BasePlugin {
 	/**
 	 * @var bool
 	 */
-	protected $middlewareEnabled = false;
+	protected bool $middlewareEnabled = false;
 
 	/**
 	 * @var bool
 	 */
-	protected $consoleEnabled = false;
+	protected bool $consoleEnabled = false;
 
 	/**
 	 * @var bool
 	 */
-	protected $routesEnabled = false;
+	protected bool $routesEnabled = false;
 
 }
