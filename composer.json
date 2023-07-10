@@ -48,7 +48,7 @@
 		"test": "vendor/bin/phpunit",
 		"test-coverage": "vendor/bin/phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
 		"stan": "phpstan analyse",
-		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^1.0.0 && mv composer.backup composer.json",
+		"test-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^1.0.0 && mv composer.backup composer.json",
 		"cs-check": "phpcs --extensions=php",
 		"cs-fix": "phpcbf --extensions=php"
 	},
