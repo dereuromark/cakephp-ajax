@@ -87,16 +87,16 @@ class AjaxComponent extends Component {
 			$this->getController()->set('_message', $message);
 		}
 
-		// If _serialize is true, *all* viewVars will be serialized; no need to add _message.
+		// If serialize is true, *all* viewVars will be serialized; no need to add _message.
 		if ($this->_isControllerSerializeTrue()) {
 			return;
 		}
 
 		$serializeKeys = ['_message'];
-		if (!empty($this->getController()->viewBuilder()->getVar('_serialize'))) {
-			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('_serialize'));
+		if (!empty($this->getController()->viewBuilder()->getVar('serialize'))) {
+			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('serialize'));
 		}
-		$this->getController()->set('_serialize', $serializeKeys);
+		$this->getController()->set('serialize', $serializeKeys);
 	}
 
 	/**
@@ -129,10 +129,10 @@ class AjaxComponent extends Component {
 		}
 
 		$serializeKeys = ['_redirect'];
-		if ($this->getController()->viewBuilder()->getVar('_serialize')) {
-			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('_serialize'));
+		if ($this->getController()->viewBuilder()->getVar('serialize')) {
+			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('serialize'));
 		}
-		$this->getController()->set('_serialize', $serializeKeys);
+		$this->getController()->set('serialize', $serializeKeys);
 		// Further changes will be required here when the change to immutable response objects is completed
 		$response = $this->getController()->render();
 
@@ -140,12 +140,12 @@ class AjaxComponent extends Component {
 	}
 
 	/**
-	 * Checks to see if the Controller->viewVar labeled _serialize is set to boolean true.
+	 * Checks to see if the Controller->viewVar labeled serialize is set to boolean true.
 	 *
 	 * @return bool
 	 */
 	protected function _isControllerSerializeTrue() {
-		if ($this->getController()->viewBuilder()->getVar('_serialize') === true) {
+		if ($this->getController()->viewBuilder()->getVar('serialize') === true) {
 			return true;
 		}
 

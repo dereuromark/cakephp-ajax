@@ -63,12 +63,12 @@ are not reserved:
 ```php
 $content = ['id' => 1, 'title' => 'title'];
 $this->set(compact('content'));
-$this->set('_serialize', ['content']);
+$this->set('serialize', ['content']);
 ```
 results in
 
     "content":{...}, ...
-    
+
 ### AJAX Delete
 
 For usability reasons you might want to delete a row in a paginated table, without the need to refresh the whole page.
