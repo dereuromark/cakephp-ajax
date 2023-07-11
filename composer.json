@@ -25,8 +25,9 @@
 	"require-dev": {
 		"dereuromark/cakephp-tools": "dev-cake5",
 		"phpunit/phpunit": "^10.2.1",
-		"fig-r/psr2r-sniffer": "dev-next"
-	},
+		"fig-r/psr2r-sniffer": "dev-next",
+      "ext-mbstring": "*"
+    },
 	"autoload": {
 		"psr-4": {
 			"Ajax\\": "src/"

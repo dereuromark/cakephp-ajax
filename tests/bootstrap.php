@@ -1,4 +1,12 @@
 <?php
+
+use Cake\Cache\Cache;
+use Cake\Core\Configure;
+use Cake\Datasource\ConnectionManager;
+use Cake\TestSuite\Fixture\SchemaLoader;
+use Shim\Filesystem\Folder;
+use TestApp\View\AppView;
+
 require dirname(__DIR__) . '/vendor/cakephp/cakephp/src/functions.php';
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -25,15 +33,15 @@ define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
 
 ini_set('intl.default_locale', 'de-DE');
 
-Cake\Core\Configure::write('App', [
+Configure::write('App', [
 	'namespace' => 'App',
 	'encoding' => 'UTF-8',
 ]);
-Cake\Core\Configure::write('debug', true);
+Configure::write('debug', true);
 
 mb_internal_encoding('UTF-8');
 
-$Tmp = new Shim\Filesystem\Folder(TMP);
+$Tmp = new Folder(TMP);
 $Tmp->create(TMP . 'cache/models', 0770);
 $Tmp->create(TMP . 'cache/persistent', 0770);
 $Tmp->create(TMP . 'cache/views', 0770);
@@ -59,15 +67,15 @@ $cache = [
 	],
 ];
 
-Cake\Cache\Cache::setConfig($cache);
+Cache::setConfig($cache);
 
-Cake\Core\Configure::write('App.paths', [
+Configure::write('App.paths', [
 		'templates' => __DIR__ . DS . 'TestApp' . DS . 'templates' . DS,
 ]);
 
 //Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);
 
-class_alias(TestApp\View\AppView::class, 'App\View\AppView');
+class_alias(AppView::class, 'App\View\AppView');
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
@@ -75,7 +83,7 @@ if (!getenv('db_class')) {
 	putenv('db_dsn=sqlite::memory:');
 }
 
-Cake\Datasource\ConnectionManager::setConfig('test', [
+ConnectionManager::setConfig('test', [
 	'className' => 'Cake\Database\Connection',
 	'driver' => getenv('db_class') ?: null,
 	'dsn' => getenv('db_dsn') ?: null,
@@ -85,6 +93,6 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 ]);
 
 if (env('FIXTURE_SCHEMA_METADATA')) {
-	$loader = new Cake\TestSuite\Fixture\SchemaLoader();
+	$loader = new SchemaLoader();
 	$loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'));
 }
