@@ -2,9 +2,12 @@
 
 namespace Ajax\Test\App\Config;
 
-use Cake\Routing\Router;
+use Cake\Routing\RouteBuilder;
 
-Router::scope('/', function($routes) {
+/**
+ * @var \Cake\Routing\RouteBuilder $routes
+ */
+$routes->scope('/', function (RouteBuilder $routes) {
 	$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'DashedRoute']);
 	$routes->connect('/:controller/:action/*', [], ['routeClass' => 'DashedRoute']);
 });

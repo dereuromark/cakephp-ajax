@@ -17,7 +17,7 @@ There are a few guidelines that I need contributors to follow:
 
 Tip: You can use the composer commands to set up everything:
 * `composer install`
-* `composer test-setup`
+* `composer stan-setup`
 
 Now you can run the tests via `composer test` and get coverage via `composer test-coverage` commands.
 

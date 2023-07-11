@@ -24,7 +24,7 @@ class AjaxViewTest extends TestCase {
 	/**
 	 * @var \Ajax\View\AjaxView
 	 */
-	protected $Ajax;
+	protected AjaxView $Ajax;
 
 	/**
 	 * @return void
@@ -48,7 +48,7 @@ class AjaxViewTest extends TestCase {
 			['title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'],
 		];
 		$View = new AjaxView($Request, $Response);
-		$View->set(['items' => $items, '_serialize' => ['items']]);
+		$View->set(['items' => $items, 'serialize' => ['items']]);
 		$result = $View->render('');
 
 		$response = $View->getResponse();
@@ -69,7 +69,7 @@ class AjaxViewTest extends TestCase {
 			['title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'],
 		];
 		$View = new AjaxView($Request, $Response);
-		$View->set(['items' => $items, '_serialize' => 'items']);
+		$View->set(['items' => $items, 'serialize' => 'items']);
 		$View->setTemplatePath('Items');
 		$result = $View->render('index');
 
@@ -81,7 +81,7 @@ class AjaxViewTest extends TestCase {
 	}
 
 	/**
-	 * Test the case where the _serialize viewVar is set to true signaling that all viewVars
+	 * Test the case where the `serialize` viewVar is set to true signaling that all viewVars
 	 *   should be serialized.
 	 *
 	 * @return void
@@ -95,7 +95,7 @@ class AjaxViewTest extends TestCase {
 		];
 		$multiple = 'items';
 		$View = new AjaxView($Request, $Response);
-		$View->set(['items' => $items, 'multiple' => $multiple, '_serialize' => true]);
+		$View->set(['items' => $items, 'multiple' => $multiple, 'serialize' => true]);
 		$result = $View->render('');
 
 		$response = $View->getResponse();
@@ -116,7 +116,7 @@ class AjaxViewTest extends TestCase {
 			['title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'],
 		];
 		$View = new AjaxView($Request, $Response);
-		$View->set(['error' => 'Some message', 'items' => $items, '_serialize' => ['error', 'items']]);
+		$View->set(['error' => 'Some message', 'items' => $items, 'serialize' => ['error', 'items']]);
 		$View->setTemplatePath('Items');
 		$result = $View->render('index');
 

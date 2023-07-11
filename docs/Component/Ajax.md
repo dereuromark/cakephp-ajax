@@ -57,7 +57,7 @@ are not reserved:
 ```php
 $content = ['id' => 1, 'title' => 'title'];
 $this->set(compact('content'));
-$this->set('_serialize', ['content']);
+$this->set('serialize', ['content']);
 ```
 results in
 

@@ -22,7 +22,7 @@ class AjaxComponentTest extends TestCase {
 	/**
 	 * @var \TestApp\Controller\AjaxTestController
 	 */
-	protected $Controller;
+	protected AjaxTestController $Controller;
 
 	/**
 	 * @return void
@@ -49,6 +49,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testDefaults() {
@@ -96,6 +97,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testAutoDetectOnFalse() {
@@ -111,6 +113,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testActionsInvalid() {
@@ -127,6 +130,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testActions() {
@@ -143,6 +147,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testAutoDetectOnFalseViaConfig() {
@@ -159,6 +164,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testSetVars() {
@@ -170,12 +176,12 @@ class AjaxComponentTest extends TestCase {
 
 		$content = ['id' => 1, 'title' => 'title'];
 		$this->Controller->set(compact('content'));
-		$this->Controller->set('_serialize', ['content']);
+		$this->Controller->set('serialize', ['content']);
 
 		$this->Controller->components()->load('Ajax.Ajax');
 		$this->assertNotEmpty($this->Controller->viewBuilder()->getVars());
-		$this->assertNotEmpty($this->Controller->viewBuilder()->getVar('_serialize'));
-		$this->assertEquals('content', $this->Controller->viewBuilder()->getVar('_serialize')[0]);
+		$this->assertNotEmpty($this->Controller->viewBuilder()->getVar('serialize'));
+		$this->assertEquals('content', $this->Controller->viewBuilder()->getVar('serialize')[0]);
 	}
 
 	/**
@@ -189,7 +195,7 @@ class AjaxComponentTest extends TestCase {
 
 		$content = ['id' => 1, 'title' => 'title'];
 		$this->Controller->set(compact('content'));
-		$this->Controller->set('_serialize', ['content']);
+		$this->Controller->set('serialize', ['content']);
 
 		// Let's try a permanent redirect
 		$this->Controller->redirect('/', 301);
@@ -211,8 +217,8 @@ class AjaxComponentTest extends TestCase {
 		$this->assertArrayHasKey('_message', $this->Controller->viewBuilder()->getVars());
 
 		$this->assertNotEmpty($this->Controller->viewBuilder()->getVars());
-		$this->assertNotEmpty($this->Controller->viewBuilder()->getVar('_serialize'));
-		$this->assertTrue(in_array('content', $this->Controller->viewBuilder()->getVar('_serialize')));
+		$this->assertNotEmpty($this->Controller->viewBuilder()->getVar('serialize'));
+		$this->assertTrue(in_array('content', $this->Controller->viewBuilder()->getVar('serialize')));
 	}
 
 }
