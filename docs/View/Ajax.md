@@ -42,7 +42,7 @@ The result can be this, for example:
     "error": ''
 }
 ```
-You can add more data to the response object via `_serialize`.
+You can add more data to the response object via `serialize`.
 
 
 ### Drop down selections

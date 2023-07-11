@@ -16,7 +16,7 @@ use Cake\Utility\Hash;
  * A response to an invalid request may be just HTTP status "code" and error "message"
  * (e.g, on 4xx or 5xx).
  * A response to a valid request will always contain at least "content" and "error" keys.
- * You can add more data using _serialize.
+ * You can add more data using `serialize`.
  *
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
@@ -47,7 +47,7 @@ class AjaxView extends AppView {
 	 *
 	 * @var array<string>
 	 */
-	protected array $_specialVars = ['_serialize', '_jsonOptions', '_jsonp'];
+	protected array $_specialVars = ['serialize', '_jsonOptions', '_jsonp'];
 
 	/**
 	 * Constructor
@@ -119,8 +119,8 @@ class AjaxView extends AppView {
 		}
 
 		$this->viewVars = Hash::merge($dataToSerialize, $this->viewVars);
-		if (isset($this->viewVars['_serialize'])) {
-			$dataToSerialize = $this->_dataToSerialize($this->viewVars['_serialize'], $dataToSerialize);
+		if (isset($this->viewVars['serialize'])) {
+			$dataToSerialize = $this->_dataToSerialize($this->viewVars['serialize'], $dataToSerialize);
 		}
 
 		return $this->_serialize($dataToSerialize);
