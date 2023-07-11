@@ -26,7 +26,7 @@ class AjaxComponent extends Component {
 	/**
 	 * @var bool
 	 */
-	protected $respondAsAjax = false;
+	public bool $respondAsAjax = false;
 
 	/**
 	 * @var array<string, mixed>
@@ -78,7 +78,7 @@ class AjaxComponent extends Component {
 	/**
 	 * @return void
 	 */
-	protected function _respondAsAjax() {
+	protected function _respondAsAjax(): void {
 		$this->getController()->viewBuilder()->setClassName($this->_config['viewClass']);
 
 		// Set flash messages to the view
@@ -144,7 +144,7 @@ class AjaxComponent extends Component {
 	 *
 	 * @return bool
 	 */
-	protected function _isControllerSerializeTrue() {
+	protected function _isControllerSerializeTrue(): bool {
 		if ($this->getController()->viewBuilder()->getVar('serialize') === true) {
 			return true;
 		}
@@ -157,7 +157,7 @@ class AjaxComponent extends Component {
 	 *
 	 * @return bool
 	 */
-	protected function _isActionEnabled() {
+	protected function _isActionEnabled(): bool {
 		$actions = $this->getConfig('actions');
 		if (!$actions) {
 			return true;

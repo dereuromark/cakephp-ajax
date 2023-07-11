@@ -7,6 +7,7 @@ use Cake\Controller\Controller;
 class AjaxTestController extends Controller {
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function initialize(): void {

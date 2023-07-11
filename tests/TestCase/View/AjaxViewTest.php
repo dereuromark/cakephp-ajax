@@ -24,7 +24,7 @@ class AjaxViewTest extends TestCase {
 	/**
 	 * @var \Ajax\View\AjaxView
 	 */
-	protected $Ajax;
+	protected AjaxView $Ajax;
 
 	/**
 	 * @return void

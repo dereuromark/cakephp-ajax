@@ -22,7 +22,7 @@ class AjaxComponentTest extends TestCase {
 	/**
 	 * @var \TestApp\Controller\AjaxTestController
 	 */
-	protected $Controller;
+	protected AjaxTestController $Controller;
 
 	/**
 	 * @return void
@@ -49,6 +49,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testDefaults() {
@@ -96,6 +97,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testAutoDetectOnFalse() {
@@ -111,6 +113,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testActionsInvalid() {
@@ -127,6 +130,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testActions() {
@@ -143,6 +147,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testAutoDetectOnFalseViaConfig() {
@@ -159,6 +164,7 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function testSetVars() {

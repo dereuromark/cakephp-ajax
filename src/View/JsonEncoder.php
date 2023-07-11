@@ -14,7 +14,7 @@ class JsonEncoder {
 	 *
 	 * @return string
 	 */
-	public static function encode(array $dataToSerialize, $options = 0) {
+	public static function encode(array $dataToSerialize, int $options = 0): string {
 		$result = json_encode($dataToSerialize, $options);
 
 		$error = null;
