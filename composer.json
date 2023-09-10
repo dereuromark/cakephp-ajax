@@ -20,7 +20,7 @@
 	],
 	"require": {
 		"php": ">=8.1",
-		"cakephp/cakephp": "5.x-dev"
+		"cakephp/cakephp": "^5.0.0"
 	},
 	"require-dev": {
 		"dereuromark/cakephp-tools": "dev-cake5",
@@ -45,6 +45,7 @@
 		"issues": "https://github.com/dereuromark/cakephp-ajax/issues"
 	},
 	"prefer-stable": true,
+	"minimum-stability": "dev",
 	"scripts": {
 		"test": "vendor/bin/phpunit",
 		"test-coverage": "vendor/bin/phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
@@ -57,6 +58,5 @@
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
-	},
-	"minimum-stability": "dev"
+	}
 }
