@@ -23,7 +23,7 @@
 		"cakephp/cakephp": "^5.0.0"
 	},
 	"require-dev": {
-		"dereuromark/cakephp-tools": "dev-cake5",
+		"dereuromark/cakephp-tools": "^3.0.0",
 		"phpunit/phpunit": "^10.2.1",
 		"fig-r/psr2r-sniffer": "dev-next",
 		"ext-mbstring": "*"
