@@ -1,5 +1,5 @@
 # CakePHP Ajax Plugin
-[![CI](https://github.com/dereuromark/cakephp-ajax/workflows/CI/badge.svg?branch=master)](https://github.com/dereuromark/cakephp-ajax/actions?query=workflow%3ACI+branch%3Amaster)
+[![CI](https://github.com/dereuromark/cakephp-ajax/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dereuromark/cakephp-ajax/actions/workflows/ci.yml?query=branch%3Amaster)
 [![Coverage Status](https://codecov.io/gh/dereuromark/cakephp-ajax/branch/master/graph/badge.svg)](https://codecov.io/gh/dereuromark/cakephp-ajax)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-ajax/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg)](https://php.net/)
