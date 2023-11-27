@@ -1,7 +1,8 @@
 {
 	"name": "dereuromark/cakephp-ajax",
-	"type": "cakephp-plugin",
 	"description": "A CakePHP plugin that makes working with AJAX a piece of cake.",
+	"license": "MIT",
+	"type": "cakephp-plugin",
 	"keywords": [
 		"cakephp",
 		"plugin",
@@ -9,25 +10,30 @@
 		"asynchronous",
 		"view"
 	],
-	"homepage": "https://github.com/dereuromark/cakephp-ajax",
-	"license": "MIT",
 	"authors": [
 		{
 			"name": "Mark Scherer",
-			"role": "Author",
-			"homepage": "https://www.dereuromark.de"
+			"homepage": "https://www.dereuromark.de",
+			"role": "Author"
 		}
 	],
+	"homepage": "https://github.com/dereuromark/cakephp-ajax",
+	"support": {
+		"issues": "https://github.com/dereuromark/cakephp-ajax/issues",
+		"source": "https://github.com/dereuromark/cakephp-ajax"
+	},
 	"require": {
 		"php": ">=8.1",
 		"cakephp/cakephp": "^5.0.0"
 	},
 	"require-dev": {
+		"ext-mbstring": "*",
 		"dereuromark/cakephp-tools": "^3.0.0",
-		"phpunit/phpunit": "^10.2.1",
 		"fig-r/psr2r-sniffer": "dev-next",
-		"ext-mbstring": "*"
-    },
+		"phpunit/phpunit": "^10.2.1"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
 			"Ajax\\": "src/"
@@ -40,23 +46,17 @@
 			"TestApp\\": "tests/TestApp/src/"
 		}
 	},
-	"support": {
-		"source": "https://github.com/dereuromark/cakephp-ajax",
-		"issues": "https://github.com/dereuromark/cakephp-ajax/issues"
-	},
-	"prefer-stable": true,
-	"minimum-stability": "dev",
-	"scripts": {
-		"test": "vendor/bin/phpunit",
-		"test-coverage": "vendor/bin/phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
-		"stan": "phpstan analyse",
-		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^1.0.0 && mv composer.backup composer.json",
-		"cs-check": "phpcs --extensions=php",
-		"cs-fix": "phpcbf --extensions=php"
-	},
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
+	},
+	"scripts": {
+		"cs-check": "phpcs --extensions=php",
+		"cs-fix": "phpcbf --extensions=php",
+		"stan": "phpstan analyse",
+		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^1.0.0 && mv composer.backup composer.json",
+		"test": "vendor/bin/phpunit",
+		"test-coverage": "vendor/bin/phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml"
 	}
 }
