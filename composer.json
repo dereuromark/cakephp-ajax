@@ -32,7 +32,7 @@
 		"fig-r/psr2r-sniffer": "dev-next",
 		"phpunit/phpunit": "^10.2.1"
 	},
-	"minimum-stability": "dev",
+	"minimum-stability": "stable",
 	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
