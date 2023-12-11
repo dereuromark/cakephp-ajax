@@ -3,11 +3,11 @@
 [![Coverage Status](https://codecov.io/gh/dereuromark/cakephp-ajax/branch/master/graph/badge.svg)](https://codecov.io/gh/dereuromark/cakephp-ajax)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-ajax/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg)](https://php.net/)
-[![License](https://poser.pugx.org/dereuromark/cakephp-ajax/license.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
+[![License](https://poser.pugx.org/dereuromark/cakephp-ajax/license.svg)](LICENSE)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-ajax/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
 
-A CakePHP plugin that makes working with AJAX a piece of cake..
+A CakePHP plugin that makes working with AJAX a "piece of cake".
 
 This branch is for **CakePHP 5.0+**. For details see [version map](https://github.com/dereuromark/cakephp-ajax/wiki#cakephp-version-map).
 
