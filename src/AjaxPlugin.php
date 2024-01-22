@@ -4,7 +4,7 @@ namespace Ajax;
 
 use Cake\Core\BasePlugin;
 
-class Plugin extends BasePlugin {
+class AjaxPlugin extends BasePlugin {
 
 	/**
 	 * @var bool
