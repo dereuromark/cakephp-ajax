@@ -28,7 +28,7 @@ class AjaxView extends AppView {
 	/**
 	 * List of variables to collect from the associated controller.
 	 *
-	 * @var array<string>
+	 * @var array<int, string>
 	 */
 	protected array $_passedVars = [
 		'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
