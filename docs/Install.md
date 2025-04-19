@@ -9,20 +9,9 @@ composer require dereuromark/cakephp-ajax
 
 Details @ https://packagist.org/packages/dereuromark/cakephp-ajax
 
-You then can load the plugin. In `src/Application.php`, something like:
-```php
-public function bootstrap() {
-    parent::bootstrap();
-    $this->addPlugin('Ajax');
-}
+Load the plugin:
 ```
-In case you want the Ajax bootstrap file included (recommended):
-```php
-
-public function bootstrap() {
-    parent::bootstrap();
-    $this->addPlugin('Ajax', ['bootstrap' => true]);
-}
+bin/cake plugin load Ajax
 ```
 
 Note that you do not have to load the plugin if you do not use the plugin's bootstrap or require other plugins (like IdeHelper) to know about it. It also doesn't hurt to load it, though.
