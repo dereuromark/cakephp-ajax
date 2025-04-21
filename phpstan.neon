@@ -4,4 +4,5 @@ parameters:
 		- src/
 	bootstrapFiles:
 		- %rootDir%/../../../tests/bootstrap.php
-	checkGenericClassInNonGenericObjectType: false
+	ignoreErrors:
+		- identifier: missingType.generics
