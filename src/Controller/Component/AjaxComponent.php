@@ -106,11 +106,11 @@ class AjaxComponent extends Component {
 	 * @param \Cake\Event\EventInterface $event Event
 	 * @param array<mixed>|string $url Either the string or URL array that is being redirected to.
 	 * @param \Cake\Http\Response $response
-	 * @return \Cake\Http\Response|null
+	 * @return void
 	 */
-	public function beforeRedirect(EventInterface $event, $url, Response $response): ?Response {
+	public function beforeRedirect(EventInterface $event, $url, Response $response): void {
 		if (!$this->respondAsAjax || !$this->_config['resolveRedirect']) {
-			return null;
+			return;
 		}
 
 		$url = Router::url($url, true);
@@ -125,7 +125,7 @@ class AjaxComponent extends Component {
 		$event->stopPropagation();
 
 		if ($this->_isControllerSerializeTrue()) {
-			return null;
+			return;
 		}
 
 		$serializeKeys = ['_redirect'];
@@ -135,8 +135,7 @@ class AjaxComponent extends Component {
 		$this->getController()->set('serialize', $serializeKeys);
 		// Further changes will be required here when the change to immutable response objects is completed
 		$response = $this->getController()->render();
-
-		return $response;
+		$event->setResult($response);
 	}
 
 	/**
