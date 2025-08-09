@@ -5,6 +5,7 @@ namespace Ajax\Test\App\Config;
 use Cake\Routing\RouteBuilder;
 
 /**
+ * @phpcs:disable
  * @var \Cake\Routing\RouteBuilder $routes
  */
 $routes->scope('/', function (RouteBuilder $routes) {
