@@ -29,7 +29,7 @@ define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . APP_DIR . DS);
 
 define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
-define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
+define('CONFIG', __DIR__ . DS . 'config' . DS);
 
 ini_set('intl.default_locale', 'de-DE');
 
@@ -70,7 +70,7 @@ $cache = [
 Cache::setConfig($cache);
 
 Configure::write('App.paths', [
-		'templates' => __DIR__ . DS . 'TestApp' . DS . 'templates' . DS,
+	'templates' => __DIR__ . DS . 'TestApp' . DS . 'templates' . DS,
 ]);
 
 //Cake\Core\Plugin::load('Ajax', ['path' => ROOT . DS, 'bootstrap' => true]);
