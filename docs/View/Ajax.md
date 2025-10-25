@@ -44,6 +44,67 @@ The result can be this, for example:
 ```
 You can add more data to the response object via `serialize`.
 
+### Using serialize
+You can pass additional data to be included in the JSON response using the `serialize` option:
+
+```php
+$content = ['id' => 1, 'title' => 'title'];
+$this->set(compact('content'));
+$this->viewBuilder()->setOption('serialize', ['content']);
+```
+
+This will include the content in your JSON response:
+```json
+{
+    "content": {"id": 1, "title": "title"},
+    "error": null
+}
+```
+
+You can also set serialize to `true` to include all view variables:
+```php
+$this->viewBuilder()->setOption('serialize', true);
+```
+
+### Special error and success variables
+The AjaxView recognizes two special view variables that can simplify your responses:
+
+#### Error responses
+When you set an `error` view variable, the view will skip rendering the template and only return the error:
+```php
+if (!$this->process($value)) {
+    $error = 'Processing failed!';
+    $this->set(compact('error'));
+}
+```
+
+Response:
+```json
+{
+    "error": "Processing failed!",
+    "success": null,
+    "content": null
+}
+```
+
+#### Success responses
+Similarly, you can use the `success` variable for simple success confirmations:
+```php
+if ($this->process($value)) {
+    $success = true; // Or a message like 'Successfully processed!'
+    $this->set(compact('success'));
+}
+```
+
+Response:
+```json
+{
+    "error": null,
+    "success": true,
+    "content": null
+}
+```
+
 
 ### Drop down selections
 ```php
