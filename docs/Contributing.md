@@ -23,6 +23,6 @@ Now you can run the tests via `composer test` and get coverage via `composer tes
 # Additional Resources
 
 * [Coding standards guide (extending/overwriting the CakePHP ones)](https://github.com/php-fig-rectified/fig-rectified-standards/)
-* [CakePHP coding standards](https://book.cakephp.org/3.0/en/contributing/cakephp-coding-conventions.html)
+* [CakePHP coding standards](https://book.cakephp.org/5/en/contributing/cakephp-coding-conventions.html)
 * [General GitHub documentation](https://help.github.com/)
 * [GitHub pull request documentation](https://help.github.com/send-pull-requests/)

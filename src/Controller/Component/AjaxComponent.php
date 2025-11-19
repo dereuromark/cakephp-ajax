@@ -93,7 +93,7 @@ class AjaxComponent extends Component {
 		}
 
 		$serializeKeys = ['_message'];
-		if (!empty($this->getController()->viewBuilder()->getVar('serialize'))) {
+		if ($this->getController()->viewBuilder()->getVar('serialize')) {
 			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('serialize'));
 		}
 		$this->getController()->set('serialize', $serializeKeys);

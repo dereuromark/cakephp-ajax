@@ -32,7 +32,7 @@ class AjaxView extends AppView {
 	 */
 	protected array $_passedVars = [
 		'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
-		'layoutPath', 'plugin', 'passedArgs', 'subDir', 'template', 'templatePath',
+		'layoutPath', 'plugin', 'subDir', 'template', 'templatePath',
 	];
 
 	/**
@@ -134,7 +134,7 @@ class AjaxView extends AppView {
 	 * @return string The serialized data.
 	 */
 	protected function _serialize(array $dataToSerialize = []): string {
-		return JsonEncoder::encode($dataToSerialize);
+		return JsonEncoder::encode($dataToSerialize, static::JSON_OPTIONS);
 	}
 
 	/**
