@@ -3,6 +3,6 @@ parameters:
 	paths:
 		- src/
 	bootstrapFiles:
-		- %rootDir%/../../../tests/bootstrap.php
+		- tests/bootstrap.php
 	ignoreErrors:
 		- identifier: missingType.generics
