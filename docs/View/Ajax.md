@@ -17,11 +17,7 @@ Using the `json` extension you can then access your action through the following
 
 You can enable the AjaxView class it in your actions like so:
 ```php
-// new
 $this->viewBuilder()->setClassName('Ajax.Ajax');
-
-// old
-$this->viewClass = 'Ajax.Ajax';
 ```
 Using the AjaxComponent you can save yourself that call, as it can auto-detect AJAX request.
 
@@ -30,8 +26,10 @@ Using the AjaxComponent you can save yourself that call, as it can auto-detect A
 Instead of GET we request it via AJAX:
 ```php
 public function favorites() {
-    $this->request->allowMethod('ajax');
-    $this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
+    if (!$this->request->is('ajax')) {
+        throw new MethodNotAllowedException();
+    }
+    $this->viewBuilder()->setClassName('Ajax.Ajax'); // Only necessary without the Ajax component
 }
 ```
 
@@ -109,13 +107,15 @@ Response:
 ### Drop down selections
 ```php
 public function statesAjax() {
-    $this->request->allowMethod('ajax');
+    if (!$this->request->is('ajax')) {
+        throw new MethodNotAllowedException();
+    }
     $id = $this->request->getQuery('id');
     if (!$id) {
         throw new NotFoundException();
     }
 
-    $this->viewClass = 'Ajax.Ajax'; // Only necessary without the Ajax component
+    $this->viewBuilder()->setClassName('Ajax.Ajax'); // Only necessary without the Ajax component
 
     $states = $this->States->getListByCountry($id);
     $this->set(compact('states'));
@@ -134,10 +134,10 @@ class AjaxView extends PluginAjaxView {
     /**
      * @return void
      */
-    public function initialize() {
+    public function initialize(): void {
         parent::initialize();
-        $this->loadHelper('...);
-        ...
+        $this->loadHelper('MyPlugin.MyHelper');
+        // ...
     }
 
 }
