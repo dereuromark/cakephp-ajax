@@ -156,5 +156,5 @@ success: function(response, newValue) {
 
 - 'autoDetect' => true // Detect AJAX automatically, regardless of the extension
 - 'resolveRedirect' => true // Send redirects to the view, without actually redirecting
-- 'flashKey' => 'Message.flash' // Set to false to disable
+- 'flashKey' => 'Flash.flash' // Set to false to disable
 - 'actions' => [] // Set to an array of actions if you want to only whitelist these specific actions

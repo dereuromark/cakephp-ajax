@@ -4,3 +4,4 @@ composer.lock
 vendor/
 plugins/
 .idea/
+.phpcs.cache
