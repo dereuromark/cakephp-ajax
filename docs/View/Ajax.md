@@ -38,7 +38,7 @@ public function favorites() {
 The result can be this, for example:
 ```
 {
-    "content": [Result of our rendered favorites.ctp as HTML string],
+    "content": [Result of our rendered favorites.php as HTML string],
     "error": ''
 }
 ```

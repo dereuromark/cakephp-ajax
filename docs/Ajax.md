@@ -32,7 +32,7 @@ The AjaxView is designed to make the response more consistent.
 You either get a 200 status code and your defined response structure:
 ```json
 {
-    "content": "[Result of our rendered template.ctp]",
+    "content": "[Result of our rendered template.php]",
     "_redirect": null
 }
 ```
