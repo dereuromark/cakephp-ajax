@@ -93,7 +93,7 @@ class AjaxComponentTest extends TestCase {
 			'url' => Router::url('/', true),
 			'status' => 302,
 		];
-		$this->assertEquals($expected, $this->Controller->viewBuilder()->getVar('_redirect'));
+		$this->assertSame($expected, $this->Controller->viewBuilder()->getVar('_redirect'));
 	}
 
 	/**
@@ -210,7 +210,7 @@ class AjaxComponentTest extends TestCase {
 			'url' => Router::url('/', true),
 			'status' => 301,
 		];
-		$this->assertEquals($expected, $this->Controller->viewBuilder()->getVar('_redirect'));
+		$this->assertSame($expected, $this->Controller->viewBuilder()->getVar('_redirect'));
 
 		$this->Controller->set(['_message' => 'test']);
 		$this->Controller->redirect('/');
