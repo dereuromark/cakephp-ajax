@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ajax\View;
 
@@ -74,7 +75,7 @@ class AjaxView extends AppView {
 			$this->templatePath = str_replace(DS . 'ajax', '', $this->templatePath);
 		}
 
-		if (isset($response)) {
+		if ($response !== null) {
 			$response = $response->withType('json');
 			$this->response = $response;
 		}
