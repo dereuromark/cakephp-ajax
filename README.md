@@ -21,6 +21,7 @@ See the [Sandbox app](https://sandbox.dereuromark.de/sandbox/ajax-examples) for 
 ### Key features
 - Auto-handling via View class mapping and making controller actions available both AJAX and non-AJAX by design.
 - Flash message and redirect (prevention) support.
+- Opt-in detection for modern JSON-oriented clients that do not send `X-Requested-With`.
 
 See [my article](https://www.dereuromark.de/2014/01/09/ajax-and-cakephp/) for details on the history of this view class and plugin code.
 

@@ -165,6 +165,65 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testAcceptJsonDoesNotEnableByDefault() {
+		$request = new ServerRequest([
+			'environment' => ['HTTP_ACCEPT' => 'application/json'],
+		]);
+		$this->Controller = new AjaxTestController($request, new Response());
+
+		$this->Controller->startupProcess();
+
+		$this->assertFalse($this->Controller->components()->Ajax->respondAsAjax);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAcceptJsonDetector() {
+		Configure::write('Ajax.detectors', ['ajax', 'acceptJson']);
+		$request = new ServerRequest([
+			'environment' => ['HTTP_ACCEPT' => 'application/json, text/plain;q=0.5'],
+		]);
+		$this->Controller = new AjaxTestController($request, new Response());
+
+		$this->Controller->startupProcess();
+
+		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAcceptJsonDetectorWithVendorMediaType() {
+		Configure::write('Ajax.detectors', ['acceptJson']);
+		$request = new ServerRequest([
+			'environment' => ['HTTP_ACCEPT' => 'application/vnd.api+json'],
+		]);
+		$this->Controller = new AjaxTestController($request, new Response());
+
+		$this->Controller->startupProcess();
+
+		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testJsonExtensionDetector() {
+		Configure::write('Ajax.detectors', ['jsonExtension']);
+		$request = new ServerRequest([
+			'params' => ['_ext' => 'json'],
+		]);
+		$this->Controller = new AjaxTestController($request, new Response());
+
+		$this->Controller->startupProcess();
+
+		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
+	}
+
+	/**
 	 * @throws \Exception
 	 * @return void
 	 */

@@ -155,6 +155,28 @@ success: function(response, newValue) {
 ## Configs
 
 - 'autoDetect' => true // Detect AJAX automatically, regardless of the extension
+- 'detectors' => ['ajax'] // Auto-detection strategies: 'ajax', 'acceptJson', 'jsonExtension'
 - 'resolveRedirect' => true // Send redirects to the view, without actually redirecting
 - 'flashKey' => 'Flash.flash' // Set to false to disable
 - 'actions' => [] // Set to an array of actions if you want to only whitelist these specific actions
+
+## Modern clients without X-Requested-With
+
+Classic CakePHP AJAX detection relies on the `X-Requested-With: XMLHttpRequest` header.
+Modern `fetch()` calls often omit that header by default.
+
+If you want the component to auto-switch for JSON-first clients without having to call
+`$this->Ajax->enable()` manually, opt into additional detectors:
+
+```php
+$this->loadComponent('Ajax.Ajax', [
+    'detectors' => ['ajax', 'acceptJson', 'jsonExtension'],
+]);
+```
+
+Available detectors:
+- `ajax`: Legacy XHR detection via `X-Requested-With`.
+- `acceptJson`: Treat requests with `Accept: application/json` or `+json` media types as AJAX.
+- `jsonExtension`: Treat requests using the `.json` extension as AJAX.
+
+The default remains `['ajax']` for backwards compatibility.
