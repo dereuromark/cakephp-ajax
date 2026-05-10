@@ -44,6 +44,7 @@ class AjaxComponent extends Component {
 	protected array $_defaultConfig = [
 		'viewClass' => 'Ajax.Ajax',
 		'autoDetect' => true,
+		'detectors' => ['ajax'],
 		'resolveRedirect' => true,
 		'flashKey' => null,
 		'flashConsumer' => null,
@@ -73,7 +74,7 @@ class AjaxComponent extends Component {
 		if (!$this->_config['autoDetect'] || !$this->_isActionEnabled()) {
 			return;
 		}
-		$this->respondAsAjax = $this->getController()->getRequest()->is('ajax');
+		$this->respondAsAjax = $this->_shouldRespondAsAjax();
 	}
 
 	/**
@@ -138,6 +139,46 @@ class AjaxComponent extends Component {
 			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('serialize'));
 		}
 		$this->getController()->set('serialize', $serializeKeys);
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function _shouldRespondAsAjax(): bool {
+		$request = $this->getController()->getRequest();
+
+		foreach ((array)$this->getConfig('detectors') as $detector) {
+			if ($detector === 'ajax' && $request->is('ajax')) {
+				return true;
+			}
+			if ($detector === 'acceptJson' && $this->_acceptsJson($request->getHeaderLine('Accept'))) {
+				return true;
+			}
+			if ($detector === 'jsonExtension' && $request->getParam('_ext') === 'json') {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $acceptHeader
+	 * @return bool
+	 */
+	protected function _acceptsJson(string $acceptHeader): bool {
+		if ($acceptHeader === '') {
+			return false;
+		}
+
+		foreach (explode(',', $acceptHeader) as $part) {
+			$mediaType = trim(strtolower(explode(';', $part)[0]));
+			if ($mediaType === 'application/json' || str_ends_with($mediaType, '+json')) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
