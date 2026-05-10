@@ -8,6 +8,7 @@ use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
+use Cake\Utility\Hash;
 use TestApp\Controller\AjaxTestController;
 
 class AjaxComponentTest extends TestCase {
@@ -219,6 +220,177 @@ class AjaxComponentTest extends TestCase {
 		$this->assertNotEmpty($this->Controller->viewBuilder()->getVars());
 		$this->assertNotEmpty($this->Controller->viewBuilder()->getVar('serialize'));
 		$this->assertTrue(in_array('content', $this->Controller->viewBuilder()->getVar('serialize')));
+	}
+
+	/**
+	 * enable() must force AJAX handling on for non-XHR requests too.
+	 *
+	 * @return void
+	 */
+	public function testEnableForcesAjaxOnNonXhr() {
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->startupProcess();
+
+		$this->assertFalse($this->Controller->components()->Ajax->respondAsAjax);
+
+		$this->Controller->components()->Ajax->enable();
+		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
+
+		$event = new Event('Controller.beforeRender');
+		$this->Controller->components()->Ajax->beforeRender($event);
+
+		$this->assertSame('Ajax.Ajax', $this->Controller->viewBuilder()->getClassName());
+	}
+
+	/**
+	 * disable() must force AJAX handling off even when X-Requested-With is set.
+	 *
+	 * @return void
+	 */
+	public function testDisableForcesAjaxOffOnXhr() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->startupProcess();
+
+		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
+
+		$this->Controller->components()->Ajax->disable();
+		$this->assertFalse($this->Controller->components()->Ajax->respondAsAjax);
+
+		// beforeRender must short-circuit and leave the view class alone
+		$event = new Event('Controller.beforeRender');
+		$this->Controller->components()->Ajax->beforeRender($event);
+		$this->assertNotSame('Ajax.Ajax', $this->Controller->viewBuilder()->getClassName());
+	}
+
+	/**
+	 * Calling enable() before initialize() must survive autoDetect overwriting respondAsAjax.
+	 *
+	 * @return void
+	 */
+	public function testEnableBeforeInitializeWins() {
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+
+		$this->Controller->components()->unload('Ajax');
+		$this->Controller->components()->load('Ajax.Ajax');
+		$this->Controller->components()->Ajax->enable();
+
+		// Re-run initialize to simulate the lifecycle (defensive: forced should still win)
+		$this->Controller->components()->Ajax->initialize([]);
+
+		$this->assertTrue($this->Controller->components()->Ajax->respondAsAjax);
+	}
+
+	/**
+	 * flashKey defaults must auto-resolve from a loaded FlashComponent's `key` config.
+	 *
+	 * @return void
+	 */
+	public function testFlashKeyAutoResolvesFromFlashComponent() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->components()->load('Flash', ['key' => 'myStack']);
+
+		$this->Controller->getRequest()->getSession()->write('Flash.myStack', [
+			['message' => 'Saved', 'key' => 'myStack', 'element' => 'flash/success', 'params' => []],
+		]);
+
+		$event = new Event('Controller.beforeRender');
+		$this->Controller->components()->Ajax->beforeRender($event);
+
+		$message = $this->Controller->viewBuilder()->getVar('_message');
+		$this->assertIsArray($message);
+		$this->assertSame('Saved', Hash::get($message, '0.message'));
+
+		// Default behavior is destructive consume.
+		$this->assertNull($this->Controller->getRequest()->getSession()->read('Flash.myStack'));
+	}
+
+	/**
+	 * flashKey explicitly set to false suppresses _message entirely (lets FlashHelper render later).
+	 *
+	 * @return void
+	 */
+	public function testFlashKeyFalseSuppressesMessage() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		Configure::write('Ajax.flashKey', false);
+
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->components()->load('Flash');
+		$this->Controller->components()->Flash->success('Hello');
+
+		$event = new Event('Controller.beforeRender');
+		$this->Controller->components()->Ajax->beforeRender($event);
+
+		$this->assertNull($this->Controller->viewBuilder()->getVar('_message'));
+		// And the flash is left intact for the helper.
+		$this->assertNotNull($this->Controller->getRequest()->getSession()->read('Flash.flash'));
+	}
+
+	/**
+	 * flashConsumer callable can implement non-destructive read or shape transformation.
+	 *
+	 * @return void
+	 */
+	public function testFlashConsumerCallable() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		Configure::write('Ajax.flashConsumer', function (ServerRequest $req, string $key): ?string {
+			$messages = $req->getSession()->consume($key);
+			if (!is_array($messages) || !$messages) {
+				return null;
+			}
+
+			return (string)($messages[0]['message'] ?? '');
+		});
+
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->components()->load('Flash');
+		$this->Controller->components()->Flash->error('Boom');
+
+		$event = new Event('Controller.beforeRender');
+		$this->Controller->components()->Ajax->beforeRender($event);
+
+		// Consumer normalized the array stack down to a single string.
+		$this->assertSame('Boom', $this->Controller->viewBuilder()->getVar('_message'));
+	}
+
+	/**
+	 * No FlashComponent loaded and no flash data in session: _message must not be set.
+	 *
+	 * @return void
+	 */
+	public function testNoFlashDataDoesNotSetMessage() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+
+		$event = new Event('Controller.beforeRender');
+		$this->Controller->components()->Ajax->beforeRender($event);
+
+		$this->assertSame('Ajax.Ajax', $this->Controller->viewBuilder()->getClassName());
+		$this->assertNull($this->Controller->viewBuilder()->getVar('_message'));
+	}
+
+	/**
+	 * BC: legacy explicit flashKey string still wins over the auto-resolve path.
+	 *
+	 * @return void
+	 */
+	public function testLegacyExplicitFlashKey() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		Configure::write('Ajax.flashKey', 'Flash.legacy');
+
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		// FlashComponent's own key is `flash`, but the explicit override wins.
+		$this->Controller->components()->load('Flash');
+		$this->Controller->getRequest()->getSession()->write('Flash.legacy', ['legacy data']);
+
+		$event = new Event('Controller.beforeRender');
+		$this->Controller->components()->Ajax->beforeRender($event);
+
+		$this->assertSame(['legacy data'], $this->Controller->viewBuilder()->getVar('_message'));
 	}
 
 }
