@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace Ajax\Controller\Component;
 
 use Cake\Controller\Component;
+use Cake\Controller\Component\FlashComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Core\Configure;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 use Cake\Routing\Router;
+use Closure;
 
 /**
  * Ajax Component to respond to AJAX requests.
@@ -30,13 +32,21 @@ class AjaxComponent extends Component {
 	public bool $respondAsAjax = false;
 
 	/**
+	 * Force-state set via enable()/disable(). When non-null, takes precedence over autoDetect.
+	 *
+	 * @var bool|null
+	 */
+	protected ?bool $forced = null;
+
+	/**
 	 * @var array<string, mixed>
 	 */
 	protected array $_defaultConfig = [
 		'viewClass' => 'Ajax.Ajax',
 		'autoDetect' => true,
 		'resolveRedirect' => true,
-		'flashKey' => 'Flash.flash',
+		'flashKey' => null,
+		'flashConsumer' => null,
 		'actions' => [],
 	];
 
@@ -55,10 +65,38 @@ class AjaxComponent extends Component {
 	 * @return void
 	 */
 	public function initialize(array $config): void {
+		if ($this->forced !== null) {
+			$this->respondAsAjax = $this->forced;
+
+			return;
+		}
 		if (!$this->_config['autoDetect'] || !$this->_isActionEnabled()) {
 			return;
 		}
 		$this->respondAsAjax = $this->getController()->getRequest()->is('ajax');
+	}
+
+	/**
+	 * Force AJAX response handling on for the rest of the request, regardless of autoDetect / X-Requested-With.
+	 *
+	 * Useful from `beforeFilter()` or controller actions when responding to non-XHR clients (fetch without
+	 * X-Requested-With, integration tests, internal sub-requests).
+	 *
+	 * @return void
+	 */
+	public function enable(): void {
+		$this->forced = true;
+		$this->respondAsAjax = true;
+	}
+
+	/**
+	 * Force AJAX response handling off, regardless of autoDetect.
+	 *
+	 * @return void
+	 */
+	public function disable(): void {
+		$this->forced = false;
+		$this->respondAsAjax = false;
 	}
 
 	/**
@@ -82,10 +120,12 @@ class AjaxComponent extends Component {
 	protected function _respondAsAjax(): void {
 		$this->getController()->viewBuilder()->setClassName($this->_config['viewClass']);
 
-		// Set flash messages to the view
-		if ($this->_config['flashKey']) {
-			$message = $this->getController()->getRequest()->getSession()->consume($this->_config['flashKey']);
-			$this->getController()->set('_message', $message);
+		// Set flash messages to the view. Skipped when flashKey is explicitly false.
+		if ($this->_config['flashKey'] !== false) {
+			$message = $this->_consumeFlash();
+			if ($message !== null) {
+				$this->getController()->set('_message', $message);
+			}
 		}
 
 		// If `serialize` is true, *all* viewVars will be serialized; no need to add _message.
@@ -137,6 +177,49 @@ class AjaxComponent extends Component {
 		// Further changes will be required here when the change to immutable response objects is completed
 		$response = $this->getController()->render();
 		$event->setResult($response);
+	}
+
+	/**
+	 * Resolves the configured flash session key and consumes its contents.
+	 *
+	 * Resolution order:
+	 *  - If `flashConsumer` is a callable, delegate entirely (it returns whatever shape it likes).
+	 *  - If `flashKey` is a non-empty string, use it verbatim (BC with the previous `'Flash.flash'` default).
+	 *  - Otherwise resolve from the loaded FlashComponent's `key` config (defaults to `flash`),
+	 *    yielding `Flash.<key>` — so an app that reconfigured FlashComponent picks up automatically.
+	 *
+	 * @return mixed Returns null when no flash data is present.
+	 */
+	protected function _consumeFlash(): mixed {
+		$consumer = $this->_config['flashConsumer'];
+		if ($consumer instanceof Closure || (is_object($consumer) && method_exists($consumer, '__invoke')) || (is_string($consumer) && function_exists($consumer))) {
+			return $consumer($this->getController()->getRequest(), $this->_resolveFlashKey());
+		}
+
+		$key = $this->_resolveFlashKey();
+
+		return $this->getController()->getRequest()->getSession()->consume($key);
+	}
+
+	/**
+	 * @return string Session key to consume, e.g. `Flash.flash`.
+	 */
+	protected function _resolveFlashKey(): string {
+		$configured = $this->_config['flashKey'];
+		if (is_string($configured) && $configured !== '') {
+			return $configured;
+		}
+
+		$controller = $this->getController();
+		if ($controller->components()->has('Flash')) {
+			$flash = $controller->components()->get('Flash');
+			assert($flash instanceof FlashComponent);
+			$flashKey = (string)$flash->getConfig('key', 'flash');
+
+			return 'Flash.' . $flashKey;
+		}
+
+		return 'Flash.flash';
 	}
 
 	/**
