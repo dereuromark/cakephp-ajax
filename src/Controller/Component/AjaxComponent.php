@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Ajax\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Controller\Component\FlashComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Core\Configure;
 use Cake\Event\EventInterface;
@@ -254,7 +253,6 @@ class AjaxComponent extends Component {
 		$controller = $this->getController();
 		if ($controller->components()->has('Flash')) {
 			$flash = $controller->components()->get('Flash');
-			assert($flash instanceof FlashComponent);
 			$flashKey = (string)$flash->getConfig('key', 'flash');
 
 			return 'Flash.' . $flashKey;

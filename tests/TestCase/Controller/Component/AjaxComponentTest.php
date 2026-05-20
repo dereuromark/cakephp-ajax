@@ -433,6 +433,33 @@ class AjaxComponentTest extends TestCase {
 	}
 
 	/**
+	 * Auto-resolve must work with a non-cake-core Flash component (e.g. dereuromark/cakephp-flash),
+	 * which extends `Cake\Controller\Component` directly rather than the core `FlashComponent`.
+	 *
+	 * @return void
+	 */
+	public function testFlashKeyAutoResolvesFromCustomFlashComponent() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->components()->load('Flash', [
+			'className' => 'TestApp\Controller\Component\CustomFlashComponent',
+			'key' => 'myStack',
+		]);
+
+		$this->Controller->getRequest()->getSession()->write('Flash.myStack', [
+			['message' => 'Saved', 'key' => 'myStack', 'element' => 'flash/success', 'params' => []],
+		]);
+
+		$event = new Event('Controller.beforeRender');
+		$this->Controller->components()->Ajax->beforeRender($event);
+
+		$message = $this->Controller->viewBuilder()->getVar('_message');
+		$this->assertIsArray($message);
+		$this->assertSame('Saved', Hash::get($message, '0.message'));
+	}
+
+	/**
 	 * BC: legacy explicit flashKey string still wins over the auto-resolve path.
 	 *
 	 * @return void
