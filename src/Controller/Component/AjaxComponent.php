@@ -201,7 +201,7 @@ class AjaxComponent extends Component {
 		$this->getController()->setResponse($response);
 
 		$this->getController()->enableAutoRender();
-		$this->getController()->set('_redirect', compact('url', 'status'));
+		$this->getController()->set('_redirect', ['url' => $url, 'status' => $status]);
 
 		$event->stopPropagation();
 
@@ -266,13 +266,10 @@ class AjaxComponent extends Component {
 	 *
 	 * @return bool
 	 */
-	protected function _isControllerSerializeTrue(): bool {
-		if ($this->getController()->viewBuilder()->getVar('serialize') === true) {
-			return true;
-		}
-
-		return false;
-	}
+	protected function _isControllerSerializeTrue(): bool
+    {
+        return $this->getController()->viewBuilder()->getVar('serialize') === true;
+    }
 
 	/**
 	 * Checks if we are using action whitelisting and if so checks if this action is whitelisted.

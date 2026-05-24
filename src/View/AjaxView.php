@@ -75,7 +75,7 @@ class AjaxView extends AppView {
 			$this->templatePath = str_replace(DS . 'ajax', '', $this->templatePath);
 		}
 
-		if ($response !== null) {
+		if ($response instanceof \Cake\Http\Response) {
 			$response = $response->withType('json');
 			$this->response = $response;
 		}
@@ -149,12 +149,10 @@ class AjaxView extends AppView {
 	 */
 	protected function _dataToSerialize(array|bool|string $serialize, array $additionalData = []): array {
 		if ($serialize === true) {
-			$data = array_diff_key(
+			return array_diff_key(
 				$this->viewVars,
 				array_flip($this->_specialVars),
 			);
-
-			return $data;
 		}
 
 		foreach ((array)$serialize as $alias => $key) {
