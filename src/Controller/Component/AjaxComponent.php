@@ -266,10 +266,9 @@ class AjaxComponent extends Component {
 	 *
 	 * @return bool
 	 */
-	protected function _isControllerSerializeTrue(): bool
-    {
-        return $this->getController()->viewBuilder()->getVar('serialize') === true;
-    }
+	protected function _isControllerSerializeTrue(): bool {
+		return $this->getController()->viewBuilder()->getVar('serialize') === true;
+	}
 
 	/**
 	 * Checks if we are using action whitelisting and if so checks if this action is whitelisted.

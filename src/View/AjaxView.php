@@ -75,7 +75,7 @@ class AjaxView extends AppView {
 			$this->templatePath = str_replace(DS . 'ajax', '', $this->templatePath);
 		}
 
-		if ($response instanceof \Cake\Http\Response) {
+		if ($response instanceof Response) {
 			$response = $response->withType('json');
 			$this->response = $response;
 		}
