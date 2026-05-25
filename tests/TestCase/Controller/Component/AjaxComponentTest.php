@@ -235,7 +235,7 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->components()->unload('Ajax');
 
 		$content = ['id' => 1, 'title' => 'title'];
-		$this->Controller->set(['content' => $content]);
+		$this->Controller->set(compact('content'));
 		$this->Controller->set('serialize', ['content']);
 
 		$this->Controller->components()->load('Ajax.Ajax');
@@ -254,7 +254,7 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->startupProcess();
 
 		$content = ['id' => 1, 'title' => 'title'];
-		$this->Controller->set(['content' => $content]);
+		$this->Controller->set(compact('content'));
 		$this->Controller->set('serialize', ['content']);
 
 		// Let's try a permanent redirect

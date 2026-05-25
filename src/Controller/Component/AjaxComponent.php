@@ -201,7 +201,7 @@ class AjaxComponent extends Component {
 		$this->getController()->setResponse($response);
 
 		$this->getController()->enableAutoRender();
-		$this->getController()->set('_redirect', ['url' => $url, 'status' => $status]);
+		$this->getController()->set('_redirect', compact('url', 'status'));
 
 		$event->stopPropagation();
 
