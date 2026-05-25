@@ -267,11 +267,7 @@ class AjaxComponent extends Component {
 	 * @return bool
 	 */
 	protected function _isControllerSerializeTrue(): bool {
-		if ($this->getController()->viewBuilder()->getVar('serialize') === true) {
-			return true;
-		}
-
-		return false;
+		return $this->getController()->viewBuilder()->getVar('serialize') === true;
 	}
 
 	/**
