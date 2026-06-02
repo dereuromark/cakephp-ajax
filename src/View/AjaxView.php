@@ -147,7 +147,7 @@ class AjaxView extends AppView {
 	 *   render method.
 	 * @return array<mixed> The data to serialize.
 	 */
-	protected function _dataToSerialize(array|bool|string $serialize, array $additionalData = []): array {
+	protected function _dataToSerialize(array|string|bool $serialize, array $additionalData = []): array {
 		if ($serialize === true) {
 			return array_diff_key(
 				$this->viewVars,
