@@ -4,6 +4,9 @@ hero:
   name: CakePHP Ajax
   text: JSON responses and HTML fragments
   tagline: Handle Ajax requests, redirects, and flash messages in CakePHP controllers.
+  image:
+    src: /logo.svg
+    alt: CakePHP Ajax request and response arrows
   actions:
     - theme: brand
       text: Installation
@@ -14,6 +17,13 @@ hero:
     - theme: alt
       text: GitHub
       link: https://github.com/dereuromark/cakephp-ajax
+features:
+  - title: JSON and HTML responses
+    details: Render HTML fragments or serialize view variables from your controller actions.
+  - title: Redirects and flash messages
+    details: Return controller redirect details and flash messages in the Ajax response.
+  - title: Browser fetch support
+    details: Configure JSON request detection and follow an example using the browser fetch API.
 ---
 
 ## Start with one action
