@@ -7,9 +7,9 @@ use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
-use Laminas\Diactoros\Uri;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
+use Laminas\Diactoros\Uri;
 use TestApp\Controller\AjaxTestController;
 
 class AjaxComponentTest extends TestCase {
