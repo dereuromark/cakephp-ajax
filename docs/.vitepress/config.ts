@@ -5,6 +5,7 @@ export default defineConfig({
   description: 'JSON responses, HTML fragments, redirects, and flash messages for CakePHP Ajax requests.',
   base: '/cakephp-ajax/',
   cleanUrls: true,
+  srcExclude: ['README.md', 'Ajax.md', 'Install.md', 'GettingStarted.md', 'Contributing.md', 'Component/**', 'View/**'],
   lastUpdated: true,
   sitemap: { hostname: 'https://dereuromark.github.io/cakephp-ajax/' },
   themeConfig: {
@@ -20,6 +21,7 @@ export default defineConfig({
           { text: 'Overview', link: '/guide/' },
           { text: 'Installation', link: '/guide/installation' },
           { text: 'Getting started', link: '/guide/getting-started' },
+          { text: 'Contributing', link: '/guide/contributing' },
         ],
       },
       {
@@ -27,7 +29,6 @@ export default defineConfig({
         items: [
           { text: 'Ajax Component', link: '/reference/component' },
           { text: 'Ajax View', link: '/reference/view' },
-          { text: 'Contributing', link: '/guide/contributing' },
         ],
       },
     ],

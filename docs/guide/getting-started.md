@@ -20,6 +20,9 @@ class ExamplesController extends AppController {
         ]);
     }
 
+    public function index(): void {
+    }
+
     public function ping(): void {
         $this->request->allowMethod('get');
         $this->set([
@@ -42,6 +45,10 @@ normal application view;
 provide a template if you also want to support that request.
 
 ## Call it from a template
+
+Create `templates/Examples/index.php` with the following button and script.
+Open `/examples/index` through your application's existing routing, then click
+**Check connection**. The empty `index()` action above renders this template.
 
 Use CakePHP's URL helper so applications installed under a subdirectory work:
 

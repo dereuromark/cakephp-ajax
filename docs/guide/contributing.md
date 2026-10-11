@@ -42,6 +42,10 @@ npm run docs:build
 npm run docs:preview
 ```
 
+The docs package overrides VitePress's Vite dependency to a patched Vite 6 release.
+When updating these dependencies, check the production build and development server
+before changing or removing that override.
+
 CI builds the site for pull requests. After changes reach `master`, the deployment
 workflow publishes it to GitHub Pages. Repository settings must use GitHub Actions
 as the Pages source.
