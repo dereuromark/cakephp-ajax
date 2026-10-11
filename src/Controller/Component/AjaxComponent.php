@@ -9,7 +9,7 @@ use Cake\Core\Configure;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 use Cake\Routing\Router;
-use Closure;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Ajax Component to respond to AJAX requests.
@@ -54,7 +54,7 @@ class AjaxComponent extends Component {
 	 * @param \Cake\Controller\ComponentRegistry $collection
 	 * @param array<string, mixed> $config
 	 */
-	public function __construct(ComponentRegistry $collection, $config = []) {
+	public function __construct(ComponentRegistry $collection, array $config = []) {
 		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
 		$config += $defaults;
 		parent::__construct($collection, $config);
@@ -134,9 +134,12 @@ class AjaxComponent extends Component {
 		}
 
 		$serializeKeys = ['_message'];
-		if ($this->getController()->viewBuilder()->getVar('serialize')) {
-			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('serialize'));
+		$serialize = $this->getController()->viewBuilder()->getOption('serialize')
+			?? $this->getController()->viewBuilder()->getVar('serialize');
+		if ($serialize) {
+			$serializeKeys = array_merge($serializeKeys, (array)$serialize);
 		}
+		$this->getController()->viewBuilder()->setOption('serialize', $serializeKeys);
 		$this->getController()->set('serialize', $serializeKeys);
 	}
 
@@ -185,11 +188,11 @@ class AjaxComponent extends Component {
 	 * be redirected to with a new URL.
 	 *
 	 * @param \Cake\Event\EventInterface $event Event
-	 * @param array<mixed>|string $url Either the string or URL array that is being redirected to.
+	 * @param \Psr\Http\Message\UriInterface|array<mixed>|string $url Either the string or URL array that is being redirected to.
 	 * @param \Cake\Http\Response $response
 	 * @return void
 	 */
-	public function beforeRedirect(EventInterface $event, $url, Response $response): void {
+	public function beforeRedirect(EventInterface $event, UriInterface|array|string $url, Response $response): void {
 		if (!$this->respondAsAjax || !$this->_config['resolveRedirect']) {
 			return;
 		}
@@ -205,16 +208,17 @@ class AjaxComponent extends Component {
 
 		$event->stopPropagation();
 
-		if ($this->_isControllerSerializeTrue()) {
-			return;
+		if (!$this->_isControllerSerializeTrue()) {
+			$serializeKeys = ['_redirect'];
+			$serialize = $this->getController()->viewBuilder()->getOption('serialize')
+				?? $this->getController()->viewBuilder()->getVar('serialize');
+			if ($serialize) {
+				$serializeKeys = array_merge($serializeKeys, (array)$serialize);
+			}
+			$this->getController()->viewBuilder()->setOption('serialize', $serializeKeys);
+			$this->getController()->set('serialize', $serializeKeys);
 		}
 
-		$serializeKeys = ['_redirect'];
-		if ($this->getController()->viewBuilder()->getVar('serialize')) {
-			$serializeKeys = array_merge($serializeKeys, (array)$this->getController()->viewBuilder()->getVar('serialize'));
-		}
-		$this->getController()->set('serialize', $serializeKeys);
-		// Further changes will be required here when the change to immutable response objects is completed
 		$response = $this->getController()->render();
 		$event->setResult($response);
 	}
@@ -226,13 +230,13 @@ class AjaxComponent extends Component {
 	 *  - If `flashConsumer` is a callable, delegate entirely (it returns whatever shape it likes).
 	 *  - If `flashKey` is a non-empty string, use it verbatim (BC with the previous `'Flash.flash'` default).
 	 *  - Otherwise resolve from the loaded FlashComponent's `key` config (defaults to `flash`),
-	 *    yielding `Flash.<key>` — so an app that reconfigured FlashComponent picks up automatically.
+	 *    yielding `Flash.<key>`, so an app that reconfigured FlashComponent picks up automatically.
 	 *
 	 * @return mixed Returns null when no flash data is present.
 	 */
 	protected function _consumeFlash(): mixed {
 		$consumer = $this->_config['flashConsumer'];
-		if ($consumer instanceof Closure || (is_object($consumer) && method_exists($consumer, '__invoke')) || (is_string($consumer) && function_exists($consumer))) {
+		if (is_callable($consumer)) {
 			return $consumer($this->getController()->getRequest(), $this->_resolveFlashKey());
 		}
 
@@ -267,7 +271,9 @@ class AjaxComponent extends Component {
 	 * @return bool
 	 */
 	protected function _isControllerSerializeTrue(): bool {
-		return $this->getController()->viewBuilder()->getVar('serialize') === true;
+		$builder = $this->getController()->viewBuilder();
+
+		return ($builder->getOption('serialize') ?? $builder->getVar('serialize')) === true;
 	}
 
 	/**

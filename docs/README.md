@@ -2,6 +2,7 @@
 
 ## Installation
 * [Installation](Install.md)
+* [Getting started](GettingStarted.md)
 
 ## Documentation
 * [Ajax plugin](Ajax.md)

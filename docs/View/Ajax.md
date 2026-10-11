@@ -1,154 +1,81 @@
 # Ajax View
 
-A CakePHP view class to make working with AJAX a bit easier.
+`AjaxView` extends your application's `AppView`, disables the layout, and wraps
+rendered HTML in JSON. It looks for templates under an `ajax` subdirectory, for
+example `templates/Items/ajax/index.php`. Put shared markup in an element if you
+want both your normal template and the AJAX template to render it.
 
-## Configs
-First enable JSON extensions if you want to use `json` extension.
-You can either use the included bootstrap file, or add the snippet manually to your own one:
-```
-Router::extensions(['json']);
-```
+## Select the view
 
-## Usage
-Using the `json` extension you can then access your action through the following URL:
-```
-/controller/action.json
-```
+The component selects it when its configured detectors match. To select it
+manually inside a controller action:
 
-You can enable the AjaxView class it in your actions like so:
 ```php
 $this->viewBuilder()->setClassName('Ajax.Ajax');
 ```
-Using the AjaxComponent you can save yourself that call, as it can auto-detect AJAX request.
 
+A `.json` extension is optional. If using it, register the extension as described
+in [Installation](../Install.md); routing alone does not select this view.
 
-### Basic view rendering
-Instead of GET we request it via AJAX:
-```php
-public function favorites() {
-    if (!$this->request->is('ajax')) {
-        throw new MethodNotAllowedException();
-    }
-    $this->viewBuilder()->setClassName('Ajax.Ajax'); // Only necessary without the Ajax component
-}
-```
-
-The result can be this, for example:
-```
-{
-    "content": [Result of our rendered favorites.php as HTML string],
-    "error": ''
-}
-```
-You can add more data to the response object via `serialize`.
-
-### Using serialize
-You can pass additional data to be included in the JSON response using the `serialize` option:
+## Include response fields
 
 ```php
-$content = ['id' => 1, 'title' => 'title'];
-$this->set(compact('content'));
+$this->set('content', ['id' => 1, 'title' => 'Example']);
+$this->set('success', true);
 $this->viewBuilder()->setOption('serialize', ['content']);
 ```
 
-This will include the content in your JSON response:
-```json
-{
-    "content": {"id": 1, "title": "title"},
-    "error": null
-}
-```
+This produces:
 
-You can also set serialize to `true` to include all view variables:
-```php
-$this->viewBuilder()->setOption('serialize', true);
-```
-
-### Special error and success variables
-The AjaxView recognizes two special view variables that can simplify your responses:
-
-#### Error responses
-When you set an `error` view variable, the view will skip rendering the template and only return the error:
-```php
-if (!$this->process($value)) {
-    $error = 'Processing failed!';
-    $this->set(compact('error'));
-}
-```
-
-Response:
-```json
-{
-    "error": "Processing failed!",
-    "success": null,
-    "content": null
-}
-```
-
-#### Success responses
-Similarly, you can use the `success` variable for simple success confirmations:
-```php
-if ($this->process($value)) {
-    $success = true; // Or a message like 'Successfully processed!'
-    $this->set(compact('success'));
-}
-```
-
-Response:
 ```json
 {
     "error": null,
     "success": true,
-    "content": null
+    "content": {"id": 1, "title": "Example"}
 }
 ```
 
+Without `success` or `error`, the view attempts template rendering. Use `success`
+for a response that needs no template. `serialize: true` includes all view
+variables except the reserved configuration variables `serialize`, `_jsonOptions`,
+and `_jsonp`. A list includes only its selected variables in addition to the
+base response keys. Legacy `$this->set('serialize', ...)` remains supported;
+the view option takes precedence when both are configured.
 
-### Drop down selections
+## Business errors
+
 ```php
-public function statesAjax() {
-    if (!$this->request->is('ajax')) {
-        throw new MethodNotAllowedException();
-    }
-    $id = $this->request->getQuery('id');
-    if (!$id) {
-        throw new NotFoundException();
-    }
-
-    $this->viewBuilder()->setClassName('Ajax.Ajax'); // Only necessary without the Ajax component
-
-    $states = $this->States->getListByCountry($id);
-    $this->set(compact('states'));
-}
+$this->set('error', 'The record cannot be changed.');
 ```
 
-## Custom Plugin helpers
-If your view classes needs additional plugin helpers, and you are not using the controller way anymore to load/define helpers, then you might need to extend the view class to project level and add them there:
+This skips the template and sets the response's `error` value. Set an HTTP status
+explicitly if your client should treat this as an HTTP failure:
+
+```php
+$this->setResponse($this->getResponse()->withStatus(422));
+```
+
+The view does not turn exceptions into JSON error responses. Use your
+application's error middleware for exception handling.
+
+## Custom view and helpers
+
 ```php
 namespace App\View;
 
 use Ajax\View\AjaxView as PluginAjaxView;
 
 class AjaxView extends PluginAjaxView {
-
-    /**
-     * @return void
-     */
     public function initialize(): void {
         parent::initialize();
         $this->loadHelper('MyPlugin.MyHelper');
-        // ...
     }
-
 }
 ```
-Then make sure you load the app `Ajax` view class instead of the `Ajax.Ajax` one.
-If you are using the component, you can set Configure key `'Ajax.viewClass'` to your `'Ajax'` here.
 
-## Tips
-I found the following quite useful for your jQuery AJAX code as some browsers might not properly work without it (at least for me it used to).
-```
-beforeSend: function(xhr) {
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-},
-```
+Select your view using `$this->viewBuilder()->setClassName('Ajax')`, or configure
+the component with `['viewClass' => 'Ajax']`.
+
+JSON encoding uses `AjaxView::JSON_OPTIONS`. Override that constant in a subclass
+if needed. `_jsonOptions` and `_jsonp` view variables do not configure encoding
+or JSONP in this implementation.

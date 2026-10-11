@@ -1,17 +1,26 @@
 # Installation
 
-## How to include
-Installing the Plugin is pretty much as with every other CakePHP Plugin.
+From your application directory:
 
-```
+```bash
 composer require dereuromark/cakephp-ajax
 ```
 
-Details @ https://packagist.org/packages/dereuromark/cakephp-ajax
+Loading the plugin is optional for Composer-autoloaded classes and aliases.
+Load it if you want its bootstrap to register the `.json` routing extension:
 
-Load the plugin:
-```
+```bash
 bin/cake plugin load Ajax
 ```
 
-Note that you do not have to load the plugin if you do not use the plugin's bootstrap or require other plugins (like IdeHelper) to know about it. It also doesn't hurt to load it, though.
+For selected route scopes, register extensions in `config/routes.php` instead:
+
+```php
+$routes->scope('/', function (\Cake\Routing\RouteBuilder $builder): void {
+    $builder->setExtensions(['json']);
+    $builder->fallbacks();
+});
+```
+
+Then load `Ajax.Ajax` in the controllers that need automatic response handling.
+See [Getting started](GettingStarted.md) for an example using `fetch()`.

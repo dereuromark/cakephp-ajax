@@ -7,6 +7,7 @@ use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
+use Laminas\Diactoros\Uri;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
 use TestApp\Controller\AjaxTestController;
@@ -477,6 +478,72 @@ class AjaxComponentTest extends TestCase {
 		$this->Controller->components()->Ajax->beforeRender($event);
 
 		$this->assertSame(['legacy data'], $this->Controller->viewBuilder()->getVar('_message'));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testSerializeOptionPreservesRedirectAndFlash(): void {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->set('content', ['id' => 1]);
+		$this->Controller->viewBuilder()->setOption('serialize', ['content']);
+		$this->Controller->components()->load('Flash');
+		$this->Controller->components()->Flash->success('Saved');
+		$this->Controller->redirect('/');
+
+		$result = json_decode((string)$this->Controller->getResponse()->getBody(), true, flags: JSON_THROW_ON_ERROR);
+		$this->assertSame(['id' => 1], $result['content']);
+		$this->assertSame(302, $result['_redirect']['status']);
+		$this->assertSame(200, $this->Controller->getResponse()->getStatusCode());
+		$this->assertSame('Saved', $result['_message'][0]['message']);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testSerializeAllOptionPreservesRedirect(): void {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->set('extra', 'value');
+		$this->Controller->viewBuilder()->setOption('serialize', true);
+		$this->Controller->redirect('/');
+
+		$result = json_decode((string)$this->Controller->getResponse()->getBody(), true, flags: JSON_THROW_ON_ERROR);
+		$this->assertSame('value', $result['extra']);
+		$this->assertSame(302, $result['_redirect']['status']);
+		$this->assertSame(200, $this->Controller->getResponse()->getStatusCode());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testFlashConsumerArrayCallable(): void {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$consumer = new class {
+			public function consume(ServerRequest $request, string $key): string {
+				return $request->getSession()->consume($key);
+			}
+		};
+		Configure::write('Ajax.flashConsumer', [$consumer, 'consume']);
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->getRequest()->getSession()->write('Flash.flash', 'Saved');
+		$this->Controller->components()->Ajax->beforeRender(new Event('Controller.beforeRender'));
+
+		$this->assertSame('Saved', $this->Controller->viewBuilder()->getVar('_message'));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testRedirectUri(): void {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$this->Controller = new AjaxTestController(new ServerRequest(), new Response());
+		$this->Controller->redirect(new Uri('https://example.com/items'));
+
+		$result = json_decode((string)$this->Controller->getResponse()->getBody(), true, flags: JSON_THROW_ON_ERROR);
+		$this->assertSame('https://example.com/items', $result['_redirect']['url']);
+		$this->assertSame(200, $this->Controller->getResponse()->getStatusCode());
 	}
 
 }

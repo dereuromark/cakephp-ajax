@@ -1,72 +1,40 @@
 # Ajax Plugin
 
-AJAX = Asynchronous JavaScript and XML (or in this case PHP+JSON)
+Use this plugin when a controller action should return an HTML fragment inside a
+JSON response, or when a JavaScript client needs redirect URLs and flash messages.
+For a plain JSON API, CakePHP's core `JsonView` is usually enough. Register core
+view classes through `Controller::viewClasses()` for content negotiation.
 
-Basically: The X in the acronym is actually a variable. Common values of X are: XML, JSON, HTML Fragments, Plain Text.
+## Response shape
 
-## Main concept
+AjaxView starts with these keys:
 
-The main concept of this plugin is to make working with AJAX in CakePHP easier and more streamlined.
-
-That said, we first need to clarify what this plugin should not be used/needed for:
-- If you only serve basic JSON responses (like API) 
-- If you do not need any additional view rendering (HTML snippets), redirect prevention, flash message caption.
-
-=> Just use JsonView instead.
- 
-Tip: Using RequestHandler component and `.json` extension for your URL will automatically do that for you.
-
-### Main use cases
-
-#### Serving HTML and JSON simultaneously 
-You have an action that is rendered as HTML usually, but in one instance you need the same data via AJAX.
-Instead of duplicating the action, you can leverage the Ajax Component + View class to use the same action for both output types.
-Especially the rendered HTML snippet can be the same, for easier use inside the JS frontend then.
-It can also on top ship the flash messages that are generated in the process.
-
-#### Providing a consistent return object for your frontend
-
-With JsonView your actions might sometimes return a bit inconsistent responses, missing some keys or alike. 
-The AjaxView is designed to make the response more consistent.
-
-You either get a 200 status code and your defined response structure:
 ```json
 {
-    "content": "[Result of our rendered template.php]",
-    "_redirect": null
+    "error": null,
+    "success": null,
+    "content": null
 }
 ```
 
-Or you get a non-200 code with the typical error structure:
-```json
-{
-    "code": 404,
-    "message": "Not Found",
-    "url": "..."
-}
-```
+`content` contains rendered template HTML unless you replace it with a serialized
+view variable. Setting a non-null `error` or `success` skips template rendering.
+Additional serialized variables are included as extra keys. `_message` appears
+when the component consumes flash messages; `_redirect` appears when it intercepts
+a controller redirect.
 
-A typical JS (e.g. jQuery) code can then easily use that to distinguish those two cases:
-```js
-$(function() {
-    $('#countries').change(function() {
-        var selectedValue = $(this).val();
-        var targetUrl = $(this).attr('rel') + '?id=' + selectedValue;
-        $.ajax({
-            type: 'get',
-            url: targetUrl,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            },
-            success: function(response) {
-                if (response.content) {
-                    $('#provinces').html(response.content);
-                }
-            },
-            error: function(e) {
-                alert("An error occurred: " + e.responseText.message);
-            }
-        });
-    });
-});
-```
+The plugin preserves normal HTTP errors. Exception response formatting depends
+on your application's error handling and content negotiation. Check `response.ok`
+in a `fetch()` client before handling a successful response body. A business error
+set through the `error` variable does not change the HTTP status by itself.
+
+Start with [Getting started](GettingStarted.md), then read the
+[component](Component/Ajax.md) and [view](View/Ajax.md) references.
+
+## CakePHP 6 preparation
+
+Use `fetchTable()` for model access, `viewBuilder()->setOption('serialize', ...)`
+for response fields, and `$event->setResult()` or `stopPropagation()` in event
+callbacks. Keep your application on current CakePHP 5 and resolve its deprecations
+before upgrading. The plugin currently declares CakePHP 5 support only; its
+inherited view properties and hooks need review when adding CakePHP 6 support.

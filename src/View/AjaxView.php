@@ -92,7 +92,7 @@ class AjaxView extends AppView {
 	 * @param string|null $layout The layout being rendered.
 	 * @return string The rendered view.
 	 */
-	public function render(?string $view = null, $layout = null): string {
+	public function render(?string $view = null, string|false|null $layout = null): string {
 		$dataToSerialize = [
 			'error' => null,
 			'success' => null,
@@ -120,8 +120,9 @@ class AjaxView extends AppView {
 		}
 
 		$this->viewVars = Hash::merge($dataToSerialize, $this->viewVars);
-		if (isset($this->viewVars['serialize'])) {
-			$dataToSerialize = $this->_dataToSerialize($this->viewVars['serialize'], $dataToSerialize);
+		$serialize = $this->getConfig('serialize') ?? $this->viewVars['serialize'] ?? null;
+		if ($serialize !== null) {
+			$dataToSerialize = $this->_dataToSerialize($serialize, $dataToSerialize);
 		}
 
 		return $this->_serialize($dataToSerialize);

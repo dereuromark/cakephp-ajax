@@ -1,172 +1,19 @@
 # Ajax Component
-This component works together with the AjaxView to easily switch output type from HTML to JSON
-format and adds some additional sugar on top.
-Please see the View class docs for the main documentation.
 
-## Features
-By default the CakePHP RequestHandler, when included, will prevent redirects in AJAX, **but** it will
-follow those redirects and return the content via requestAction(). This might not always be desired.
-
-This plugin prevents this internal request, and instead returns the URL and status code inside the JSON response.
-
-## Setup
-Load the Ajax component inside `Controller::initialize()`:
-```php
-$this->loadComponent('Ajax.Ajax');
-```
-
-You can pass the settings either directly inline here, or use Configure to set them globally.
-
-If you want to enable it only for certain actions, use the `actions` config key to whitelist certain actions.
-You could also do a blacklist programmatically:
-```php
-/**
- * @return void
- */
-public function initialize() {
-    parent::initialize();
-    ...
-
-    // Option A
-    if (!in_array($this->request->getParam('action'), ['customAction'], true)) {
-        $this->loadComponent('Ajax.Ajax');
-    }
-
-    // Option B (preferred)
-    $this->loadComponent('Ajax.Ajax', [
-        'actions' => ['customAction'],
-    ]);
-}
-```
-In general, a whitelist setup is usually recommended.
-
-## Usage
-This component will avoid those redirects completely and pass those down as part of the content of the JSON response object:
-
-    "_redirect":{"url":"http://controller/action","status":200}, ...
-
-Flash messages are also caught and passed down as part of the response:
-
-    "_message":{"success":["Yeah, that was a normal POST and redirect (PRG)."]}, ...
-
-Don't forget `Configure::write('Ajax.flashKey', 'FlashMessage');`
-if you want to use it with Tools.Flash component (multi/stackable messages).
-
-You can pass content along with it, as well, those JSON response keys will not be prefixed with a `_` underscore then, as they
-are not reserved:
-```php
-$content = ['id' => 1, 'title' => 'title'];
-$this->set(compact('content'));
-$this->viewBuilder()->setOption('serialize', ['content']);
-```
-results in
-
-    "content":{...}, ...
-
-### AJAX Delete
-
-For usability reasons you might want to delete a row in a paginated table, without the need to refresh the whole page.
-All you need to do here is
-- Add a specific class to the "post link"
-- Add some custom JS to catch the "post link JS"
-- Make sure the AjaxComponent is loaded for this action
-
-The default bake action usually already works perfectly:
+Load the component inside a controller's `initialize()` method after the parent:
 
 ```php
-public function delete($id = null) {
-    $this->request->allowMethod(['post', 'delete']);
-    $group = $this->Groups->get($id);
-
-    $this->Groups->deleteOrFail($group);
-    $this->Flash->success(__('The group has been deleted.'));
-
-    return $this->redirect(['action' => 'index']);
-}
-```
-The JSON response even contains the flash message and redirect URL in case you want to use that in your JS response handling:
-```
-{
-    "error":null,
-    "content":null,
-    "_message":[{"message":"The group has been deleted.","key":"flash","element":"Flash\/success","params":[]}],
-    "_redirect":{"url":"http:\/\/app.local\/groups","status":302}
-}
+$this->loadComponent('Ajax.Ajax', ['actions' => ['index', 'delete']]);
 ```
 
-If you have some custom "fail" logic, though, you need to do a small adjustment.
-Then just modify your delete action to pass down the error to the view for cases where this is needed:
-```php
-public function delete($id = null) {
-    $this->request->allowMethod(['post', 'delete']);
-    $group = $this->Groups->get($id);
+The `actions` list limits automatic detection to those actions. An empty list
+allows every action in that controller. Normal non-AJAX requests keep their view
+and redirect behavior.
 
-    if ($group->status === $group::STATUS_PUBLIC) {
-        $error = 'Already public, deleting not possible in that state.';
-        $this->Flash->error($error);
-        $this->set(compact('error'));
+## Detection
 
-        // Since we are not deleting, referer redirect is safe to use here
-        return $this->redirect($this->referer(['action' => 'index'], true));
-    }
-
-    $this->Groups->deleteOrFail($group);
-    $this->Flash->success(__('The group has been deleted.'));
-
-    return $this->redirect(['action' => 'index']);
-}
-```
-
-If you don't pass the error to the view, you would need to read/parse the passed flash messages (key=error), which could be a bit more difficult to do.
-But the adjustment above is still minimal (1-2 lines difference from the baked default action for delete case).
-
-The nice bonus is the auto-fallback: The controller and all deleting works normally for those that have JS disabled.
-
-A live example can be found in the [Sandbox](https://sandbox.dereuromark.de/sandbox/ajax-examples/table).
-
-### Simple boolean response
-
-In cases like "edit in place" you often just need a basic AJAX response as boolean YES/NO, maybe with an error message on top.
-Since we ideally always return a 200 OK response, we need a different way of signaling the frontend if the operation was successful.
-
-Here you can simplify it using the special "error"/"success" keys that auto-format the reponse as JSON:
-```php
-$this->request->allowMethod('post');
-
-$value = $this->request->getData('value');
-if (!$this->process($value)) {
-    $error = 'Didnt work out!';
-    $this->set(compact('error'));
-} else {
-    $success = true; // Or a text like 'You did it!'
-    $this->set(compact('success'));
-}
-```
-
-In the case of x-editable as "edit in place" JS all you need is to check for the error message:
-```js
-success: function(response, newValue) {
-    if (response.error) {
-        return response.error;  //msg will be shown in editable form
-    }
-}
-```
-
-## Configs
-
-- 'autoDetect' => true // Detect AJAX automatically, regardless of the extension
-- 'detectors' => ['ajax'] // Auto-detection strategies: 'ajax', 'acceptJson', 'jsonExtension'
-- 'resolveRedirect' => true // Send redirects to the view, without actually redirecting
-- 'flashKey' => 'Flash.flash' // Set to false to disable
-- 'actions' => [] // Set to an array of actions if you want to only whitelist these specific actions
-
-## Modern clients without X-Requested-With
-
-Classic CakePHP AJAX detection relies on the `X-Requested-With: XMLHttpRequest` header.
-Modern `fetch()` calls often omit that header by default.
-
-If you want the component to auto-switch for JSON-first clients without having to call
-`$this->Ajax->enable()` manually, opt into additional detectors:
+By default, automatic detection checks `X-Requested-With: XMLHttpRequest`.
+For a `fetch()` client that sends `Accept: application/json`, opt in:
 
 ```php
 $this->loadComponent('Ajax.Ajax', [
@@ -174,9 +21,83 @@ $this->loadComponent('Ajax.Ajax', [
 ]);
 ```
 
-Available detectors:
-- `ajax`: Legacy XHR detection via `X-Requested-With`.
-- `acceptJson`: Treat requests with `Accept: application/json` or `+json` media types as AJAX.
-- `jsonExtension`: Treat requests using the `.json` extension as AJAX.
+- `ajax` checks CakePHP's AJAX detector.
+- `acceptJson` accepts `application/json` and media types ending in `+json`.
+- `jsonExtension` checks the routed `_ext` parameter for `json`.
 
-The default remains `['ajax']` for backwards compatibility.
+The default `ajax` detector stays active when additional detectors are configured.
+
+The plugin does not parse JSON request bodies. Add CakePHP's
+`BodyParserMiddleware` to your application middleware queue for that.
+
+Call `$this->Ajax->enable()` or `disable()` to force response handling for the
+rest of the request. The forced setting takes precedence over detection and the
+`actions` list.
+
+## Redirects
+
+For a detected or enabled AJAX request, `beforeRedirect()` changes a controller
+redirect into a rendered JSON response with HTTP status 200. The original target
+and redirect status are included:
+
+```json
+{
+    "error": null,
+    "success": null,
+    "content": null,
+    "_redirect": {"url": "https://example.com/items", "status": 302}
+}
+```
+
+The client decides whether to navigate to that URL. The component does not follow
+it or perform an internal request. Set `resolveRedirect` to `false` to keep
+normal redirects. Redirects returned directly as response objects without
+`Controller::redirect()` do not trigger this callback.
+
+## Flash messages
+
+By default, the component consumes `Flash.<key>` from the request session, using
+the loaded Flash component's `key` setting or `flash` when no component is loaded.
+Consumed messages are added as `_message` in the JSON response and removed from
+the session. Their shape depends on the Flash component that wrote them.
+
+Set `flashKey` to a session key string to override it, or to `false` to preserve
+messages for later HTML rendering. A custom `flashConsumer` may read or transform
+messages:
+
+```php
+$this->loadComponent('Ajax.Ajax', [
+    'flashConsumer' => static function (\Cake\Http\ServerRequest $request, string $key): mixed {
+        return $request->getSession()->read($key);
+    },
+]);
+```
+
+The consumer accepts any PHP callable. It receives the request and resolved
+session key. A `null` result does not add a message. `flashKey: false` disables
+the consumer as well.
+
+## Response fields
+
+```php
+$this->set('content', ['id' => 1]);
+$this->viewBuilder()->setOption('serialize', ['content']);
+```
+
+The component keeps your serialized fields and adds its redirect/message keys.
+See [Ajax View](../View/Ajax.md) for template rendering and business errors.
+
+## Configuration
+
+Pass options to `loadComponent()` or set application-wide defaults under the
+`Ajax` key in `Configure`:
+
+| Option | Default | Effect |
+| --- | --- | --- |
+| `viewClass` | `Ajax.Ajax` | View selected for an AJAX response |
+| `autoDetect` | `true` | Run the configured detectors |
+| `detectors` | `['ajax']` | Strategies to try |
+| `resolveRedirect` | `true` | Intercept controller redirects |
+| `flashKey` | `null` | Resolve the flash session key automatically |
+| `flashConsumer` | `null` | Optional custom callable |
+| `actions` | `[]` | Automatic-detection action list |
