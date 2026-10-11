@@ -2,6 +2,9 @@
   --vp-c-brand-1: #0e7490;
   --vp-c-brand-2: #0891b2;
   --vp-c-brand-3: #0e7490;
+  --vp-button-brand-hover-bg: #155e75;
+  --vp-button-brand-active-bg: #164e63;
+  --vp-custom-block-tip-border: var(--vp-c-brand-1);
   --vp-c-brand-soft: rgba(8, 145, 178, 0.12);
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: linear-gradient(120deg, #0891b2 20%, #155e75);
@@ -16,11 +19,9 @@
   --vp-home-hero-name-background: linear-gradient(120deg, #67e8f9 20%, #22d3ee);
 }
 
-.VPHero .image-src {
-  max-width: 240px;
-  max-height: 240px;
-}
-
-.custom-block.tip {
-  border-color: var(--vp-c-brand-1);
+@media (min-width: 640px) {
+  .VPHero .image-src {
+    max-width: 240px;
+    max-height: 240px;
+  }
 }
