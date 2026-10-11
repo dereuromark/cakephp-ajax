@@ -1,16 +1,16 @@
 # CakePHP Ajax Plugin
-[![CI](https://github.com/dereuromark/cakephp-ajax/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dereuromark/cakephp-ajax/actions/workflows/ci.yml?query=branch%3Amaster)
-[![Coverage Status](https://codecov.io/gh/dereuromark/cakephp-ajax/branch/master/graph/badge.svg)](https://codecov.io/gh/dereuromark/cakephp-ajax)
+[![CI](https://github.com/dereuromark/cakephp-ajax/actions/workflows/ci.yml/badge.svg?branch=cake6)](https://github.com/dereuromark/cakephp-ajax/actions/workflows/ci.yml?query=branch%3Acake6)
+[![Coverage Status](https://codecov.io/gh/dereuromark/cakephp-ajax/branch/cake6/graph/badge.svg)](https://codecov.io/gh/dereuromark/cakephp-ajax)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat)](https://phpstan.org/)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-ajax/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.2-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.5-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-ajax/license.svg)](LICENSE)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-ajax/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-ajax)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-purple.svg?style=flat-square)](https://github.com/php-fig-rectified/fig-rectified-standards)
 
 A CakePHP plugin that makes working with AJAX a "piece of cake".
 
-This branch is for **CakePHP 5**. For details see [version map](https://github.com/dereuromark/cakephp-ajax/wiki#cakephp-version-map).
+This development branch targets **CakePHP 6** and PHP 8.5. For details see [version map](https://github.com/dereuromark/cakephp-ajax/wiki#cakephp-version-map).
 
 ## What is this plugin for?
 Basically DRY (Don't repeat yourself) and easy AJAX handling.
@@ -27,7 +27,8 @@ See [my article](https://www.dereuromark.de/2014/01/09/ajax-and-cakephp/) for de
 
 ## Installation & Docs
 
-- [Documentation website](https://dereuromark.github.io/cakephp-ajax/)
+- [CakePHP 6 documentation source](https://github.com/dereuromark/cakephp-ajax/tree/cake6/docs)
+- [Published CakePHP 5 documentation](https://dereuromark.github.io/cakephp-ajax/)
 - [Installation](docs/guide/installation.md)
 - [Getting started](docs/guide/getting-started.md)
 - [Documentation source](docs/README.md)

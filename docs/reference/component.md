@@ -101,3 +101,5 @@ Pass options to `loadComponent()` or set application-wide defaults under the
 | `flashKey` | `null` | Resolve the flash session key automatically |
 | `flashConsumer` | `null` | Optional custom callable |
 | `actions` | `[]` | Automatic-detection action list |
+
+On CakePHP 6, custom components declare configuration defaults in `$defaultConfig`. The Ajax component's configuration keys remain unchanged.

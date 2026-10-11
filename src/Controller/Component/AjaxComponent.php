@@ -40,7 +40,7 @@ class AjaxComponent extends Component {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'viewClass' => 'Ajax.Ajax',
 		'autoDetect' => true,
 		'detectors' => ['ajax'],
@@ -55,7 +55,7 @@ class AjaxComponent extends Component {
 	 * @param array<string, mixed> $config
 	 */
 	public function __construct(ComponentRegistry $collection, array $config = []) {
-		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
+		$defaults = (array)Configure::read('Ajax') + $this->defaultConfig;
 		$config += $defaults;
 		parent::__construct($collection, $config);
 	}
@@ -70,7 +70,7 @@ class AjaxComponent extends Component {
 
 			return;
 		}
-		if (!$this->_config['autoDetect'] || !$this->_isActionEnabled()) {
+		if (!$this->config['autoDetect'] || !$this->_isActionEnabled()) {
 			return;
 		}
 		$this->respondAsAjax = $this->_shouldRespondAsAjax();
@@ -118,10 +118,10 @@ class AjaxComponent extends Component {
 	 * @return void
 	 */
 	protected function _respondAsAjax(): void {
-		$this->getController()->viewBuilder()->setClassName($this->_config['viewClass']);
+		$this->getController()->viewBuilder()->setClassName($this->config['viewClass']);
 
 		// Set flash messages to the view. Skipped when flashKey is explicitly false.
-		if ($this->_config['flashKey'] !== false) {
+		if ($this->config['flashKey'] !== false) {
 			$message = $this->_consumeFlash();
 			if ($message !== null) {
 				$this->getController()->set('_message', $message);
@@ -193,7 +193,7 @@ class AjaxComponent extends Component {
 	 * @return void
 	 */
 	public function beforeRedirect(EventInterface $event, UriInterface|array|string $url, Response $response): void {
-		if (!$this->respondAsAjax || !$this->_config['resolveRedirect']) {
+		if (!$this->respondAsAjax || !$this->config['resolveRedirect']) {
 			return;
 		}
 
@@ -235,7 +235,7 @@ class AjaxComponent extends Component {
 	 * @return mixed Returns null when no flash data is present.
 	 */
 	protected function _consumeFlash(): mixed {
-		$consumer = $this->_config['flashConsumer'];
+		$consumer = $this->config['flashConsumer'];
 		if (is_callable($consumer)) {
 			return $consumer($this->getController()->getRequest(), $this->_resolveFlashKey());
 		}
@@ -249,7 +249,7 @@ class AjaxComponent extends Component {
 	 * @return string Session key to consume, e.g. `Flash.flash`.
 	 */
 	protected function _resolveFlashKey(): string {
-		$configured = $this->_config['flashKey'];
+		$configured = $this->config['flashKey'];
 		if (is_string($configured) && $configured !== '') {
 			return $configured;
 		}
