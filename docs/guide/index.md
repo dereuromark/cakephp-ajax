@@ -31,10 +31,9 @@ set through the `error` variable does not change the HTTP status by itself.
 Start with [Getting started](getting-started.md), then read the
 [component](../reference/component.md) and [view](../reference/view.md) references.
 
-## CakePHP 6 preparation
+## CakePHP 6 branch
 
-Use `fetchTable()` for model access, `viewBuilder()->setOption('serialize', ...)`
-for response fields, and `$event->setResult()` or `stopPropagation()` in event
-callbacks. Keep your application on current CakePHP 5 and resolve its deprecations
-before upgrading. The plugin currently declares CakePHP 5 support only; its
-inherited view properties and hooks need review when adding CakePHP 6 support.
+This branch runs on CakePHP 6 and PHP 8.5. Use `fetchTable()` for model access,
+`viewBuilder()->setOption('serialize', ...)` for response fields, and
+`$event->setResult()` or `stopPropagation()` in event callbacks. Follow the
+[installation instructions](installation.md) for the development dependencies.

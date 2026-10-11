@@ -39,7 +39,7 @@ export default defineConfig({
     search: { provider: 'local' },
     socialLinks: [{ icon: 'github', link: 'https://github.com/dereuromark/cakephp-ajax' }],
     editLink: {
-      pattern: 'https://github.com/dereuromark/cakephp-ajax/edit/master/docs/:path',
+      pattern: 'https://github.com/dereuromark/cakephp-ajax/edit/cake6/docs/:path',
       text: 'Edit this page on GitHub',
     },
     footer: { message: 'Released under the MIT License.' },

@@ -14,7 +14,7 @@ class CustomFlashComponent extends Component {
 	/**
 	 * @var array
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'key' => 'flash',
 	];
 

@@ -24,16 +24,16 @@
 		"docs": "https://dereuromark.github.io/cakephp-ajax/"
 	},
 	"require": {
-		"php": ">=8.2",
-		"cakephp/cakephp": "^5.0.10"
+		"php": ">=8.5",
+		"cakephp/cakephp": "^6.0@dev"
 	},
 	"require-dev": {
 		"ext-mbstring": "*",
-		"dereuromark/cakephp-tools": "^3.0.0",
+		"dereuromark/cakephp-tools": "dev-cake6",
 		"fig-r/psr2r-sniffer": "dev-master",
-		"phpunit/phpunit": "^11.5 || ^12.1 || ^13.0"
+		"phpunit/phpunit": "^13.0"
 	},
-	"minimum-stability": "stable",
+	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {

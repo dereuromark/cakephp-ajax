@@ -15,6 +15,7 @@ use Cake\Core\Configure;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
+use Cake\View\ViewBuilder;
 
 /**
  * AjaxViewTest
@@ -35,6 +36,21 @@ class AjaxViewTest extends TestCase {
 		Configure::write('App.namespace', 'TestApp');
 
 		$this->Ajax = new AjaxView();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testShallowConfigMergeStrategy(): void {
+		$view = new class (null, null, null, [
+			'configMergeStrategy' => ViewBuilder::MERGE_SHALLOW,
+			'nested' => ['replacement' => true],
+		]) extends AjaxView {
+			protected array $defaultConfig = ['nested' => ['original' => true]];
+		};
+
+		$this->assertSame(['replacement' => true], $view->getConfig('nested'));
+		$this->assertNull($view->getConfig('configMergeStrategy'));
 	}
 
 	/**

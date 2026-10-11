@@ -31,9 +31,9 @@ class AjaxView extends AppView {
 	 *
 	 * @var array<int, string>
 	 */
-	protected array $_passedVars = [
+	protected array $passedVars = [
 		'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
-		'layoutPath', 'plugin', 'subDir', 'template', 'templatePath',
+		'layoutPath', 'plugin', 'subDir', 'template', 'templatePath', 'configMergeStrategy',
 	];
 
 	/**
@@ -56,7 +56,7 @@ class AjaxView extends AppView {
 	 * @param \Cake\Http\ServerRequest|null $request Request instance.
 	 * @param \Cake\Http\Response|null $response Response instance.
 	 * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
-	 * @param array<string, mixed> $viewOptions View options. See View::$_passedVars for list of
+	 * @param array<string, mixed> $viewOptions View options. See View::$passedVars for list of
 	 *   options which get set as class properties.
 	 */
 	public function __construct(
@@ -115,7 +115,7 @@ class AjaxView extends AppView {
 			$view = null;
 		}
 
-		if ($view !== null && !isset($this->viewVars['_redirect']) && $this->_getTemplateFileName($view)) {
+		if ($view !== null && !isset($this->viewVars['_redirect']) && $this->getTemplateFileName($view)) {
 			$dataToSerialize['content'] = parent::render($view, $layout);
 		}
 

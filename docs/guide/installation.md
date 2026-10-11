@@ -1,9 +1,13 @@
 # Installation
 
+This development branch targets CakePHP 6 and PHP 8.5. Use it in a CakePHP 6 application.
+
 From your application directory:
 
 ```bash
-composer require dereuromark/cakephp-ajax
+composer config minimum-stability dev
+composer config prefer-stable true
+composer require cakephp/cakephp:^6.0@dev dereuromark/cakephp-ajax:dev-cake6
 ```
 
 Loading the plugin is optional for Composer-autoloaded classes and aliases.
