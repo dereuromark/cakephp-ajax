@@ -145,4 +145,27 @@ class AjaxViewTest extends TestCase {
 		$this->assertTextEquals($expected, $result);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testSerializeViewOption(): void {
+		$view = new AjaxView(null, null, null, ['serialize' => ['content']]);
+		$view->set('content', ['id' => 1]);
+		$result = json_decode($view->render(''), true, flags: JSON_THROW_ON_ERROR);
+
+		$this->assertSame(['id' => 1], $result['content']);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testSerializeAllViewOption(): void {
+		$view = new AjaxView(null, null, null, ['serialize' => true]);
+		$view->set(['success' => true, 'extra' => 'value']);
+		$result = json_decode($view->render(''), true, flags: JSON_THROW_ON_ERROR);
+
+		$this->assertSame('value', $result['extra']);
+		$this->assertTrue($result['success']);
+	}
+
 }

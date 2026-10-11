@@ -1,14 +1,11 @@
-# CakePHP Ajax Plugin Documentation
+# CakePHP Ajax documentation
 
-## Installation
-* [Installation](Install.md)
+Read the [documentation website](https://dereuromark.github.io/cakephp-ajax/),
+or browse these pages on GitHub:
 
-## Documentation
-* [Ajax plugin](Ajax.md)
-* [View/Ajax](View/Ajax.md)
-* [Component/Ajax](Component/Ajax.md)
-
-## Contributing
-Your help is greatly appreciated.
-
-* See [Contributing](Contributing.md) for details.
+- [Installation](guide/installation.md)
+- [Getting started](guide/getting-started.md)
+- [Overview](guide/index.md)
+- [Ajax Component](reference/component.md)
+- [Ajax View](reference/view.md)
+- [Contributing](guide/contributing.md)
