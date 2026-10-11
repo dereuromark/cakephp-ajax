@@ -20,7 +20,8 @@
 	"homepage": "https://github.com/dereuromark/cakephp-ajax",
 	"support": {
 		"issues": "https://github.com/dereuromark/cakephp-ajax/issues",
-		"source": "https://github.com/dereuromark/cakephp-ajax"
+		"source": "https://github.com/dereuromark/cakephp-ajax",
+		"docs": "https://dereuromark.github.io/cakephp-ajax/"
 	},
 	"require": {
 		"php": ">=8.2",

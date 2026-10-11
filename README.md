@@ -27,8 +27,10 @@ See [my article](https://www.dereuromark.de/2014/01/09/ajax-and-cakephp/) for de
 
 ## Installation & Docs
 
-- [Getting started](docs/GettingStarted.md)
-- [Documentation](docs/README.md)
+- [Documentation website](https://dereuromark.github.io/cakephp-ajax/)
+- [Installation](docs/guide/installation.md)
+- [Getting started](docs/guide/getting-started.md)
+- [Documentation source](docs/README.md)
 
 ### Possible TODOs
 
