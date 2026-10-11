@@ -7,8 +7,12 @@ export default defineConfig({
   cleanUrls: true,
   srcExclude: ['README.md', 'Ajax.md', 'Install.md', 'GettingStarted.md', 'Contributing.md', 'Component/**', 'View/**'],
   lastUpdated: true,
+  head: [
+    ['link', { rel: 'icon', href: '/cakephp-ajax/favicon.svg', type: 'image/svg+xml' }],
+  ],
   sitemap: { hostname: 'https://dereuromark.github.io/cakephp-ajax/' },
   themeConfig: {
+    logo: '/logo.svg',
     nav: [
       { text: 'Installation', link: '/guide/installation' },
       { text: 'Getting started', link: '/guide/getting-started' },
